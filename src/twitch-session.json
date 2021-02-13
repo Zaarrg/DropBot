@@ -1,0 +1,162 @@
+[
+  {
+    "name": "auth-token",
+    "value": "fbq4o494fwr2in6zwjv5jil9jpufk4",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1647446449,
+    "size": 40,
+    "httpOnly": false,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "twilight-user",
+    "value": "{%22authToken%22:%22fbq4o494fwr2in6zwjv5jil9jpufk4%22%2C%22displayName%22:%22Zaarrg%22%2C%22id%22:%22115643739%22%2C%22login%22:%22zaarrg%22%2C%22roles%22:{%22isStaff%22:false}%2C%22version%22:2}",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1647446449,
+    "size": 208,
+    "httpOnly": false,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "api_token",
+    "value": "ef3935b32777a5ea7db63930c2859ba4",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1644681649.527528,
+    "size": 41,
+    "httpOnly": false,
+    "secure": true,
+    "session": false
+  },
+  {
+    "name": "last_login",
+    "value": "2021-02-13T16:00:39Z",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1644681649.527518,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "name",
+    "value": "zaarrg",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1644681649.527509,
+    "size": 10,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "sudo",
+    "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTU2NDM3MzkiLCJhdWQiOlsic3VkbyJdLCJleHAiOjE2MTMyMzU2MzksImlhdCI6MTYxMzIzMjAzOX0=.jYT68Wdh33MXnOhv5UCP0KWr2gMLRqTmQfwkADBwO8LQuccp6VZyN796CRUkNTO7cZdIyLvP0hHHHYzZlWCEJQ==",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1613235649.52747,
+    "size": 222,
+    "httpOnly": true,
+    "secure": true,
+    "session": false
+  },
+  {
+    "name": "login",
+    "value": "zaarrg",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1647446449,
+    "size": 11,
+    "httpOnly": false,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "bits_sudo",
+    "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTU2NDM3MzkiLCJhdWQiOlsic3VkbyIsImJpdHMiXSwiZXhwIjoxNjEzODM2ODM5LCJpYXQiOjE2MTMyMzIwMzl9.ZViKpV5ftltTVN3aV0ktqU1KG7dKnMjKyEVIZJ2SjiNmcgg1E02yUxUPJDa4UXulXjQakgnk_2MMYOtkUD6H8g==",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1613836849.527484,
+    "size": 235,
+    "httpOnly": true,
+    "secure": true,
+    "session": false
+  },
+  {
+    "name": "persistent",
+    "value": "115643739%3A%3Ax98vbug81bfbf3623kgf8ez7xgge8w",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1644681649.527454,
+    "size": 55,
+    "httpOnly": true,
+    "secure": true,
+    "session": false
+  },
+  {
+    "name": "server_session_id",
+    "value": "0292c72cf0254466aa1b4ad822d376f5",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": -1,
+    "size": 49,
+    "httpOnly": false,
+    "secure": true,
+    "session": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "unique_id_durable",
+    "value": "0q51Ix6T9yu9kKYTGRl0V9qkpUzFraR7",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1647187249.840337,
+    "size": 49,
+    "httpOnly": true,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "spare_key",
+    "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Bhc3Nwb3J0LnR3aXRjaC50diIsInN1YiI6IltcInphYXJyZ1wiXSIsImF1ZCI6ImJydXRlLWZvcmNlLXByb3RlY3Rpb24iLCJleHAiOjE2Mjg3ODQwMzksImlhdCI6MTYxMzIzMjAzOSwibm9uY2UiOiJob1FMclBkbUVYWWFhQWZpdS1nZkt3THRseVVORmxZTDZZbXFjUXBNQUg0PSJ9.y0ZF17MXbi8WBSPwG5U7ROarFmTe4U-pr-Cbyiv4rHbttptcV6J6TrZ6gCAsUnUpoSLV1Oezg4_j8qC6DzAAjQ%3D%3D",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1628784049.527428,
+    "size": 375,
+    "httpOnly": true,
+    "secure": true,
+    "session": false
+  },
+  {
+    "name": "twitch.lohp.countryCode",
+    "value": "DE",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1646928049.840383,
+    "size": 25,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "unique_id",
+    "value": "0q51Ix6T9yu9kKYTGRl0V9qkpUzFraR7",
+    "domain": ".twitch.tv",
+    "path": "/",
+    "expires": 1647187249.840312,
+    "size": 41,
+    "httpOnly": false,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  }
+]
