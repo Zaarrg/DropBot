@@ -114,11 +114,9 @@ There are two ways you can use this bot.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* Executable
+[Click to Watch:](http://www.youtube.com/watch?v=1K81IqelmtI)
 [![TTVDropBot](https://i.imgur.com/c5eOxWF.png)](http://www.youtube.com/watch?v=1K81IqelmtI "TTVDropBot for Rust")
 
-* npm
-Video Coming Soon
 
 <!-- ROADMAP -->
 ## Roadmap
