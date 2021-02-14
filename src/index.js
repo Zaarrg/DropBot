@@ -1,9 +1,6 @@
 const chalk = require('chalk')
 const puppeteer = require('puppeteer-extra')
 const inquirer = require('inquirer')
-const cliProgress = require('cli-progress');
-
-
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const fs = require("fs");
 puppeteer.use(StealthPlugin())
@@ -31,10 +28,10 @@ let dropsmap = [];
 //starting ch
 let Startingchannel;
 
+let Executablepath;
+
 //Cookies
 let LoginPageCookies;
-//autologin
-let Autologin
 //settings
 let settings = [];
 
@@ -46,8 +43,74 @@ async function init() {
     console.log(" ");
     console.log(chalk.gray("Starting..."))
 
+    async function askforexepath() {
+
+        const path = './settings.json'
+
+        if (fs.existsSync(path)) {
+            let settingsfile = fs.readFileSync('./settings.json', 'utf8');
+            settings = JSON.parse(settingsfile);
+            if (settings.pathprovided === false) {
+                await inquirer
+                    .prompt([
+                        {
+                            type: 'input',
+                            name: 'pathexe',
+                            message: 'Please provide your Google Chrome Executable path?',
+                        },
+                    ])
+                    .then((answers) => {
+
+                        console.log(" ")
+                        console.log(chalk.gray("Setting Executable Path..."))
+                        Executablepath = JSON.stringify(answers, null, '  ');
+                        Executablepath = JSON.parse(Executablepath);
+
+                        settings.push({pathexe: Executablepath.pathexe, pathprovided: true})
+
+                    });
+                await fs.writeFile('settings.json', JSON.stringify(settings, null, 2), function(err) {
+                    if (err) throw err;
+                    console.log(" ");
+                    console.log(chalk.green("Successfully Saved Executable Path..."))
+                    console.log(" ");
+                });
+            } else {
+                console.log(" ");
+                console.log(chalk.gray("Executable Path provided..."))
+            }
+        } else {
+            await inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'pathexe',
+                        message: 'Please provide your Google Chrome Executable path?',
+                    },
+                ])
+                .then((answers) => {
+
+                    console.log(" ")
+                    console.log(chalk.gray("Setting Executable Path..."))
+                    Executablepath = JSON.stringify(answers, null, '  ');
+                    Executablepath = JSON.parse(Executablepath);
+
+                    settings.push({pathexe: Executablepath.pathexe, pathprovided: true})
+
+                });
+            await fs.writeFile('settings.json', JSON.stringify(settings, null, 2), function(err) {
+                if (err) throw err;
+                console.log(" ");
+                console.log(chalk.green("Successfully Saved Executable Path..."))
+                console.log(" ");
+            });
+        }
+    }
+    //Ask for Chrome Path
+    await askforexepath();
+
     //Start Puppeteer LoginPage
-    await puppeteer.launch({ headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'}).then(async browser => {
+    await puppeteer.launch({ headless: false, executablePath: settings[0].pathexe}).then(async browser => {
 
 
 
@@ -92,7 +155,7 @@ async function init() {
 
     async function main() {
         //Start Puppeteer Main Watching Page
-        await puppeteer.launch({ headless: true, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'}).then(async browser => {
+        await puppeteer.launch({ headless: true, executablePath: settings[0].pathexe}).then(async browser => {
             let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
 
             let cookies = JSON.parse(cookiesString);
@@ -220,8 +283,6 @@ async function init() {
 
 
             async function startingch() {
-                let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
-
                 //Check for Live Channels and add them to List
                 await checklive();
 
@@ -308,16 +369,28 @@ async function init() {
                     return await new Promise(resolve => setTimeout(resolve, ms));
                 }
 
+                let retry = 0;
 
                 async function run() {
                     await delay(60000).then( async () => {
                         await checkprogress().then(async (a) => {
                             await checkifoffilne(startch).then(async (b) => {
                                 if (b === true) {
-
                                     if (a === undefined) {
-                                        console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %"));
-                                        return await run();
+                                        retry++
+                                        if (retry < 3) {
+                                            console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | Try: ") + chalk.white(retry));
+                                            return await run();
+                                        } else if (retry === 3) {
+                                            console.log(" ")
+                                            console.log(chalk.red("Failed to get a valid Drop to progress on this Channel... Looking for a new one... "));
+                                            retry = 0;
+                                            await checklive().then(async () => {
+                                                dropspage.close();
+                                                watchingpage.close();
+                                                return await startwatching(choi[getRandomInt(choi.length)]);
+                                            })
+                                        }
                                     } else if (a < 100) {
                                         console.log(chalk.gray("Current Progress: ") + chalk.white(a + " %") + chalk.gray(" | " + etacalc(a)));
                                         return await run();
