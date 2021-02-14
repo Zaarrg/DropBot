@@ -1,2 +1,150 @@
-# TTVDropBot
- Automaticlly Farms Rust Twitch Drops for ya
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Thanks again! Now go create something AMAZING! :D
+-->
+
+
+
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+
+
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/Zaarrg/TTVDropBot/README.md">
+    <img src="twitch.ico" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">TTVDropBot</h3>
+
+  <p align="center">
+    Farms automaticlly Twitch Drops.
+    <br />
+    <a href="https://github.com/Zaarrg/TTVDropBot"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Zaarrg/TTVDropBot">View Demo</a>
+    ·
+    <a href="https://github.com/Zaarrg/TTVDropBot/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Zaarrg/TTVDropBot/issues">Request Feature</a>
+  </p>
+</p>
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+![TTVDropBot](https://i.imgur.com/aHaY9la.jpg "TTVDropBot")
+
+Well i was tired of always checking which Rust Drops are avaiable and which Streamers are Online, and most of the time while i was sleeping the "nice" Drops were Online.
+
+So i made this bot to Automaticlly farm Drops unitl you have all of them.
+
+Here's why:
+* You dont waste your time checking who is online.
+* You can sleep while the Bot takes care of the Drops.
+* Well and no need to open the Stream by urself in a tab which takes up your space. :smile:
+
+
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+There are two ways you can use this bot.
+1. You can dowloaded the compiled version from the Releases Tab.
+2. You can clone this Project and start it with node.js
+
+### Installation
+
+* Executable
+1. Dowload the Zip File with the Executable and NPM packages to your PC [https://github.com/Zaarrg/TTVDropBot/releases](https://github.com/Zaarrg/TTVDropBot/releases)
+2. Extract the Zip File into a Folder
+3. Run TTVDropBot.exe
+
+
+* npm
+1. Clone the repo to your PC [https://github.com/Zaarrg/TTVDropBot](https://github.com/Zaarrg/TTVDropBot)
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Run it
+   ```sh
+   node index.js
+   ```
+
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+* Executable
+Video Coming Soon
+
+* npm
+Video Coming Soon
+
+<!-- ROADMAP -->
+## Roadmap
+
+There are Some Features i would like to add in my free Time:
+* The Bot should automaticlly stop if the user has all Drops.
+* Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
+* Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one.
+* No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance.
+* Stop the Bot by Pressing a key and not by terminating the window.
+* Add a Event to handel all Channels offline Situation
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Discord: - Zarg#8467
+
+Project Link: [https://github.com/Zaarrg/TTVDropBot](https://github.com/Zaarrg/TTVDropBot)
+
+
+
