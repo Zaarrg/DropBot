@@ -71,7 +71,7 @@
 
 Well i was tired of always checking which Rust Drops are avaiable and which Streamers are Online, and most of the time while i was sleeping the "nice" Drops were Online.
 
-So i made this bot to Automaticlly farm Drops unitl you have all of them.
+So i made this bot to Automaticlly farm Drops unitl you have all of them. Oh and btw the code is a mess and im a beginner so dont expect a well coded application.
 
 Here's why:
 * You dont waste your time checking who is online.
