@@ -29,10 +29,10 @@
   <p align="center">
     Farms automaticlly Twitch Drops.
     <br />
-    <a href="https://github.com/Zaarrg/TTVDropBot"><strong>Explore the docs »</strong></a>
+    <a href="#about-the-project"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Zaarrg/TTVDropBot">View Demo</a>
+    <a href="http://www.youtube.com/watch?v=1K81IqelmtI">View Demo</a>
     ·
     <a href="https://github.com/Zaarrg/TTVDropBot/issues">Report Bug</a>
     ·
