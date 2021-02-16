@@ -28,6 +28,7 @@
 
   <p align="center">
     Farms automaticlly Twitch Drops.
+    Bot Down at the Moment, will not work. Will be fixed in 24h.
     <br />
     <a href="#about-the-project"><strong>Explore the docs »</strong></a>
     <br />
