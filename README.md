@@ -28,7 +28,6 @@
 
   <p align="center">
     Farms automaticlly Twitch Drops.
-    Bot Down at the Moment, will not work. Will be fixed in 24h.
     <br />
     <a href="#about-the-project"><strong>Explore the docs »</strong></a>
     <br />
@@ -125,10 +124,11 @@ There are two ways you can use this bot.
 There are Some Features i would like to add in my free Time:
 * The Bot should automaticlly stop if the user has all Drops.
 * Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
-* Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one.
-* No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance.
+* Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one. [Done] 
+* No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance. [Done]
 * Stop the Bot by Pressing a key and not by terminating the window.
 * Add a Event to handel all Channels offline Situation
+* At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop. 
 
 
 <!-- LICENSE -->
