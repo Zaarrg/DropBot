@@ -29,6 +29,8 @@
   <p align="center">
     Farms automaticlly Twitch Drops.
     <br />
+      Bot Currently not working. Fix coming tomorrow.
+    <br />
     <a href="#about-the-project"><strong>Explore the docs »</strong></a>
     <br />
     <br />
