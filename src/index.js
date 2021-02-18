@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer-extra')
 const inquirer = require('inquirer')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const fs = require("fs");
+const path = require("path");
 puppeteer.use(StealthPlugin())
 
 //Twitch Drops
@@ -29,6 +30,8 @@ let dropsmap = [];
 let Startingchannel;
 
 let Executablepath;
+let UserDataDir;
+let UserDataDirboolean;
 
 //Cookies
 let LoginPageCookies;
@@ -50,7 +53,7 @@ async function init() {
         if (fs.existsSync(path)) {
             let settingsfile = fs.readFileSync('./settings.json', 'utf8');
             settings = JSON.parse(settingsfile);
-            if (settings.pathprovided === false) {
+            if (settings[0].pathprovided === false) {
                 await inquirer
                     .prompt([
                         {
@@ -69,15 +72,68 @@ async function init() {
                         settings.push({pathexe: Executablepath.pathexe, pathprovided: true})
 
                     });
+
+            } else {
+                console.log(" ");
+                console.log(chalk.gray("Executable Path provided..."))
+            }
+
+            if (settings[1].datadirprovided === false) {
+                settings.pop();
+                await inquirer
+                    .prompt([
+                        {
+                            type: 'confirm',
+                            name: 'confirmed',
+                            message: 'Do you wanna use a custom UserDataDirectory?',
+                        },
+                    ])
+                    .then(async (answers) => {
+
+                        UserDataDirboolean = JSON.stringify(answers, null, '  ');
+                        UserDataDirboolean = JSON.parse(UserDataDirboolean);
+
+                        if (UserDataDirboolean.confirmed === true) {
+
+                            await inquirer
+                                .prompt([
+                                    {
+                                        type: 'input',
+                                        name: 'UserDataPath',
+                                        message: 'Please provide your UserDataDirectory?',
+                                    },
+                                ])
+                                .then((answers) => {
+
+                                    console.log(" ")
+                                    console.log(chalk.gray("Setting UserData path..."))
+
+                                    UserDataDir = JSON.stringify(answers, null, '  ');
+                                    UserDataDir = JSON.parse(UserDataDir);
+
+
+                                    settings.push({UserDataPath: UserDataDir.UserDataPath, datadirprovided: true})
+
+                                });
+                        } else {
+                            return settings.push({UserDataDir: '', datadirprovided: false})
+                        }
+                    });
+
+
+
+
+
+
                 await fs.writeFile('settings.json', JSON.stringify(settings, null, 2), function(err) {
                     if (err) throw err;
                     console.log(" ");
-                    console.log(chalk.green("Successfully Saved Executable Path..."))
+                    console.log(chalk.green("Successfully Saved Settings..."))
                     console.log(" ");
                 });
             } else {
                 console.log(" ");
-                console.log(chalk.gray("Executable Path provided..."))
+                console.log(chalk.gray("UserData Path provided..."))
             }
         } else {
             await inquirer
@@ -98,10 +154,52 @@ async function init() {
                     settings.push({pathexe: Executablepath.pathexe, pathprovided: true})
 
                 });
+
+
+            await inquirer
+                .prompt([
+                    {
+                        type: 'confirm',
+                        name: 'confirmed',
+                        message: 'Do you wanna use a custom UserDataDirectory?',
+                    },
+                ])
+                .then(async (answers) => {
+
+                    UserDataDirboolean = JSON.stringify(answers, null, '  ');
+                    UserDataDirboolean = JSON.parse(UserDataDirboolean);
+
+                    if (UserDataDirboolean.confirmed === true) {
+
+                        await inquirer
+                            .prompt([
+                                {
+                                    type: 'input',
+                                    name: 'UserDataPath',
+                                    message: 'Please provide your UserDataDirectory Name?',
+                                },
+                            ])
+                            .then((answers) => {
+
+                                console.log(" ")
+                                console.log(chalk.gray("Setting UserData path..."))
+
+                                UserDataDir = JSON.stringify(answers, null, '  ');
+                                UserDataDir = JSON.parse(UserDataDir);
+
+                                settings.push({UserDataPath: UserDataDir.UserDataPath, datadirprovided: true})
+
+                            });
+                    } else {
+                        return settings.push({UserDataDir: '', datadirprovided: false})
+                    }
+                });
+
+
             await fs.writeFile('settings.json', JSON.stringify(settings, null, 2), function(err) {
                 if (err) throw err;
                 console.log(" ");
-                console.log(chalk.green("Successfully Saved Executable Path..."))
+                console.log(chalk.green("Successfully Saved Settings..."))
                 console.log(" ");
             });
         }
@@ -110,7 +208,7 @@ async function init() {
     await askforexepath();
 
     //Start Puppeteer LoginPage
-    await puppeteer.launch({ headless: false, executablePath: settings[0].pathexe}).then(async browser => {
+    await puppeteer.launch({ headless: false, executablePath: settings[0].pathexe, userDataDir: settings[1].UserDataPath}).then(async browser => {
 
 
 
@@ -150,7 +248,7 @@ async function init() {
         console.log(" ");
         console.log(chalk.gray("Closing Browser and Moving on..."))
         await browser.close()
-        main();
+        await main();
     })
 
     async function main() {
@@ -168,8 +266,6 @@ async function init() {
             console.log(chalk.gray('Getting all Drops and other Details'))
             //Go to Rust Twitch Drops
             await page.goto(rustdrops, {waitUntil: "networkidle2"})
-
-
 
 
 
@@ -206,48 +302,49 @@ async function init() {
 
             async function intgettingDrops(feedback) {
                 //Drop 1
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[1]', '/html/body/div[1]/div[3]/div[2]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[1]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[2]/a[1]', '/html/body/div[1]/div[3]/div[2]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[1]/div[3]/h3', feedback).then(a => {
                     Drop1 = {Name: a.link, Item: a.Drop, Status: statuscheck(a.Status)}
                 })
                 //Drop 2
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[2]/a[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/div[3]/h3', feedback).then(a => {
                     Drop2 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 3
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[3]', '/html/body/div[1]/div[3]/div[2]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[2]/a[3]', '/html/body/div[1]/div[3]/div[2]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[3]/div[3]/h3', feedback).then(a => {
                     Drop3 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 4
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[1]', '/html/body/div[1]/div[3]/div[3]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[1]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[2]/a[4]', '/html/body/div[1]/div[3]/div[2]/a[4]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[4]/div[3]/h3', feedback).then(a => {
                     Drop4 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 5
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[3]/a[1]', '/html/body/div[1]/div[3]/div[3]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[1]/div[3]/h3', feedback).then(a => {
                     Drop5 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 6
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[3]', '/html/body/div[1]/div[3]/div[3]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[3]/a[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/div[3]/h3', feedback).then(a => {
                     Drop6 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 7
-                await getdrops('/html/body/div[1]/div[3]/div[4]/a[1]', '/html/body/div[1]/div[3]/div[4]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[4]/a[1]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[3]/a[3]', '/html/body/div[1]/div[3]/div[3]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[3]/div[3]/h3', feedback).then(a => {
                     Drop7 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 8
-                await getdrops('/html/body/div[1]/div[3]/div[4]/a[2]', '/html/body/div[1]/div[3]/div[4]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[4]/a[2]/h3', feedback).then(a => {
+                await getdrops('/html/body/div[1]/div[3]/div[3]/a[4]', '/html/body/div[1]/div[3]/div[3]/a[4]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[4]/div[3]/h3', feedback).then(a => {
                     Drop8 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 9
-                await getdrops('/html/body/div[1]/div[3]/div[4]/a[3]', '/html/body/div[1]/div[3]/div[4]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[4]/a[3]/h3', feedback).then(a => {
-                    Drop9 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
-                })
+                // getdrops('/html/body/div[1]/div[3]/div[4]/a[3]', '/html/body/div[1]/div[3]/div[4]/a[5]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[5]/div[3]/h3', feedback).then(a => {
+                  //  Drop9 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                //})
             }
             //Start GEtting Drops
             await intgettingDrops(true);
 
 
 
-            async function checklive() {
+            async function checklive(removeurl) {
+                choi = [];
                 console.log(" ")
                 console.log(chalk.gray("Checking for Live Channels"))
 
@@ -275,9 +372,26 @@ async function init() {
                 if (statuscheckboolean(Drop8.Status)) {
                     choi.push(Drop8.Name)
                 }
-                if (statuscheckboolean(Drop9.Status)) {
-                    choi.push(Drop9.Name)
+                //if (statuscheckboolean(Drop9.Status)) {
+                  //  choi.push(Drop9.Name)
+                //}#
+
+                async function removewatching() {
+                    if (removeurl !== undefined) {
+
+                        for (let i = 0; i < choi.length; i++)
+                        {
+                            if (ciEquals(choi[i], removeurl)) {
+                                console.log(choi);
+                                return [choi.splice(i, 1), i--];
+
+                            }
+                        }
+
+                    }
                 }
+
+                await removewatching();
 
             }
 
@@ -375,47 +489,103 @@ async function init() {
                     await delay(60000).then( async () => {
                         await checkprogress().then(async (a) => {
                             await checkifoffilne(startch).then(async (b) => {
-                                if (b === true) {
-                                    if (a === undefined) {
-                                        retry++
-                                        if (retry < 3) {
-                                            console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | Try: ") + chalk.white(retry));
-                                            return await run();
-                                        } else if (retry === 3) {
-                                            console.log(" ")
-                                            console.log(chalk.red("Failed to get a valid Drop to progress on this Channel... Looking for a new one... "));
-                                            retry = 0;
-                                            await checklive().then(async () => {
+                                await lupo().then(async (c) => {
+                                    if (c === false) {
+                                        if (b === true) {
+                                            if (a === undefined) {
+                                                retry++
+                                                if (retry < 3) {
+                                                    console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | Try: ") + chalk.white(retry));
+                                                    return await run();
+                                                } else if (retry === 3) {
+                                                    console.log(" ")
+                                                    console.log(chalk.red("Failed to get a valid Drop to progress on this Channel or it is already claimed... Looking for a new one... "));
+                                                    retry = 0;
+                                                    await checklive(startch).then(async () => {
+                                                        dropspage.close();
+                                                        watchingpage.close();
+                                                        return await startwatching(choi[getRandomInt(choi.length)]);
+                                                    })
+                                                }
+                                            } else if (a < 100) {
+                                                console.log(chalk.gray("Current Progress: ") + chalk.white(a + " %") + chalk.gray(" | " + etacalc(a)));
+                                                return await run();
+                                            } else if (a === 100) {
+                                                //100%
+                                                console.log(" ")
+                                                console.log(chalk.cyan("Reached ") + chalk.green("100 %... ") + chalk.cyan("Looking for new Channel..."));
+                                                await checklive(startch).then(async () => {
+                                                    dropspage.close();
+                                                    watchingpage.close();
+                                                    return await startwatching(choi[getRandomInt(choi.length)]);
+                                                })
+                                            }
+                                        } else if (b === false) {
+                                            await checklive(startch).then(async () => {
                                                 dropspage.close();
                                                 watchingpage.close();
                                                 return await startwatching(choi[getRandomInt(choi.length)]);
                                             })
                                         }
-                                    } else if (a < 100) {
-                                        console.log(chalk.gray("Current Progress: ") + chalk.white(a + " %") + chalk.gray(" | " + etacalc(a)));
-                                        return await run();
-                                    } else if (a === 100) {
-                                        //100%
+                                    } else if(c === true) {
                                         console.log(" ")
-                                        console.log(chalk.cyan("Reached ") + chalk.green("100 %... ") + chalk.cyan("Looking for new Channel..."));
-                                        await checklive().then(async () => {
-                                            dropspage.close();
-                                            watchingpage.close();
-                                            return await startwatching(choi[getRandomInt(choi.length)]);
+                                        console.log(chalk.cyan("Reached ") + chalk.green("100 % ") + chalk.cyan("on all currently Live Channels..."));
+                                        console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                        await delay(600000).then(async () => {
+                                            await checklive(startch).then(async () => {
+                                                dropspage.close();
+                                                watchingpage.close();
+                                                return await startwatching(choi[getRandomInt(choi.length)]);
+                                            })
                                         })
                                     }
-
-                                } else if (b === false) {
-                                        dropspage.close();
-                                        watchingpage.close();
-                                        return await startwatching(choi[getRandomInt(choi.length)]);
-                                }
+                                })
                             })
                         });
                     }) //5
                 }
 
                 await run();
+
+               async function lupo() {
+
+                   let fullhundred = 0;
+                    let notequal = 0;
+
+                    for (let i = 0; i < choi.length; i++) {
+
+                        for (let d = 0; d < dropsmap.length; d++) {
+
+                            if (ciEquals(choi[i], dropsmap[d].tvlink)) {
+
+                                notequal = 0;
+
+                                if (dropsmap[d].percent === 100) {
+                                    fullhundred++;
+
+                                    if (fullhundred === choi.length) {
+
+                                        return true;
+
+                                    }
+
+                                } else {
+
+                                    return false
+                                }
+                            } else {
+
+                                notequal++;
+
+                                if (notequal === dropsmap.length) {
+                                    fullhundred++;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
 
 
                 async function mapdrops() {
@@ -500,7 +670,7 @@ async function init() {
                         if (!statuscheckboolean(Drop1.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
@@ -511,7 +681,7 @@ async function init() {
                         if (!statuscheckboolean(Drop2.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
@@ -522,7 +692,7 @@ async function init() {
                         if (!statuscheckboolean(Drop3.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
@@ -533,7 +703,7 @@ async function init() {
                         if (!statuscheckboolean(Drop4.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
@@ -544,67 +714,57 @@ async function init() {
                         if (!statuscheckboolean(Drop5.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
-                            return false
-                        } else {
-                            return true;
-                        }
-                    }
-                    //Drop 5
-                    if (currentchlink === Drop6.Name) {
-                        if (!statuscheckboolean(Drop6.Status)) {
-                            console.log(" ")
-                            console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
                         }
                     }
                     //Drop 6
-                    if (currentchlink === Drop7.Name) {
-                        if (!statuscheckboolean(Drop7.Status)) {
+                    if (currentchlink === Drop6.Name) {
+                        if (!statuscheckboolean(Drop6.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
                         }
                     }
                     //Drop 7
-                    if (currentchlink === Drop8.Name) {
-                        if (!statuscheckboolean(Drop8.Status)) {
+                    if (currentchlink === Drop7.Name) {
+                        if (!statuscheckboolean(Drop7.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
                         }
                     }
                     //Drop 8
-                    if (currentchlink === Drop9.Name) {
-                        if (!statuscheckboolean(Drop9.Status)) {
+                    if (currentchlink === Drop8.Name) {
+                        if (!statuscheckboolean(Drop8.Status)) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
+                            await checklive(startch);
                             return false
                         } else {
                             return true;
                         }
                     }
                     //Drop 9
-                    if (currentchlink === Drop1.Name) {
-                        if (!statuscheckboolean(Drop1.Status)) {
-                            console.log(" ")
-                            console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                            await checklive();
-                            return false
-                        } else {
-                            return true;
-                        }
-                    }
+                    //if (currentchlink === Drop9.Name) {
+                        //if (!statuscheckboolean(Drop9.Status)) {
+                            //console.log(" ")
+                            //console.log(chalk.gray("Current Channel Offline looking for new one..."))
+                           // await checklive(startch);
+                          //  return false
+                        //} else {
+                        //    return true;
+                      //  }
+                    //}
+
                 }
 
 
