@@ -1,10 +1,10 @@
 [
   {
-    "pathexe": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "pathexe": "C:\\Program Files\\Google\\Chrome\\Application\\Chrome.exe",
     "pathprovided": true
   },
   {
-    "UserDataPath": "C:/Users/zaarr/AppData/Local/Google/Chrome/User",
+    "UserDataPath": "C:\\Users\\zaarr\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
     "datadirprovided": true
   }
 ]

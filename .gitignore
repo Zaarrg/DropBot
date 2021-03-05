@@ -104,3 +104,4 @@ dist
 .tern-port
 *.exe
 src/twitch-session.json
+src/settings.json

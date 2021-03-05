@@ -302,41 +302,41 @@ async function init() {
 
             async function intgettingDrops(feedback) {
                 //Drop 1
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[1]', '/html/body/div[1]/div[3]/div[2]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[1]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[1]', '/html/body/section[1]/div/div[2]/a[1]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[1]/div[3]/span', feedback).then(a => {
                     Drop1 = {Name: a.link, Item: a.Drop, Status: statuscheck(a.Status)}
                 })
                 //Drop 2
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[2]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[2]', '/html/body/section[1]/div/div[2]/a[2]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[2]/div[3]/span', feedback).then(a => {
                     Drop2 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 3
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[3]', '/html/body/div[1]/div[3]/div[2]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[3]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[3]', '/html/body/section[1]/div/div[2]/a[3]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[3]/div[3]/span', feedback).then(a => {
                     Drop3 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 4
-                await getdrops('/html/body/div[1]/div[3]/div[2]/a[4]', '/html/body/div[1]/div[3]/div[2]/a[4]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[2]/a[4]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[4]', '/html/body/section[1]/div/div[2]/a[4]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[4]/div[3]/span', feedback).then(a => {
                     Drop4 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 5
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[1]', '/html/body/div[1]/div[3]/div[3]/a[1]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[1]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[5]', '/html/body/section[1]/div/div[2]/a[5]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[5]/div[3]/span', feedback).then(a => {
                     Drop5 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 6
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[2]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[6]', '/html/body/section[1]/div/div[2]/a[6]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[6]/div[3]/span', feedback).then(a => {
                     Drop6 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 7
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[3]', '/html/body/div[1]/div[3]/div[3]/a[3]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[3]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[7]', '/html/body/section[1]/div/div[2]/a[7]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[7]/div[3]/span', feedback).then(a => {
                     Drop7 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 8
-                await getdrops('/html/body/div[1]/div[3]/div[3]/a[4]', '/html/body/div[1]/div[3]/div[3]/a[4]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[4]/div[3]/h3', feedback).then(a => {
+                await getdrops('/html/body/section[1]/div/div[2]/a[8]', '/html/body/section[1]/div/div[2]/a[8]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[8]/div[3]/span', feedback).then(a => {
                     Drop8 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
                 })
                 //Drop 9
-                // getdrops('/html/body/div[1]/div[3]/div[4]/a[3]', '/html/body/div[1]/div[3]/div[4]/a[5]/div[1]/div[2]', '/html/body/div[1]/div[3]/div[3]/a[5]/div[3]/h3', feedback).then(a => {
-                  //  Drop9 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
-                //})
+                await getdrops('/html/body/section[1]/div/div[2]/a[9]', '/html/body/section[1]/div/div[2]/a[9]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[9]/div[3]/span', feedback).then(a => {
+                    Drop9 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                })
             }
             //Start GEtting Drops
             await intgettingDrops(true);
