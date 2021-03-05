@@ -303,39 +303,39 @@ async function init() {
             async function intgettingDrops(feedback) {
                 //Drop 1
                 await getdrops('/html/body/section[1]/div/div[2]/a[1]', '/html/body/section[1]/div/div[2]/a[1]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[1]/div[3]/span', feedback).then(a => {
-                    Drop1 = {Name: a.link, Item: a.Drop, Status: statuscheck(a.Status)}
+                    Drop1 = {Name: a.link, Item: a.Drop, Status: a.Status}
                 })
                 //Drop 2
                 await getdrops('/html/body/section[1]/div/div[2]/a[2]', '/html/body/section[1]/div/div[2]/a[2]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[2]/div[3]/span', feedback).then(a => {
-                    Drop2 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop2 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 3
                 await getdrops('/html/body/section[1]/div/div[2]/a[3]', '/html/body/section[1]/div/div[2]/a[3]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[3]/div[3]/span', feedback).then(a => {
-                    Drop3 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop3 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 4
                 await getdrops('/html/body/section[1]/div/div[2]/a[4]', '/html/body/section[1]/div/div[2]/a[4]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[4]/div[3]/span', feedback).then(a => {
-                    Drop4 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop4 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 5
                 await getdrops('/html/body/section[1]/div/div[2]/a[5]', '/html/body/section[1]/div/div[2]/a[5]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[5]/div[3]/span', feedback).then(a => {
-                    Drop5 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop5 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 6
                 await getdrops('/html/body/section[1]/div/div[2]/a[6]', '/html/body/section[1]/div/div[2]/a[6]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[6]/div[3]/span', feedback).then(a => {
-                    Drop6 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop6 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 7
                 await getdrops('/html/body/section[1]/div/div[2]/a[7]', '/html/body/section[1]/div/div[2]/a[7]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[7]/div[3]/span', feedback).then(a => {
-                    Drop7 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop7 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 8
                 await getdrops('/html/body/section[1]/div/div[2]/a[8]', '/html/body/section[1]/div/div[2]/a[8]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[8]/div[3]/span', feedback).then(a => {
-                    Drop8 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop8 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
                 //Drop 9
                 await getdrops('/html/body/section[1]/div/div[2]/a[9]', '/html/body/section[1]/div/div[2]/a[9]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[9]/div[3]/span', feedback).then(a => {
-                    Drop9 = {Name: a.link, Item: a.Drop,  Status: statuscheck(a.Status)}
+                    Drop9 = {Name: a.link, Item: a.Drop,  Status: a.Status}
                 })
             }
             //Start GEtting Drops
@@ -372,9 +372,9 @@ async function init() {
                 if (statuscheckboolean(Drop8.Status)) {
                     choi.push(Drop8.Name)
                 }
-                //if (statuscheckboolean(Drop9.Status)) {
-                  //  choi.push(Drop9.Name)
-                //}#
+                if (statuscheckboolean(Drop9.Status)) {
+                    choi.push(Drop9.Name)
+                }
 
                 async function removewatching() {
                     if (removeurl !== undefined) {
@@ -570,7 +570,6 @@ async function init() {
                                     }
 
                                 } else {
-
                                     return false
                                 }
                             } else {
@@ -584,6 +583,7 @@ async function init() {
                             }
                         }
                     }
+                   return false
                 }
 
 
@@ -754,16 +754,16 @@ async function init() {
                         }
                     }
                     //Drop 9
-                    //if (currentchlink === Drop9.Name) {
-                        //if (!statuscheckboolean(Drop9.Status)) {
-                            //console.log(" ")
-                            //console.log(chalk.gray("Current Channel Offline looking for new one..."))
-                           // await checklive(startch);
-                          //  return false
-                        //} else {
-                        //    return true;
-                      //  }
-                    //}
+                    if (currentchlink === Drop9.Name) {
+                        if (!statuscheckboolean(Drop9.Status)) {
+                            console.log(" ")
+                            console.log(chalk.gray("Current Channel Offline looking for new one..."))
+                            await checklive(startch);
+                            return false
+                        } else {
+                            return true;
+                        }
+                    }
 
                 }
 
@@ -776,10 +776,7 @@ async function init() {
 
 
 
-            console.log(`All done`)
-
-
-
+            console.log(`Something Went Wrong - All done`)
         })
     }
 }
