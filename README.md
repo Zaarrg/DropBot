@@ -121,7 +121,8 @@ There are two ways you can use this bot.
 <!-- ROADMAP -->
 ## Roadmap
 
-!Check the todo.txt in src for a frequently updated list!
+<p align="center">!Check the todo.txt in src for a frequently updated list!</p>
+
 There are Some Features i would like to add:
 * The Bot should automaticlly stop if the user has all Drops.
 * Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
