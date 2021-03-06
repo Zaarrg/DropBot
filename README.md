@@ -121,12 +121,14 @@ There are two ways you can use this bot.
 <!-- ROADMAP -->
 ## Roadmap
 
-There are Some Features i would like to add in my free Time:
+<p align="center">!Check the todo.txt in src for a frequently updated list!</p>
+
+There are Some Features i would like to add:
 * The Bot should automaticlly stop if the user has all Drops.
 * Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
 * Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one. [Done] 
 * No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance. [Done]
-* Stop the Bot by Pressing a key and not by terminating the window.
+* Stop the Bot by Pressing a key and not by terminating the window. [Done]
 * Add a Event to handel all Channels offline Situation
 * At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop.
 * Add the ability to read all already claimed drops. Would prevent some bugs
