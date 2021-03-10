@@ -1,9 +1,4 @@
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
--->
+
 
 
 
@@ -55,7 +50,12 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+        <li>
+      <a href="#usage">Getting Started</a>
+      <ul>
+        <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -116,6 +116,14 @@ There are two ways you can use this bot.
 
 [Click to Watch:](http://www.youtube.com/watch?v=1K81IqelmtI)
 [![TTVDropBot](https://i.imgur.com/c5eOxWF.png)](http://www.youtube.com/watch?v=1K81IqelmtI "TTVDropBot for Rust")
+
+
+### UserProfilDirectory
+
+- You can specify a User Profil Directory. This allows for Auto Login after the first sign in.  
+- In the Example below you can see the User Data Profile.
+
+![UserProfilePath](https://i.imgur.com/9D4LlXT.png)
 
 
 <!-- ROADMAP -->
