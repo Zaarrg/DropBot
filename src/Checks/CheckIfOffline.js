@@ -86,15 +86,15 @@ async function CheckIfOffline(currentchlink) {
         }
     }
     //Drop 9
-    if (currentchlink === data.Drop9.Name) {
-        if (!statuscheckboolean(data.Drop9.Status)) {
-            console.log(" ")
-            console.log(chalk.gray("Current Channel Offline looking for new one..."))
-            return false
-        } else {
-            return true;
-        }
-    }
+    //if (currentchlink === data.Drop9.Name) {
+      //  if (!statuscheckboolean(data.Drop9.Status)) {
+        //    console.log(" ")
+          //  console.log(chalk.gray("Current Channel Offline looking for new one..."))
+            //return false
+        //} else {
+          //  return true;
+        //}
+    //}
 
 }
 

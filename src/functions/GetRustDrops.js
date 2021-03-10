@@ -46,7 +46,7 @@ async function getDropsbypath(feedback, page) {
         data.Drop1 = {Name: a.link, Item: a.Drop, Status: a.Status}
     })
     //Drop 2
-    await getdrops('/html/body/section[1]/div/div[2]/a[2]', '/html/body/section[1]/div/div[2]/a[2]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[2]/div[3]/span', feedback, page).then(a => {
+    await getdrops('/html/body/section[1]/div/div[2]/a[2]', '/html/body/section[1]/div/div[2]/a[2]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[2]/div[3]/div[1]/span', feedback, page).then(a => {
         data.Drop2 = {Name: a.link, Item: a.Drop,  Status: a.Status}
     })
     //Drop 3
@@ -74,9 +74,9 @@ async function getDropsbypath(feedback, page) {
         data.Drop8 = {Name: a.link, Item: a.Drop,  Status: a.Status}
     })
     //Drop 9
-    await getdrops('/html/body/section[1]/div/div[2]/a[9]', '/html/body/section[1]/div/div[2]/a[9]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[9]/div[3]/span', feedback, page).then(a => {
-        data.Drop9 = {Name: a.link, Item: a.Drop,  Status: a.Status}
-    })
+    //await getdrops('/html/body/section[1]/div/div[2]/a[9]', '/html/body/section[1]/div/div[2]/a[9]/div[1]/div/div[2]/div', '/html/body/section[1]/div/div[2]/a[9]/div[3]/span', feedback, page).then(a => {
+      //  data.Drop9 = {Name: a.link, Item: a.Drop,  Status: a.Status}
+    //})
 }
 
 module.exports = {

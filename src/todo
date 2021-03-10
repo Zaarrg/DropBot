@@ -6,10 +6,10 @@ Priority:
         At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop.
 
 - Check if the all Live Channels on 100% Drop Event works.
-
+- Remove Xpaths and use loops to loop throw all drops and get their status.
+- Event for All Channels Offline
 
 For Later:
-- Event for All Channels Offline
 - Give the User the ability to add Custom Urls
 - Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
 - The Bot should automaticlly stop if the user has all Drops.
