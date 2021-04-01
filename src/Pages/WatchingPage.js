@@ -14,7 +14,6 @@ puppeteer.use(StealthPlugin())
 
 
 
-
 async function Watch() {
 
     //Start Puppeteer Main Watching Page
@@ -31,7 +30,7 @@ async function Watch() {
         console.log(chalk.gray('Getting all Drops and other Details'))
 
         //Go to Rust Twitch Drops
-        await page.goto(data.rustdrops, {waitUntil: "networkidle2"})
+        await page.goto(data.rustdrops, {waitUntil: ["networkidle2"]})
 
 
         //Get Rust Drops From Rust Site

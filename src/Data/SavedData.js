@@ -17,6 +17,9 @@ let Drop7 = {};
 let Drop8 = {};
 let Drop9 = {};
 
+//Amount of Drops avaiable
+let Dropsamount = 6;
+
 //Live Channels
 let choi = [];
 let dropsmap = [];
@@ -53,6 +56,7 @@ module.exports = {
     Drop7,
     Drop8,
     Drop9,
+    Dropsamount,
     choi,
     dropsmap,
     Startingchannel,
