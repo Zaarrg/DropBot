@@ -129,7 +129,9 @@ There are two ways you can use this bot.
 <!-- ROADMAP -->
 ## Roadmap
 
-<p align="center">!Check the todo.txt in src for a frequently updated list!</p>
+<p align="center">!Check the todo.txt file mentioned down below for a frequently updated list!</p>
+
+Updated [todo.txt](https://github.com/Zaarrg/TTVDropBot/blob/main/src/todo) list.
 
 There are Some Features i would like to add:
 * The Bot should automaticlly stop if the user has all Drops.
