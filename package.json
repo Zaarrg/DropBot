@@ -16,6 +16,7 @@
     "cli-progress": "^3.9.0",
     "cron": "^1.8.2",
     "inquirer": "^7.3.3",
+    "jsonbin-io-api": "^1.0.2",
     "node-cron": "^2.0.3",
     "node-schedule": "^2.0.0",
     "puppeteer": "^7.0.4",

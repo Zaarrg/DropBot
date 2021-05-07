@@ -18,7 +18,7 @@ let Drop8 = {};
 let Drop9 = {};
 
 //Amount of Drops avaiable
-let Dropsamount = 6;
+let Dropsamount = 9;
 
 //Live Channels
 let choi = [];
