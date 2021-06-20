@@ -10,14 +10,15 @@ Priority:
 - Event for All Channels Offline
 
 For Later:
-- Give the User the ability to add Custom Urls
 - Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
 - The Bot should automaticlly stop if the user has all Drops.
+- Add a Force Feature to only watch the Channle Selected and prevent the bot from switching if its offline.
 
 
 
 
 Already Done:
+- Give the User the ability to add Custom Urls [Done]
 - Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one. [Done]
 - No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance. [Done]
 - Stop the Bot by Pressing a key and not by terminating the window. [Done]
