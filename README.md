@@ -54,7 +54,7 @@
       <a href="#usage">Getting Started</a>
       <ul>
         <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
-        <li><a href="#custom-channels-support">Custom Channel's Support</a></li>
+        <li><a href="#custom-channels-example">Custom Channel's Example</a></li>
         <li>
           <a href="#adding-custom-channels">Adding Custom Channel's</a>
           <ul>
@@ -136,7 +136,7 @@ There are two ways you can use this bot.
 
 ![UserProfilePath](https://i.imgur.com/9D4LlXT.png)
 
-## Custom Channel's Support
+## Custom Channel's Example
 
 In the Example below you can see how to use the Custom Channel's feature.
 
