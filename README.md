@@ -159,7 +159,7 @@ In the Example below you can see how to use the Custom Channel's feature.
 
 ## Adding Custom Channel's
 
-Done below you can find some Details about adding Channels.
+Down below you can find some Details about adding Channels.
 
 ### Name
 - The Name can be any String, it is just for the user to identify the Channel. You can use for Example: `Rainbow Six, Best Ch ever etc...`
