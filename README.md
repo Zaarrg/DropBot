@@ -56,7 +56,7 @@
         <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
         <li><a href="#Custom-Channel's-Support">Custom Channel's Support</a></li>
         <li>
-          <a href="#Adding-Custom-Channel's">Adding Custom Channel's</a>
+          <a href="#adding-custom-channels">Adding Custom Channel's</a>
           <ul>
             <li><a href="#Name">Name Option</a></li>
             <li><a href="#Twitch-Url">Twitch Url Option</a></li>
@@ -144,7 +144,7 @@ In the Example below you can see how to use the Custom Channel's feature.
  
 ![Custom Channel](https://i.imgur.com/6DB4u1X.png)
 
-2. Add a Custom Channel if you didn't add any, else you can add a new one or just continue. More Details to adding a Channel are [here](https://github.com/Zaarrg/TTVDropBot#Adding-Custom-Channel's)
+2. Add a Custom Channel if you didn't add any, else you can add a new one or just continue. More Details to adding a Channel are [here](          https://github.com/Zaarrg/TTVDropBot#adding-custom-channels)
 
 ![Add a Channel](https://i.imgur.com/0XoB7uD.png)
 
