@@ -54,7 +54,7 @@
       <a href="#usage">Getting Started</a>
       <ul>
         <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
-        <li><a href="#Custom-Channel's-Support">Custom Channel's Support</a></li>
+        <li><a href="#custom-channels-support">Custom Channel's Support</a></li>
         <li>
           <a href="#adding-custom-channels">Adding Custom Channel's</a>
           <ul>
@@ -62,7 +62,7 @@
             <li><a href="#Twitch-Url">Twitch Url Option</a></li>
             <li><a href="#How-the-Channel-should-be-Watched">How the Channel should be Watched Option</a></li>
             <li><a href="#Farm-Points">Farm Points Option</a></li>
-            <li><a href="#Editing-already-Added-Channel's">Editing Channels</a></li>
+            <li><a href="#editing-already-added-channels">Editing Channels</a></li>
           </ul>
         </li>
       </ul>
