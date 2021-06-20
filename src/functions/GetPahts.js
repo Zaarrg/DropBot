@@ -133,7 +133,7 @@ async function GetPaths() {
                             {
                                 type: 'input',
                                 name: 'UserDataPath',
-                                message: 'Please provide your UserDataDirectory Name?',
+                                message: 'Please provide your UserDataDirectory Path?',
                             },
                         ])
                         .then((answers) => {

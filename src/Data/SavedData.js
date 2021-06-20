@@ -22,6 +22,7 @@ let Dropsamount = 9;
 
 //Live Channels
 let choi = [];
+let offlinechs = [];
 let dropsmap = [];
 
 //starting ch
@@ -34,14 +35,18 @@ let UserDataDirboolean;
 
 //settings
 let settings = [];
+let CustomChannels = [];
+let CustomChboolean;
 //Watch DAta
 let cookies;
 let page;
 let browser;
+let RustDrops = false;
 
 
 module.exports = {
     cookies,
+    RustDrops,
     page,
     browser,
     loginttv,
@@ -63,5 +68,8 @@ module.exports = {
     Executablepath,
     UserDataDir,
     UserDataDirboolean,
-    settings
+    settings,
+    CustomChannels,
+    CustomChboolean,
+    offlinechs
 }

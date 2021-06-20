@@ -9,6 +9,7 @@ const data = require("../Data/SavedData");
 
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+const inputReader = require("wait-console-input");
 puppeteer.use(StealthPlugin())
 
 
@@ -33,6 +34,7 @@ async function Login() {
             );
         } catch (error) {
             console.log(chalk.red("Closing... You did not Login in Time"))
+            inputReader.wait(chalk.gray("Press any Key to continue..."))
             process.exit(22);
         }
         console.log(" ");

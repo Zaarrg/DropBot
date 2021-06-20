@@ -11,7 +11,7 @@ let xpathsdata;
 async function xpaths() {
 
     return api.readBin({
-        id: '60959e37a23274124bffde21',
+        id: '60ba2d8a9fc30168f1c375d8',
         version: 'latest'
     })
         .then(res => {
@@ -28,7 +28,7 @@ async function GetRustDrops(page, feedback) {
         xpathsdata = res;
     })
 
-    await getDropsbypath(feedback, page)
+    return await getDropsbypath(feedback, page)
     //await getDropsRecursive(page);
 }
 
@@ -69,6 +69,10 @@ async function getDropsbypath(feedback, page) {
 
     let {Dropsamount, Drop1, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9} = xpathsdata;
     data.Dropsamount = Dropsamount;
+
+    if (data.Dropsamount === 0) {
+        return false
+    }
 
     //Drop 1
     if (data.Dropsamount >= 1) {

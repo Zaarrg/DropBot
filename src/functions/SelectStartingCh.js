@@ -4,9 +4,12 @@ const chalk = require("chalk");
 const {CheckForLiveChannels} = require("../Checks/CheckForLiveChannels")
 
 
-async function SelectStartingCh() {
+async function SelectStartingCh(CheckLive) {
     //Check for Live Channels and add them to List
-    await CheckForLiveChannels();
+    if (CheckLive === true) {
+        data.choi = [];
+        await CheckForLiveChannels();
+    }
 
     await inquirer
         .prompt([
@@ -17,12 +20,39 @@ async function SelectStartingCh() {
                 choices: data.choi,
             },
         ])
-        .then((answers) => {
+        .then(async (answers) => {
 
             console.log(" ")
             console.log(chalk.gray("Setting Starting Channel..."))
             data.Startingchannel = JSON.stringify(answers, null, '  ');
             data.Startingchannel = JSON.parse(data.Startingchannel);
+
+            if(data.offlinechs.includes(data.Startingchannel.Channel)) {
+
+                await inquirer
+                    .prompt([
+                        {
+                            type: 'confirm',
+                            name: 'confirmed',
+                            message: 'This Channel is Offline, are you sure you wanna continue anyways?',
+                        },
+                    ])
+                    .then(async (answers) => {
+
+                        let awnser = JSON.stringify(answers, null, '  ');
+                        awnser = JSON.parse(awnser);
+
+                        if (!awnser.confirmed) {
+                            await SelectStartingCh();
+                        }
+
+                    });
+
+
+            }
+
+
+
         });
 }
 

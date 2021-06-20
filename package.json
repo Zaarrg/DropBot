@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "nexe index.js 'TTVDropBot' --icon twitch.ico --build"
+    "build": "nexe index.js 'TTVDropBot' --ico twitch.ico --rc { CompanyName: \"ACME Corp\", PRODUCTVERSION: \"17,3,0,0\", FILEVERSION: \"1,2,3,4\"} --build",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "Zarg",
@@ -13,17 +14,15 @@
   "dependencies": {
     "@inquirer/input": "0.0.13-alpha.0",
     "@inquirer/password": "0.0.12-alpha.0",
-    "cli-progress": "^3.9.0",
-    "cron": "^1.8.2",
     "inquirer": "^7.3.3",
     "jsonbin-io-api": "^1.0.2",
-    "node-cron": "^2.0.3",
-    "node-schedule": "^2.0.0",
     "puppeteer": "^7.0.4",
     "puppeteer-extra": "^3.1.16",
-    "puppeteer-extra-plugin-stealth": "^2.7.4"
+    "puppeteer-extra-plugin-stealth": "^2.7.4",
+    "wait-console-input": "^0.1.7"
   },
   "devDependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "nexe": "^4.0.0-beta.18"
   }
 }

@@ -105,3 +105,6 @@ dist
 *.exe
 src/twitch-session.json
 src/settings.json
+src/CustomChannels.json
+src/settings.json
+src/settings.json
