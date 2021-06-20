@@ -54,6 +54,17 @@
       <a href="#usage">Getting Started</a>
       <ul>
         <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
+        <li><a href="#Custom-Channel's-Support">Custom Channel's Support</a></li>
+        <li>
+          <a href="#Adding-Custom-Channel's">Adding Custom Channel's</a>
+          <ul>
+            <li><a href="#Name">Name Option</a></li>
+            <li><a href="#Twitch-Url">Twitch Url Option</a></li>
+            <li><a href="#How-the-Channel-should-be-Watched">How the Channel should be Watched Option</a></li>
+            <li><a href="#Farm-Points">Farm Points Option</a></li>
+            <li><a href="#Editing-already-Added-Channel's">Editing Channels</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -118,13 +129,59 @@ There are two ways you can use this bot.
 [![TTVDropBot](https://i.imgur.com/c5eOxWF.png)](http://www.youtube.com/watch?v=1K81IqelmtI "TTVDropBot for Rust")
 
 
-### UserProfilDirectory
+## UserProfilDirectory
 
 - You can specify a User Profil Directory. This allows for Auto Login after the first sign in.  
 - In the Example below you can see the User Data Profile.
 
 ![UserProfilePath](https://i.imgur.com/9D4LlXT.png)
 
+## Custom Channel's Support
+
+In the Example below you can see how to use the Custom Channel's feature.
+
+1. Select `Yes` to get to the Custom Channels
+ 
+![Custom Channel](https://i.imgur.com/6DB4u1X.png)
+
+2. Add a Custom Channel if you didn't add any, else you can add a new one or just continue. More Details to adding a Channel are [here](https://github.com/Zaarrg/TTVDropBot#Adding-Custom-Channel's)
+
+![Add a Channel](https://i.imgur.com/0XoB7uD.png)
+
+3. Select a Channel to start Watching, you can also see the current Status of the Channel 
+
+![Start Watching](https://i.imgur.com/bli9yeL.png)
+
+4. Done you are now successfully watching the channel, the bot will take care of the rest 
+
+![Start Watching](https://i.imgur.com/r2skvhZ.png)
+
+
+## Adding Custom Channel's
+
+Done below you can find some Details about adding Channels.
+
+### Name
+- The Name can be any String, it is just for the user to identify the Channel. You can use for Example: `Rainbow Six, Best Ch ever etc...`
+
+### Twitch Url
+- The Url is very important, never use the same Url twice, it has to be a vaild Channel link and has always to start with `https://www.twitch.tv/`. Example for a Vaild Url: `https://www.twitch.tv/rainbow6tw`
+
+### How the Channel should be Watched
+`Changed:`
+- If you select `Changed` the Channel will be watched until the User changes it, basicly watches the Channel infinitely. If the Channel goes Offline the Bot will watch another Online channel out of the Custom Channel's the User has.
+
+`Time: `
+- If you select `Time` the Channel will be watched until the Timer reaches Zero, it will watch for Example 5 Minutes if you typed in, to watch it 5 Minutes long. After that the Bot will look for a new Channel out of the Custom Channel's the User has.
+
+`Watching only one Channel: `
+- If you want to watch only one Channel even if it is Offline and dont want the bot to change it if it is offline, then you can achieve this by adding only one Channel as Custom Channel at the moment, the Bot will than have no other options and will only watch the Channel added. In this case its recommened to use the `Changed` Time Option.
+
+### Farm Points:
+- Pretty simple, should the bot farm Points or not.
+
+### Editing already Added Channel's
+- You can always edit Channel's which are already added in the `CustomChannels.json`.
 
 <!-- ROADMAP -->
 ## Roadmap
