@@ -1,8 +1,7 @@
 const data = require("../Data/SavedData");
 const chalk = require("chalk");
 const {statuscheck} = require("./util");
-const JsonBinIoApi = require('jsonbin-io-api');
-const api = new JsonBinIoApi();
+const axios = require("axios");
 
 let array = [];
 
@@ -10,14 +9,15 @@ let xpathsdata;
 
 async function xpaths() {
 
-    return api.readBin({
-        id: '60ba2d8a9fc30168f1c375d8',
-        version: 'latest'
-    })
-        .then(res => {
-            return res
-        });
+    const url = 'http://144.91.124.143:3004/ttvdropbot';
 
+    const req = axios.get(url)
+                    .then(data => {
+                        return data.data;
+                    })
+                    .catch(err =>console.log(err));
+
+    return await req
 }
 
 

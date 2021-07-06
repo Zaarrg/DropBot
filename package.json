@@ -14,8 +14,8 @@
   "dependencies": {
     "@inquirer/input": "0.0.13-alpha.0",
     "@inquirer/password": "0.0.12-alpha.0",
+    "axios": "^0.21.1",
     "inquirer": "^7.3.3",
-    "jsonbin-io-api": "^1.0.2",
     "puppeteer": "^7.0.4",
     "puppeteer-extra": "^3.1.16",
     "puppeteer-extra-plugin-stealth": "^2.7.4",
