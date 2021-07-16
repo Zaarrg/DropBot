@@ -102,10 +102,12 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
                                     })
                                 }
                             } else if (PercentCurrentDrop < 100) {
+                                retry = 0;
                                 console.log(chalk.gray("Current Progress: ") + chalk.white(PercentCurrentDrop + " %") + chalk.gray(" | " + etacalc(PercentCurrentDrop)));
                                 return await CurrentProgressEvent(dropspage, startch, watchingpage)
                             } else if (PercentCurrentDrop === 100) {
                                 //100%
+                                retry = 0;
                                 console.log(" ")
                                 console.log(chalk.cyan("Reached ") + chalk.green("100 %... ") + chalk.cyan("Looking for new Channel..."));
                                 await CheckForLiveChannels(startch).then(async () => {
