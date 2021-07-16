@@ -113,7 +113,42 @@ async function CheckIfOffline(currentchlink) {
             }
         }
     }
-
+    //Drop 10
+    if (data.Dropsamount >= 10) {
+        if (currentchlink === data.Drop10.Name) {
+            if (!statuscheckboolean(data.Drop10.Status)) {
+                console.log(" ")
+                console.log(chalk.gray("Current Channel Offline looking for new one..."))
+                return false
+            } else {
+                return true;
+            }
+        }
+    }
+    //Drop 11
+    if (data.Dropsamount >= 11) {
+        if (currentchlink === data.Drop11.Name) {
+            if (!statuscheckboolean(data.Drop11.Status)) {
+                console.log(" ")
+                console.log(chalk.gray("Current Channel Offline looking for new one..."))
+                return false
+            } else {
+                return true;
+            }
+        }
+    }
+    //Drop 12
+    if (data.Dropsamount >= 12) {
+        if (currentchlink === data.Drop12.Name) {
+            if (!statuscheckboolean(data.Drop12.Status)) {
+                console.log(" ")
+                console.log(chalk.gray("Current Channel Offline looking for new one..."))
+                return false
+            } else {
+                return true;
+            }
+        }
+    }
 }
 
 module.exports = {

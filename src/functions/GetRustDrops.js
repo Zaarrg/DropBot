@@ -9,7 +9,7 @@ let xpathsdata;
 
 async function xpaths() {
 
-    const url = 'http://144.91.124.143:3004/ttvdropbot';
+    const url = 'https://pastebin.com/raw/cfp64SYd';
 
     const req = axios.get(url)
                     .then(data => {
@@ -67,9 +67,8 @@ async function getdrops(ttvlink, stat, drp, feedback, page) {
 
 async function getDropsbypath(feedback, page) {
 
-    let {Dropsamount, Drop1, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9} = xpathsdata;
-    data.Dropsamount = Dropsamount;
-
+    let {Dropsamount, Drop1, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9, Drop10, Drop11, Drop12} = xpathsdata;
+    data.Dropsamount = 12;
     if (data.Dropsamount === 0) {
         return false
     }
@@ -129,6 +128,24 @@ async function getDropsbypath(feedback, page) {
             data.Drop9 = {Name: a.link, Item: a.Drop, Status: a.Status}
         })
     }
+    //Drop 10
+    if (data.Dropsamount >= 10) {
+        await getdrops(Drop10.ttvlink, Drop10.status, Drop10.drop, feedback, page).then(a => {
+            data.Drop10 = {Name: a.link, Item: a.Drop, Status: a.Status}
+        })
+    }
+    //Drop 11
+    if (data.Dropsamount >= 11) {
+        await getdrops(Drop11.ttvlink, Drop11.status, Drop11.drop, feedback, page).then(a => {
+            data.Drop11 = {Name: a.link, Item: a.Drop, Status: a.Status}
+        })
+    }
+    //Drop 12
+    if (data.Dropsamount >= 12) {
+        await getdrops(Drop12.ttvlink, Drop12.status, Drop12.drop, feedback, page).then(a => {
+            data.Drop12 = {Name: a.link, Item: a.Drop, Status: a.Status}
+        })
+     }
 }
 
 module.exports = {

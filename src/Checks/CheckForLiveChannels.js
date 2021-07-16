@@ -54,6 +54,21 @@ async function CheckForLiveChannels(removeurl) {
             data.choi.push(data.Drop9.Name)
         }
     }
+    if (data.Dropsamount >= 10) {
+        if (statuscheckboolean(data.Drop10.Status)) {
+            data.choi.push(data.Drop10.Name)
+        }
+    }
+    if (data.Dropsamount >= 11) {
+        if (statuscheckboolean(data.Drop11.Status)) {
+            data.choi.push(data.Drop11.Name)
+        }
+    }
+    if (data.Dropsamount >= 12) {
+        if (statuscheckboolean(data.Drop12.Status)) {
+            data.choi.push(data.Drop12.Name)
+        }
+    }
 
     async function removewatching() {
         if (removeurl !== undefined) {
@@ -100,6 +115,15 @@ async function CheckForLiveChannels(removeurl) {
                 }
                 if (data.Dropsamount >= 9) {
                     data.choi.push(data.Drop9.Name)
+                }
+                if (data.Dropsamount >= 10) {
+                    data.choi.push(data.Drop10.Name)
+                }
+                if (data.Dropsamount >= 11) {
+                    data.choi.push(data.Drop11.Name)
+                }
+                if (data.Dropsamount >= 12) {
+                    data.choi.push(data.Drop12.Name)
                 }
                 if (i === 0) {
                     console.log(" ")
