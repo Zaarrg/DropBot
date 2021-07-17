@@ -1,135 +1,96 @@
 const data = require("../Data/SavedData");
 const chalk = require("chalk");
 const {statuscheck} = require("./util");
-const axios = require("axios");
-
-let array = [];
-
-let xpathsdata;
-
-async function xpaths() {
-
-    const url = 'http://144.91.124.143:3004/ttvdropbot';
-
-    const req = axios.get(url)
-                    .then(data => {
-                        return data.data;
-                    })
-                    .catch(err =>console.log(err));
-
-    return await req
-}
 
 
 async function GetRustDrops(page, feedback) {
-
-    //Get updated xpaths
-    await xpaths().then(res => {
-        xpathsdata = res;
+    await page.reload({
+        waitUntil: ["networkidle2", "domcontentloaded"]
     })
 
-    return await getDropsbypath(feedback, page)
-    //await getDropsRecursive(page);
+
+    //Inject JQuery
+    async function injectJQuery(page) {
+        await page.addScriptTag({
+            path: require.resolve("jquery")
+        })
+    }
+
+    await injectJQuery(page);
+
+    return await parseFacepunchStreamersPage(page).then(r => {
+        data.Streamers = r;
+
+        if (feedback) {
+            data.Streamers.forEach((e, i) => {
+                console.log(" ")
+                console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+            })
+
+        }
+
+        return r;
+    });
+
+
 }
 
+async function parseFacepunchStreamersPage(page) {
 
-//Get Drops
-async function getdrops(ttvlink, stat, drp, feedback, page) {
+    return await page.evaluate(() => {
+        let streamers = [];
+        let GeneralDrops = [];
 
-    const [link] = await page.$x(ttvlink);
-    const linkhref = await link.getProperty('href')
-    const rawlink = await linkhref.jsonValue();
-    //Ttv Status from Rust site
-    const [status] = await page.$x(stat);
-    const statuscontent = await status.getProperty('textContent')
-    const statusraw = await statuscontent.jsonValue();
-    //Drop Item Name
-    const [drop] = await page.$x(drp);
-    const dropcontent = await drop.getProperty('textContent')
-    const dropraw = await dropcontent.jsonValue();
+        //Get All Drops Add to Streamers
+        const drops = $(".drops-group");
+        drops.each((index, element) => {
+            const elements = $(element).find("a.drop");
+            elements.each((index, element) => {
+                const $element = $(element);
 
-    if (feedback === true) {
-        console.log(" ")
-        console.log(chalk.cyan(rawlink) + " | " + chalk.magenta(dropraw)+ " | " + statuscheck(JSON.stringify(statusraw)))
-    }
+                const url = $element.attr("href");
+                const live = $element.hasClass("is-live");
+                const streamerName = $element.find(".streamer-name").first().text();
+                const dropName = $element.find(".drop-name").first().text();
+
+                streamers.push({
+                    url: url,
+                    live: live,
+                    name: streamerName.toString(),
+                    drop: dropName.toString(),
+                    claimed: false
+                });
+            });
+        });
+
+
+        //Get Drops which are General
+        const GeneralDropsselector = $(".general-drops");
+        GeneralDropsselector.each((index, element) => {
+            const elements = $(element).find("a.drop");
+            elements.each((index, element) => {
+                const $element = $(element);
+
+                const url = $element.attr("href");
+                const live = $element.hasClass("is-live");
+                const streamerName = $element.find(".streamer-name").first().text();
+                const dropName = $element.find(".drop-name").first().text();
+
+                GeneralDrops.push(url);
+            });
+        });
+
+        //Filter General Drops out of Streamers
+        streamers = streamers.filter(item => !GeneralDrops.includes(item.url))
 
 
 
 
-    return {
-        link: rawlink,
-        Status: statusraw,
-        Drop: dropraw
-    }
+        return streamers;
+    })
+
 }
 
-
-
-async function getDropsbypath(feedback, page) {
-
-    let {Dropsamount, Drop1, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9} = xpathsdata;
-    data.Dropsamount = Dropsamount;
-
-    if (data.Dropsamount === 0) {
-        return false
-    }
-
-    //Drop 1
-    if (data.Dropsamount >= 1) {
-        await getdrops(Drop1.ttvlink, Drop1.status, Drop1.drop, feedback, page).then(a => {
-            data.Drop1 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-
-    //Drop 2
-    if (data.Dropsamount >= 2) {
-        await getdrops(Drop2.ttvlink, Drop2.status, Drop2.drop, feedback, page).then(a => {
-            data.Drop2 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 3
-    if (data.Dropsamount >= 3) {
-        await getdrops(Drop3.ttvlink, Drop3.status, Drop3.drop, feedback, page).then(a => {
-            data.Drop3 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 4
-    if (data.Dropsamount >= 4) {
-        await getdrops(Drop4.ttvlink, Drop4.status, Drop4.drop, feedback, page).then(a => {
-            data.Drop4 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 5
-    if (data.Dropsamount >= 5) {
-        await getdrops(Drop5.ttvlink, Drop5.status, Drop5.drop, feedback, page).then(a => {
-            data.Drop5 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 6
-    if (data.Dropsamount >= 6) {
-        await getdrops(Drop6.ttvlink, Drop6.status, Drop6.drop, feedback, page).then(a => {
-            data.Drop6 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 7
-    if (data.Dropsamount >= 7) {
-        await getdrops(Drop7.ttvlink, Drop7.status, Drop7.drop, feedback, page).then(a => {
-            data.Drop7 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 8
-    if (data.Dropsamount >= 8) {
-        await getdrops(Drop8.ttvlink, Drop8.status, Drop8.drop, feedback, page).then(a => {
-            data.Drop8 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-    //Drop 9
-    if (data.Dropsamount >= 9) {
-        await getdrops(Drop9.ttvlink, Drop9.status, Drop9.drop, feedback, page).then(a => {
-            data.Drop9 = {Name: a.link, Item: a.Drop, Status: a.Status}
-        })
-    }
-}
 
 module.exports = {
     GetRustDrops

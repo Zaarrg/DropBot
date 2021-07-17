@@ -6,19 +6,8 @@ let LoginPageCookies;
 //Twitch Drops
 const rustdrops = "https://twitch.facepunch.com/"
 
-//Who is Live
-let Drop1 = {};
-let Drop2 = {};
-let Drop3 = {};
-let Drop4 = {};
-let Drop5 = {};
-let Drop6 = {};
-let Drop7 = {};
-let Drop8 = {};
-let Drop9 = {};
-
-//Amount of Drops avaiable
-let Dropsamount = 9;
+let Streamers = [];
+let claimed = [];
 
 //Live Channels
 let choi = [];
@@ -52,16 +41,6 @@ module.exports = {
     loginttv,
     LoginPageCookies,
     rustdrops,
-    Drop1,
-    Drop2,
-    Drop3,
-    Drop4,
-    Drop5,
-    Drop6,
-    Drop7,
-    Drop8,
-    Drop9,
-    Dropsamount,
     choi,
     dropsmap,
     Startingchannel,
@@ -71,5 +50,7 @@ module.exports = {
     settings,
     CustomChannels,
     CustomChboolean,
-    offlinechs
+    offlinechs,
+    Streamers,
+    claimed
 }

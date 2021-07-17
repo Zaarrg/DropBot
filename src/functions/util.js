@@ -46,7 +46,7 @@ function getRandomInt(max) {
 }
 
 function statuscheck(raw) {
-    if(raw.includes("Offline")) {
+    if(!raw) {
         return chalk.red("Offline")
     } else {
         return chalk.greenBright("Live")

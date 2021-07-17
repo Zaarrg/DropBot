@@ -3,41 +3,31 @@ const {ciEquals} = require("../functions/util");
 
 async function CheckIfCurrentChannelsDropsOnHundred() {
 
-    let fullhundred = 0;
-    let notequal = 0;
 
-    for (let i = 0; i < data.choi.length; i++) {
 
-        for (let d = 0; d < data.dropsmap.length; d++) {
+    let chswith100 = 0;
 
-            if (ciEquals(data.choi[i], data.dropsmap[d].tvlink)) {
+    data.dropsmap.forEach((element, index) => {
 
-                notequal = 0;
+        data.choi.forEach((e, i) => {
 
-                if (data.dropsmap[d].percent === 100) {
-                    fullhundred++;
+            if(element.url === e) {
 
-                    if (fullhundred === data.choi.length) {
-
-                        return true;
-
-                    }
-
-                } else {
-                    return false
+                if(element.percentage === 100) {
+                    chswith100++
                 }
-            } else {
 
-                notequal++;
-
-                if (notequal === data.dropsmap.length) {
-                    fullhundred++;
-                }
 
             }
-        }
-    }
-    return false
+
+
+        })
+
+    })
+
+    return chswith100 === data.choi.length;
+
+
 }
 
 module.exports = {

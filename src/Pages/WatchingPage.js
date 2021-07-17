@@ -56,10 +56,9 @@ async function Watch() {
             //Go to Rust Twitch Drops
             await page.goto(data.rustdrops, {waitUntil: ["networkidle2"]})
 
-
             //Get Rust Drops From Rust Site
             await GetRustDrops(page,true).then(async r => {
-                if (r === false) {
+                if (r.length === 0) {
                     console.log(" ")
                     console.log(chalk.red('No Rust Drops available...'));
                     console.log(" ")

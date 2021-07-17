@@ -1,5 +1,4 @@
 const data = require("../Data/SavedData");
-const {MapDropsChecker} = require("./MapDropsChecker");
 
 async function MapDrops(dropspage) {
     await dropspage.reload({
@@ -7,42 +6,92 @@ async function MapDrops(dropspage) {
     })
     data.dropsmap = [];
 
-    //Check if drop exist then map it.
-    if (data.Dropsamount >= 1) {
-        await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[3]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[3]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[3]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(3)', '#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(3) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
+    //Inject JQuery DropsPage from Rust
+    async function injectJQuery() {
+        await dropspage.addScriptTag({
+            path: require.resolve("jquery")
+        })
     }
-    //Drop2
-    if (data.Dropsamount >= 2) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[4]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[4]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[4]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(4)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(4) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
+
+    await injectJQuery()
+
+
+
+    async function parseTwitchDropsPage(dropspage) {
+
+        return dropspage.evaluate(() => {
+            let activedrops = [];
+            let claimeddrops = [];
+
+
+            const dropsinfo = $(".inventory-campaign-info");
+            const drops = $('[data-test-selector="DropsCampaignInProgressRewards-container"]');
+
+            //Push all Claimed Drops to List
+            const ClaimedDrops = $('[data-test-selector="awarded-drop__drop-name"]');
+            ClaimedDrops.each((index, element) => claimeddrops.push($(element).text().toString()))
+
+            const urls = [];
+            const names = [];
+            const progress = [];
+
+            //Get Twitch Url
+            dropsinfo.each((index, element) => {
+                const $element = $(element);
+
+                const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-single-channel-hint-text"]').first().attr("href");
+
+                if (url === undefined || url === null) {
+                    const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-no-channels-hint-text"]').first().attr("href");
+                    urls.push(url);
+
+                } else {
+                    urls.push(url);
+                }
+
+            });
+
+            //Get Progress and Name
+            drops.each((index, element) => {
+                const $element = $(element);
+
+                const droppercentage = $element.find('[data-a-target="tw-progress-bar-animation"]').first().attr("value");
+
+                const name = $element.find('p').first().text();
+
+                progress.push(parseInt(droppercentage));
+                names.push(name.toString())
+            })
+
+            //Map Progress Name and url to one object and push it
+            urls.forEach((element, index) => {
+                activedrops.push({
+                    url: element,
+                    name: names[index],
+                    percentage: progress[index]
+                })
+
+            })
+
+            //Filter the Gloabl Drops Out
+            activedrops = activedrops.filter((item) => {
+                return item.url.startsWith('https://www.twitch.tv')
+            })
+
+
+
+
+            return [activedrops, claimeddrops];
+            //
+        });
     }
-    //Drop3
-    if (data.Dropsamount >= 3) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[5]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[5]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[5]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(5)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(5) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop4
-    if (data.Dropsamount >= 4) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[6]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[6]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[6]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(6)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(6) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop5
-    if (data.Dropsamount >= 5) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[7]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[7]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[7]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(7)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(7) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop6
-    if (data.Dropsamount >= 6) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[8]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[8]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[8]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(8)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(8) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop7
-    if (data.Dropsamount >= 7) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[9]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[9]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[9]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(9)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(9) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop8
-    if (data.Dropsamount >= 8) {
-    await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[10]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[10]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[10]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(10)','#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(10) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
-    //Drop9
-    if (data.Dropsamount >= 9) {
-        await MapDropsChecker('//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[11]/div[2]/div/div[1]/div[1]/div/div/div[2]/div/p', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[11]/div[2]/div/div[1]/div[2]/div[2]/p/span', '//*[@id="root"]/div/div[2]/div/main/div[2]/div[3]/div/div/div/div/div/div/div[2]/div[11]/div[1]/div[3]/div[2]/div/p/a', '#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.sc-AxjAm.StDqN.inventory-max-width > div:nth-child(11)', '#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area > div.simplebar-scroll-content > div > div > div > div > div > div > div.inventory-max-width > div:nth-child(11) > div.tw-pd-x-3.tw-pd-y-1 > div > div.tw-flex.tw-flex-column.tw-mg-t-2 > div.tw-flex.tw-flex-grow-1 > div > div > div.tw-align-items-center.tw-c-background-alt.tw-flex.tw-justify-content-center.tw-pd-2.tw-relative > div.tw-absolute.tw-align-items-center.tw-c-background-overlay.tw-c-text-overlay.tw-flex.tw-full-height.tw-full-width.tw-justify-content-center.tw-left-0.tw-top-0 > button', dropspage)
-    }
+
+    await parseTwitchDropsPage(dropspage).then(r => {
+        data.dropsmap = r[0];
+        data.claimed = r[1];
+    })
+
+
 }
 
 

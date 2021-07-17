@@ -5,6 +5,7 @@ const {CheckIfOffline} = require("../Checks/CheckIfOffline");
 const {CheckProgressCurrentPage} = require("../Checks/CheckProgressCurrentPage");
 const {delay} = require("../functions/util");
 const data = require("../Data/SavedData");
+const {CheckifAllClaimed} = require("../Checks/CheckifAllClaimed");
 const {SamePercentCheck} = require("../Checks/CheckIfSamePercent");
 const {etacalc} = require("../functions/util");
 const {getRandomInt} = require("../functions/util");
@@ -26,6 +27,10 @@ async function StreamPage(startch) {
     await watchingpage.goto(startch)
     //Goto Twitch inv
     await dropspage.goto('https://www.twitch.tv/drops/inventory', {waitUntil: "networkidle2"})
+    await dropspage.reload({
+        waitUntil: ["networkidle2", "domcontentloaded"]
+    })
+
     //Check for 18+
     console.log(" ")
     console.log(chalk.gray("Setting Video Settings like Quality and Volume..."))
@@ -53,7 +58,6 @@ async function StreamPage(startch) {
 
 
 
-
 //CurrentProgressEvent
 let retry = 0;
 
@@ -63,21 +67,68 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
 
         await CheckProgressCurrentPage(data.page, dropspage, startch).then(async (PercentCurrentDrop) => {
 
+            //console.log(PercentCurrentDrop)
+
             await CheckIfOffline(startch).then(async (CurrentChannelStatus) => {
+
+                //console.log(CurrentChannelStatus)
 
                 await CheckIfCurrentChannelsDropsOnHundred().then(async (CurrentChannelsAllHundred) => {
 
+                    //console.log(CurrentChannelsAllHundred)
+
                     await SamePercentCheck(PercentCurrentDrop).then(async (SamePercentCheckResult) => {
+
+                        //console.log(SamePercentCheckResult)
+
+                       await CheckifAllClaimed().then(async (AllLiveClaimed) => {
+
+
 
                         if (SamePercentCheckResult) {
                             console.log(" ");
-                            console.log(chalk.red("Percentage was same for atleast 4 ticks... Looking for other channel..."));
-                            await CheckForLiveChannels(startch).then(async () => {
-                                dropspage.close();
-                                watchingpage.close();
-                                return await StreamPage(data.choi[getRandomInt(data.choi.length)])
-                            })
+                            console.log(chalk.red("Percentage was same for at least 4 ticks... Looking for other channel..."));
+                            if (data.choi <= 1) {
+                                console.log(" ")
+                                console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                await delay(600000);
+                                await CheckForLiveChannels().then(async () => {
+                                    dropspage.close();
+                                    watchingpage.close();
+                                    return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                })
+                            } else {
+                                await CheckForLiveChannels(startch).then(async () => {
+                                    dropspage.close();
+                                    watchingpage.close();
+                                    return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                })
+                            }
+
                         }
+
+                        if (AllLiveClaimed) {
+                            console.log(" ");
+                            console.log(chalk.cyan("All live Channels ") + chalk.green("claimed..."));
+                            console.log(" ")
+                            console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                            if (data.choi <= 1) {
+                                await delay(600000);
+                                await CheckForLiveChannels().then(async () => {
+                                    dropspage.close();
+                                    watchingpage.close();
+                                    return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                })
+                            } else {
+                                await delay(600000);
+                                await CheckForLiveChannels(startch).then(async () => {
+                                    dropspage.close();
+                                    watchingpage.close();
+                                    return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                })
+                            }
+                        }
+
 
                     if (CurrentChannelsAllHundred === false) {
 
@@ -93,33 +144,95 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
                                     })
                                 } else if (retry === 3) {
                                     console.log(" ")
-                                    console.log(chalk.red("Failed to get a valid Drop to progress on this Channel or it is already claimed... Looking for a new one... "));
+                                    console.log(chalk.red("Failed to find the drop under Active Drops in your twitch inventory... Make Sure it appears there... Looking for a new one... "));
                                     retry = 0;
-                                    await CheckForLiveChannels(startch).then(async () => {
-                                        dropspage.close();
-                                        watchingpage.close();
-                                        return await StreamPage(data.choi[getRandomInt(data.choi.length)])
-                                    })
+                                    if (data.choi.length <= 1) {
+                                        console.log(" ")
+                                        console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                        await delay(600000);
+                                        retry = 0;
+                                        await CheckForLiveChannels().then(async () => {
+                                            dropspage.close();
+                                            watchingpage.close();
+                                            return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                        })
+                                    } else {
+                                        retry = 0;
+                                        await CheckForLiveChannels(startch).then(async () => {
+                                            dropspage.close();
+                                            watchingpage.close();
+                                            return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                        })
+                                    }
+
                                 }
-                            } else if (PercentCurrentDrop < 100) {
+                            } else if (PercentCurrentDrop < 100 && PercentCurrentDrop >= 0) {
                                 console.log(chalk.gray("Current Progress: ") + chalk.white(PercentCurrentDrop + " %") + chalk.gray(" | " + etacalc(PercentCurrentDrop)));
                                 return await CurrentProgressEvent(dropspage, startch, watchingpage)
                             } else if (PercentCurrentDrop === 100) {
                                 //100%
                                 console.log(" ")
                                 console.log(chalk.cyan("Reached ") + chalk.green("100 %... ") + chalk.cyan("Looking for new Channel..."));
+                                if (data.choi.length <= 1) {
+                                    console.log(" ")
+                                    console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                    await delay(600000);
+                                    await CheckForLiveChannels().then(async () => {
+                                        dropspage.close();
+                                        watchingpage.close();
+                                        return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                    })
+                                } else {
+                                    await CheckForLiveChannels(startch).then(async () => {
+                                        dropspage.close();
+                                        watchingpage.close();
+                                        return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                    })
+                                }
+
+                            } else if (PercentCurrentDrop === -1) {
+                                //Claimed
+                                console.log(" ")
+                                console.log(chalk.cyan("Drop already ") + chalk.green("claimed... ") + chalk.cyan("Looking for new Channel..."));
+                                if (data.choi.length <= 1) {
+                                    console.log(" ")
+                                    console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                    await delay(600000);
+                                    await CheckForLiveChannels().then(async () => {
+                                        dropspage.close();
+                                        watchingpage.close();
+                                        return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                    })
+                                } else {
+                                    await CheckForLiveChannels(startch).then(async () => {
+                                        dropspage.close();
+                                        watchingpage.close();
+                                        return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                    })
+                                }
+
+                            }
+                        } else if (CurrentChannelStatus === false) {
+                            console.log(" ")
+                            console.log(chalk.gray("Current Channel Offline looking for new one..."))
+
+                            if (data.choi.length <= 1) {
+                                console.log(" ")
+                                console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                                await delay(600000);
+                                await CheckForLiveChannels().then(async () => {
+                                    dropspage.close();
+                                    watchingpage.close();
+                                    return await StreamPage(data.choi[getRandomInt(data.choi.length)])
+                                })
+                            } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
-                        } else if (CurrentChannelStatus === false) {
-                            await CheckForLiveChannels(startch).then(async () => {
-                                dropspage.close();
-                                watchingpage.close();
-                                return await StreamPage(data.choi[getRandomInt(data.choi.length)])
-                            })
+
                         }
                     } else if(CurrentChannelsAllHundred === true) {
                         console.log(" ")
@@ -135,6 +248,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
                     }
                 })
             })
+                })
             })
         });
     }) //5
