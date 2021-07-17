@@ -139,12 +139,12 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
                                 retry++
                                 if (retry < 3) {
                                     console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | Try: ") + chalk.white(retry));
-                                    await delay(240000).then(async () => {
+                                    await delay(90000).then(async () => {
                                         return await CurrentProgressEvent(dropspage, startch, watchingpage)
                                     })
                                 } else if (retry === 3) {
                                     console.log(" ")
-                                    console.log(chalk.red("Failed to find the drop under Active Drops in your twitch inventory... Make Sure it appears there... Looking for a new one... "));
+                                    console.log(chalk.red("Failed to find the drop under Active Drops in your twitch inventory or failed to recognize it under claimed Drops... Make Sure it appears there... Looking for a new one... "));
                                     retry = 0;
                                     if (data.choi.length <= 1) {
                                         console.log(" ")
