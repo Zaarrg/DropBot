@@ -19,6 +19,8 @@ async function StreamPage(startch) {
     const watchingpage = await data.browser.newPage();
     //Open Drops PAge tab
     const dropspage = await data.browser.newPage();
+    //Open Drops campaign Page to get Drop name
+    const campaignpage = await data.browser.newPage();
     //Set Cookies
     await dropspage.setCookie.apply(dropspage, data.cookies);
     //Set Cookies
@@ -30,7 +32,8 @@ async function StreamPage(startch) {
     await dropspage.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
-
+    //Got to campaignpage
+    await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: "networkidle2"})
     //Check for 18+
     console.log(" ")
     console.log(chalk.gray("Setting Video Settings like Quality and Volume..."))
@@ -51,7 +54,7 @@ async function StreamPage(startch) {
     console.log(" ")
 
     //Start CurrentProgress Event
-    await CurrentProgressEvent(dropspage, startch, watchingpage);
+    await CurrentProgressEvent(dropspage, startch, watchingpage, campaignpage);
 
 }
 
@@ -61,11 +64,11 @@ async function StreamPage(startch) {
 //CurrentProgressEvent
 let retry = 0;
 
-async function CurrentProgressEvent(dropspage, startch, watchingpage) {
+async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpage) {
 
     await delay(60000).then( async () => {
 
-        await CheckProgressCurrentPage(data.page, dropspage, startch).then(async (PercentCurrentDrop) => {
+        await CheckProgressCurrentPage(data.page, dropspage, startch, campaignpage).then(async (PercentCurrentDrop) => {
 
             //console.log(PercentCurrentDrop)
 
@@ -82,9 +85,6 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
                         //console.log(SamePercentCheckResult)
 
                        await CheckifAllClaimed().then(async (AllLiveClaimed) => {
-
-                            //Temp fix for all ch live
-                           AllLiveClaimed = false;
 
                         if (SamePercentCheckResult) {
                             console.log(" ");

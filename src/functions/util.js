@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-
+const fs = require("fs");
 
 function etacalc(a) {
     let result = 120-(120/100*a)
@@ -75,6 +75,15 @@ function validURL(str) {
     }
 }
 
+function validPath(str) {
+    if (fs.existsSync(str)) {
+        return true
+    } else {
+        return "Please provide a Valid Path..."
+    }
+
+}
+
 async function delay(ms) {
     // return await for better async stack trace support in case of errors.
     return await new Promise(resolve => setTimeout(resolve, ms));
@@ -88,5 +97,6 @@ module.exports = {
     statuscheckboolean,
     delay,
     validURL,
-    secondstominutescalc
+    secondstominutescalc,
+    validPath
 }

@@ -8,9 +8,7 @@ async function MapDrops(dropspage) {
 
     //Inject JQuery DropsPage from Rust
     async function injectJQuery() {
-        await dropspage.addScriptTag({
-            path: require.resolve("jquery")
-        })
+        await dropspage.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
     }
 
     await injectJQuery()

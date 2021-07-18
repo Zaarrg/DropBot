@@ -3,7 +3,6 @@ const data = require("../Data/SavedData")
 const chalk = require("chalk");
 const fs = require("fs");
 const {validURL} = require("./util");
-const {CheckForLiveChannels} = require("../Checks/CheckForLiveChannels")
 
 
 async function CreateCustomChannel(ask) {

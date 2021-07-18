@@ -6,30 +6,21 @@ const {MapDrops} = require("../functions/MapDrops");
 const {GetRustDrops} = require("../functions/GetRustDrops");
 const data = require("../Data/SavedData");
 const {ciEquals} = require("../functions/util");
-const stringSimilarity = require("string-similarity");
 
-async function CheckProgressCurrentPage(page, dropspage, startch) {
+async function CheckProgressCurrentPage(page, dropspage, startch, campaignpage) {
 
-    await GetRustDrops(page, false);
+    await GetRustDrops(page, campaignpage, false);
     await MapDrops(dropspage)
 
     let name;
 
     data.Streamers.forEach((e, i) => {
 
-        if (e.url === startch) {
-            name = e.drop
+        if (e.url === startch) name = e.twitch_name
+
+        if (data.claimed.includes(e.twitch_name)) {
+            e.claimed = true;
         }
-
-        try {
-            //temp fix for all live channels claimed falsely
-            //if (stringSimilarity.findBestMatch(e.drop.toString(), data.claimed).bestMatch.rating >= 0.6) {
-              //  e.claimed = true
-            //}
-        } catch (e) {
-
-        }
-
 
 
     })
@@ -38,15 +29,14 @@ async function CheckProgressCurrentPage(page, dropspage, startch) {
     {
         if (ciEquals(data.dropsmap[i].url, startch)) {
             return data.dropsmap[i].percentage
+        } else if (data.claimed.includes(name)) {
+            return -1
         }
-        //temp fix for all live channels claimed falsely
-        //else if (stringSimilarity.findBestMatch(name, data.claimed).bestMatch.rating >= 0.6) {
-            //return -1
 
-
-        //}
 
     }
+
+
 
 }
 

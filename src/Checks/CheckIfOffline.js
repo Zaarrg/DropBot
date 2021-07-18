@@ -1,8 +1,4 @@
-const {statuscheckboolean} = require("../functions/util");
 const data = require("../Data/SavedData");
-const chalk = require("chalk");
-const {CheckForLiveChannels} = require("./CheckForLiveChannels");
-
 
 async function CheckIfOffline(currentchlink) {
     let status;

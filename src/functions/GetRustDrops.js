@@ -3,33 +3,69 @@ const chalk = require("chalk");
 const {statuscheck} = require("./util");
 
 
-async function GetRustDrops(page, feedback) {
+async function GetRustDrops(page, campaignpage, feedback ) {
     await page.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
 
 
     //Inject JQuery
-    async function injectJQuery(page) {
-        await page.addScriptTag({
-            path: require.resolve("jquery")
-        })
+    async function injectJQuery(page, campaignpage) {
+        await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
+        if (campaignpage !== undefined) {
+            await campaignpage.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
+        }
     }
 
-    await injectJQuery(page);
+    await injectJQuery(page, campaignpage);
 
-    return await parseFacepunchStreamersPage(page).then(r => {
-        data.Streamers = r;
+    return await parseFacepunchStreamersPage(page).then(async (streamers) => {
+        data.Streamers = streamers;
 
-        if (feedback) {
-            data.Streamers.forEach((e, i) => {
-                console.log(" ")
-                console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+        if (campaignpage !== undefined) {
+            return await parseRustcampaignpage(campaignpage).then(alltwitchdrops => {
+
+                data.Streamers.forEach((element, index) => {
+
+                    alltwitchdrops.forEach((e, i) => {
+
+                        if (element.url === e.url) {
+                            element.twitch_name = e.drop
+                        }
+
+                    })
+
+                })
+
+                if (feedback) {
+                    data.Streamers.forEach((e, i) => {
+                        console.log(" ")
+                        console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                    })
+
+                }
+
+                return streamers;
+
             })
+
+        } else {
+
+            if (feedback) {
+                data.Streamers.forEach((e, i) => {
+                    console.log(" ")
+                    console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                })
+
+            }
+
+            return streamers;
 
         }
 
-        return r;
+
+
+
     });
 
 
@@ -58,6 +94,7 @@ async function parseFacepunchStreamersPage(page) {
                     live: live,
                     name: streamerName.toString(),
                     drop: dropName.toString(),
+                    twitch_name: " ",
                     claimed: false
                 });
             });
@@ -87,6 +124,36 @@ async function parseFacepunchStreamersPage(page) {
 
 
         return streamers;
+    })
+
+}
+
+async function parseRustcampaignpage(campaignpage) {
+
+    return await campaignpage.evaluate(() => {
+        let DropDivs = [];
+        let twitchrustdrops = [];
+
+        //Get the Rust Campaign
+        let Campaign = $('[alt="Rust"]').parents()[6]
+
+        //Get Every Drop div
+        let DropdivsHeaders = $(Campaign).find("p:contains('Rust')")
+
+        //Push Every Dropdiv element to an Array
+        DropdivsHeaders.each((index, element) => {
+            DropDivs.push($(element).parents()[2])
+        })
+
+        //Get name and url of the Drop element and push it
+        DropDivs.forEach((element, index) => {
+            const name = $(element).find('.tw-image').first().attr('alt');
+            const link = $(element).find('.tw-link:not([href^="/directory"])').attr('href')
+
+            twitchrustdrops.push({drop: name, url: "https://www.twitch.tv" + link})
+        })
+
+        return twitchrustdrops
     })
 
 }
