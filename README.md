@@ -108,7 +108,7 @@ There are two ways you can use this bot.
 3. Run TTVDropBot.exe
 
 
-* npm
+* npm - [Nodejs Requierd](https://nodejs.org/en/)
 1. Clone the repo to your PC [https://github.com/Zaarrg/TTVDropBot](https://github.com/Zaarrg/TTVDropBot)
 2. Install NPM packages
    ```sh
