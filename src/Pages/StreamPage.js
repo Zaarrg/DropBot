@@ -83,7 +83,8 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage) {
 
                        await CheckifAllClaimed().then(async (AllLiveClaimed) => {
 
-
+                            //Temp fix for all ch live
+                           AllLiveClaimed = false;
 
                         if (SamePercentCheckResult) {
                             console.log(" ");

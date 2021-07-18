@@ -22,9 +22,10 @@ async function CheckProgressCurrentPage(page, dropspage, startch) {
         }
 
         try {
-            if (stringSimilarity.findBestMatch(e.drop.toString(), data.claimed).bestMatch.rating >= 0.6) {
-                e.claimed = true
-            }
+            //temp fix for all live channels claimed falsely
+            //if (stringSimilarity.findBestMatch(e.drop.toString(), data.claimed).bestMatch.rating >= 0.6) {
+              //  e.claimed = true
+            //}
         } catch (e) {
 
         }
@@ -37,9 +38,13 @@ async function CheckProgressCurrentPage(page, dropspage, startch) {
     {
         if (ciEquals(data.dropsmap[i].url, startch)) {
             return data.dropsmap[i].percentage
-        } else if (stringSimilarity.findBestMatch(name, data.claimed).bestMatch.rating >= 0.6) {
-            return -1
         }
+        //temp fix for all live channels claimed falsely
+        //else if (stringSimilarity.findBestMatch(name, data.claimed).bestMatch.rating >= 0.6) {
+            //return -1
+
+
+        //}
 
     }
 

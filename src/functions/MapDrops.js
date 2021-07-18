@@ -42,8 +42,16 @@ async function MapDrops(dropspage) {
                 const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-single-channel-hint-text"]').first().attr("href");
 
                 if (url === undefined || url === null) {
-                    const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-no-channels-hint-text"]').first().attr("href");
-                    urls.push(url);
+                    const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-two-channels-hint-text"]').first().attr("href");
+
+                    if (url === undefined || url === null) {
+                        const url = $element.find('[data-test-selector="DropsCampaignInProgressDescription-no-channels-hint-text"]').first().attr("href");
+
+                        urls.push(url);
+                    } else {
+                        urls.push(url);
+                    }
+
 
                 } else {
                     urls.push(url);
@@ -77,7 +85,6 @@ async function MapDrops(dropspage) {
             activedrops = activedrops.filter((item) => {
                 return item.url.startsWith('https://www.twitch.tv')
             })
-
 
 
 
