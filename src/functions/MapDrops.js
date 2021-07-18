@@ -80,9 +80,17 @@ async function MapDrops(dropspage) {
             })
 
             //Filter the Gloabl Drops Out
-            activedrops = activedrops.filter((item) => {
-                return item.url.startsWith('https://www.twitch.tv')
-            })
+            //Temp fix -> No Active Drops and Active Drops but not Rust have to filter it...
+            if (activedrops.length > 0) {
+                try {
+                    activedrops = activedrops.filter((item) => {
+                        return item.url.startsWith('https://www.twitch.tv')
+                    })
+                } catch (e) {
+
+                }
+
+            }
 
 
 
