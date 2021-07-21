@@ -96,12 +96,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -118,6 +120,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
@@ -125,6 +128,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -155,6 +159,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels().then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
+                                            campaignpage.close();
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     } else {
@@ -162,6 +167,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels(startch).then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
+                                            campaignpage.close();
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     }
@@ -183,12 +189,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        campaignpage.close();
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        campaignpage.close();
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -204,12 +212,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        campaignpage.close();
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        campaignpage.close();
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -226,12 +236,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    campaignpage.close();
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -245,6 +257,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                             await CheckForLiveChannels(startch).then(async () => {
                                 dropspage.close();
                                 watchingpage.close();
+                                campaignpage.close();
                                 return await StreamPage(data.choi[getRandomInt(data.choi.length)]);
                             })
                         })
