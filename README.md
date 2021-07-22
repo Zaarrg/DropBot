@@ -211,7 +211,14 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
+Quickest Response:
+
+[Discord Server](https://discord.gg/rV26FZ2upF): - https://discord.gg/rV26FZ2upF
+
+Slow Response:
+
 Discord: - Zarg#8467
+
 
 Project Link: [https://github.com/Zaarrg/TTVDropBot](https://github.com/Zaarrg/TTVDropBot)
 

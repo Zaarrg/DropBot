@@ -28,13 +28,15 @@ async function StreamPage(startch) {
     await watchingpage.setCookie.apply(watchingpage, data.cookies);
     //Goto Selectetd Starting Ch
     await watchingpage.goto(startch)
+    
     //Goto Twitch inv
-    await dropspage.goto('https://www.twitch.tv/drops/inventory', {waitUntil: "networkidle2"})
-    await dropspage.reload({
-        waitUntil: ["networkidle2", "domcontentloaded"]
-    })
+    await dropspage.goto('https://www.twitch.tv/drops/inventory', {waitUntil: ["domcontentloaded", "networkidle2"]});
+    await dropspage.waitForSelector("main.twilight-main > div.root-scrollable"); // default timeout is 30s
+    
     //Got to campaignpage
-    await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: "networkidle2"})
+    await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
+    await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+    
     //Check for 18+
     console.log(" ")
     console.log(chalk.gray("Setting Video Settings like Quality and Volume..."))
