@@ -20,7 +20,7 @@ puppeteer.use(StealthPlugin())
 async function Watch() {
 
     //Start Puppeteer Main Watching Page
-    await puppeteer.launch({ headless: true, executablePath: data.settings[0].pathexe}).then(async browser => {
+    await puppeteer.launch({ headless: data.headless, executablePath: data.settings[0].pathexe}).then(async browser => {
         let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
 
         let cookies = JSON.parse(cookiesString);
@@ -68,6 +68,12 @@ async function Watch() {
                     process.exit(20)
                 }
             })
+
+            if (data.debug) {
+                console.log("DEBUG: Rust Drops: ")
+                data.Streamers.forEach((element) => console.log(element))
+                console.log("DEBUG END")
+            }
 
             //Let the User Select a Starting Ch
             await SelectStartingCh(true);

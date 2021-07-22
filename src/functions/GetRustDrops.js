@@ -129,32 +129,41 @@ async function parseFacepunchStreamersPage(page) {
 }
 
 async function parseRustcampaignpage(campaignpage) {
+    let i = 0
 
-    return await campaignpage.evaluate(() => {
-        let DropDivs = [];
-        let twitchrustdrops = [];
+    if (i === 0) {
+        i++
+        const rustDrops = await campaignpage.evaluate(() => {
+            let DropDivs = [];
+            let twitchrustdrops = [];
 
-        //Get the Rust Campaign
-        let Campaign = $('[alt="Rust"]').parents()[6]
+            //Get the Rust Campaign
+            let Campaign = $('[alt="Rust"]').parents()[6]
 
-        //Get Every Drop div
-        let DropdivsHeaders = $(Campaign).find("p:contains('Rust')")
+            //Get Every Drop div
+            let DropdivsHeaders = $(Campaign).find("p:contains('Rust')")
 
-        //Push Every Dropdiv element to an Array
-        DropdivsHeaders.each((index, element) => {
-            DropDivs.push($(element).parents()[2])
+            //Push Every Dropdiv element to an Array
+            DropdivsHeaders.each((index, element) => {
+                DropDivs.push($(element).parents()[2])
+            })
+
+            //Get name and url of the Drop element and push it
+            DropDivs.forEach((element, index) => {
+                const name = $(element).find('.tw-image').first().attr('alt');
+                const link = $(element).find('.tw-link:not([href^="/directory"])').attr('href')
+
+                twitchrustdrops.push({drop: name, url: "https://www.twitch.tv" + link})
+            })
+
+            return twitchrustdrops
         })
+        campaignpage.close()
+        return rustDrops
+        
+    }
 
-        //Get name and url of the Drop element and push it
-        DropDivs.forEach((element, index) => {
-            const name = $(element).find('.tw-image').first().attr('alt');
-            const link = $(element).find('.tw-link:not([href^="/directory"])').attr('href')
 
-            twitchrustdrops.push({drop: name, url: "https://www.twitch.tv" + link})
-        })
-
-        return twitchrustdrops
-    })
 
 }
 

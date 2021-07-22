@@ -32,8 +32,14 @@ let page;
 let browser;
 let RustDrops = false;
 
+//Debug
+let debug = false;
+let headless = true;
+
 
 module.exports = {
+    debug,
+    headless,
     cookies,
     RustDrops,
     page,

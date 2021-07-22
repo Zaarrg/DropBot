@@ -15,6 +15,7 @@ async function StreamPage(startch) {
     //Open New Tab to the Starting ch
     console.log(" ")
     console.log(chalk.gray("Going to Starting Channel..."))
+    if (data.debug) console.log("DEBUG: Starting CH: " + startch + " Live Chs: " + data.choi)
     //Open Watching Tab
     const watchingpage = await data.browser.newPage();
     //Open Drops PAge tab
@@ -68,23 +69,36 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
 
     await delay(60000).then( async () => {
 
+        if (data.debug) console.log("DEBUG: Starting Checks...")
+
         await CheckProgressCurrentPage(data.page, dropspage, startch, campaignpage).then(async (PercentCurrentDrop) => {
 
-            //console.log(PercentCurrentDrop)
+            if (data.debug) {
+                console.log("DEBUG: Got the following data to work with: (Streamers)")
+                data.Streamers.forEach((element) => console.log(element))
+                console.log(" Claimed Chs:")
+                console.log(data.claimed)
+                console.log("  Live cHs:")
+                console.log(data.choi)
+
+            }
+            if (data.debug) console.log("DEBUG: PercentCurrentDrop: " + PercentCurrentDrop)
 
             await CheckIfOffline(startch).then(async (CurrentChannelStatus) => {
 
-                //console.log(CurrentChannelStatus)
+                if (data.debug) console.log("DEBUG: CurrentChannelStatus: " + CurrentChannelStatus)
 
                 await CheckIfCurrentChannelsDropsOnHundred().then(async (CurrentChannelsAllHundred) => {
 
-                    //console.log(CurrentChannelsAllHundred)
+                    if (data.debug) console.log("DEBUG: Are CurrentChannelsallclaimed/hundred: " + CurrentChannelsAllHundred)
 
                     await SamePercentCheck(PercentCurrentDrop).then(async (SamePercentCheckResult) => {
 
-                        //console.log(SamePercentCheckResult)
+                        if (data.debug) console.log("DEBUG: Is it the Same Percentage (SamePrecentCheck): " + SamePercentCheckResult)
 
                        await CheckifAllClaimed().then(async (AllLiveClaimed) => {
+
+                           if (data.debug) console.log("DEBUG: Are all live claimed: (Allliveclaimed): " + AllLiveClaimed)
 
                         if (SamePercentCheckResult) {
                             console.log(" ");
@@ -96,12 +110,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -118,6 +134,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
@@ -125,6 +142,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -155,6 +173,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels().then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
+                                            if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     } else {
@@ -162,6 +181,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels(startch).then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
+                                            if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     }
@@ -183,12 +203,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -204,12 +226,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
+                                        if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -226,12 +250,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
+                                    if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -245,6 +271,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                             await CheckForLiveChannels(startch).then(async () => {
                                 dropspage.close();
                                 watchingpage.close();
+                                if (data.debug) console.log("Channels to randomly choose new one: " + data.choi)
                                 return await StreamPage(data.choi[getRandomInt(data.choi.length)]);
                             })
                         })
