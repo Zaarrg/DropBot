@@ -54,7 +54,8 @@ async function Watch() {
             console.log(chalk.gray('Getting all Drops and other Details'))
 
             //Go to Rust Twitch Drops
-            await page.goto(data.rustdrops, {waitUntil: ["networkidle2"]})
+            await page.goto(data.rustdrops, {waitUntil: ["domcontentloaded", "networkidle2"]});
+            await page.waitForSelector(`h3[title="Rust"]`, { timeout: 10000 }); // wait for 10s
 
             //Get Rust Drops From Rust Site
             await GetRustDrops(page, undefined,true).then(async r => {
