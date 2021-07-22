@@ -8,6 +8,7 @@ const rustdrops = "https://twitch.facepunch.com/"
 
 let Streamers = [];
 let claimed = [];
+let Rustdrops_twitch = undefined
 
 //Live Channels
 let choi = [];
@@ -39,6 +40,7 @@ let headless = true;
 
 module.exports = {
     debug,
+    Rustdrops_twitch,
     headless,
     cookies,
     RustDrops,

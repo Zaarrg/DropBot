@@ -21,7 +21,8 @@ async function StreamPage(startch) {
     //Open Drops PAge tab
     const dropspage = await data.browser.newPage();
     //Open Drops campaign Page to get Drop name
-    const campaignpage = await data.browser.newPage();
+    let campaignpage;
+    if (data.Rustdrops_twitch === undefined) campaignpage = await data.browser.newPage();
     //Set Cookies
     await dropspage.setCookie.apply(dropspage, data.cookies);
     //Set Cookies
@@ -34,9 +35,10 @@ async function StreamPage(startch) {
     await dropspage.waitForSelector("main.twilight-main > div.root-scrollable"); // default timeout is 30s
     
     //Got to campaignpage
-    await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
-    await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
-    
+    if (data.Rustdrops_twitch === undefined) {
+        await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
+        await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+    }
     //Check for 18+
     console.log(" ")
     console.log(chalk.gray("Setting Video Settings like Quality and Volume..."))

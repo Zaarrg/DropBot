@@ -2,7 +2,6 @@ const data = require("../Data/SavedData");
 const chalk = require("chalk");
 const {statuscheck} = require("./util");
 
-
 async function GetRustDrops(page, campaignpage, feedback ) {
     await page.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
@@ -48,6 +47,32 @@ async function GetRustDrops(page, campaignpage, feedback ) {
                 return streamers;
 
             })
+
+        } else if (data.Rustdrops_twitch !== undefined) {
+
+            data.Streamers.forEach((element, index) => {
+
+                data.Rustdrops_twitch.forEach((e, i) => {
+
+                    if (element.url === e.url) {
+                        element.twitch_name = e.drop
+                    }
+
+                })
+
+            })
+
+            if (feedback) {
+                data.Streamers.forEach((e, i) => {
+                    console.log(" ")
+                    console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                })
+
+            }
+
+            return streamers;
+
+
 
         } else {
 
@@ -129,11 +154,8 @@ async function parseFacepunchStreamersPage(page) {
 }
 
 async function parseRustcampaignpage(campaignpage) {
-    let i = 0
 
-    if (i === 0) {
-        i++
-        const rustDrops = await campaignpage.evaluate(() => {
+        const rustDrops_twitch = await campaignpage.evaluate(() => {
             let DropDivs = [];
             let twitchrustdrops = [];
 
@@ -158,12 +180,10 @@ async function parseRustcampaignpage(campaignpage) {
 
             return twitchrustdrops
         })
-        campaignpage.close()
-        return rustDrops
-        
-    }
-
-
+        if(data.debug) console.log("DEBUG: GOT RUST Campaing")
+        data.Rustdrops_twitch = rustDrops_twitch;
+        campaignpage.close();
+        return data.Rustdrops_twitch
 
 }
 
