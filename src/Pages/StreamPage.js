@@ -34,7 +34,7 @@ async function StreamPage(startch) {
     
     //Got to campaignpage
     await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
-    await campaignpage.waitForSelector(".section.streamer-drops, .section.general-drops, .section.is-getstarted"); // wait for one of the drop classes; default timeout is 30s
+    await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
     
     //Check for 18+
     console.log(" ")
