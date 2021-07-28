@@ -1,2 +1,2 @@
-node index.js --debug --headless
+node index.js 
 pause 

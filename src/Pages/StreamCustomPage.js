@@ -48,12 +48,6 @@ async function StreamCustomPage(startch) {
     console.log(" ")
     console.log(chalk.gray("Setting Video Settings like Quality and Volume..."))
     //Set Settings
-    await watchingpage.evaluate(() => {
-        localStorage.setItem('mature', 'true')
-        localStorage.setItem('video-muted', '{"default":false}')
-        localStorage.setItem('volume', '0.5')
-        localStorage.setItem('video-quality', '{"default":"160p30"}')
-    })
     await watchingpage.setViewport({ width: 1280, height: 720 })
     await watchingpage.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
@@ -64,7 +58,7 @@ async function StreamCustomPage(startch) {
     console.log(" ")
 
     //Start CurrentProgress Event
-    await CurrentProgressEvent(WatchType, time, starturl);
+    await CurrentProgressEvent(WatchType, time, starturl, watchingpage);
 
 }
 
@@ -73,7 +67,7 @@ let retry = 0;
 let timeinseconds = 0;
 let t = 0;
 
-async function CurrentProgressEvent(WatchType, time, starturl) {
+async function CurrentProgressEvent(WatchType, time, starturl, page) {
 
     await delay(60000).then(async () => {
 
@@ -108,21 +102,21 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
             })
 
 
-            await farmpoint().then(async points => {
+            await farmpoint(page).then(async points => {
 
                 if (currenturlstatus === "Online") {
 
                     if (WatchType === "Changed") {
                         timeinseconds = timeinseconds + 60;
                         console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | Watching since: " + secondstominutescalc(timeinseconds, true)) + await pointscheck(points.Points, points.Bonus, pointi));
-                        return await CurrentProgressEvent(WatchType, time, starturl)
+                        return await CurrentProgressEvent(WatchType, time, starturl, page)
                     } else {
                         let timeleftinminutes = time;
                         let timeleft = timeleftinminutes - 1;
 
                         if (timeleftinminutes > 0) {
                             console.log(chalk.gray("Current Progress: ") + chalk.white("-" + " %") + chalk.gray(" | " + secondstominutescalc(timeleftinminutes, false)) + await pointscheck(points.Points, points.Bonus, pointi));
-                            return await CurrentProgressEvent(WatchType, timeleft, starturl)
+                            return await CurrentProgressEvent(WatchType, timeleft, starturl, page)
                         } else {
 
                             if (t === 0) {
@@ -137,7 +131,7 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                                 console.log(chalk.gray("No other Online Custom Channels found waiting for new Channels to go Online..."));
 
                                 await delay(540000).then(async () => {
-                                    return CurrentProgressEvent(WatchType, time, starturl)
+                                    return CurrentProgressEvent(WatchType, time, starturl, page)
                                 })
 
 
@@ -173,7 +167,7 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                         console.log(chalk.gray("No other Online Custom Channels found waiting for new Channels to go Online..."));
 
                         await delay(540000).then(async () => {
-                            return CurrentProgressEvent(WatchType, time, starturl)
+                            return CurrentProgressEvent(WatchType, time, starturl, page)
                         })
 
 
@@ -258,27 +252,30 @@ async function pointscheck(points, status, onoff) {
 }
 
 
-async function farmpoint() {
+async function farmpoint(page) {
 
-    let PointsBtn = "//*[contains(concat(\" \",normalize-space(@class),\" \"),\" gShCOc \")]"
-    let Bonus = "//*[contains(concat(\" \",normalize-space(@class),\" \"),\" VGQNd \")]"
-
-    const [Points] = await watchingpage.$x(PointsBtn);
-    const Pointscontent = await Points.getProperty('textContent')
-    const rawpoints = await Pointscontent.jsonValue();
-    //Ttv Status from Rust site
-    let BonusStatus = false;
-
-    try {
-        let Bonusraw = await watchingpage.$x(Bonus);
-        await Bonusraw[0].click();
-
-        BonusStatus = true;
-    } catch (e) {
-
+    //Inject JQuery
+    async function injectJQuery(page) {
+        await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
     }
+    await injectJQuery(page);
 
-    return {Points: rawpoints, Bonus: BonusStatus}
+
+    return await page.evaluate(() => {
+        let rawPoints = $('[data-test-selector="balance-string"]').text()
+
+        let communitybuttons = $('[data-test-selector="community-points-summary"]').find("button")
+
+        if (communitybuttons.length === 2) {
+            communitybuttons[1].click()
+            return {Points: rawPoints, Bonus: true}
+        } else {
+            return {Points: rawPoints, Bonus: false}
+        }
+
+
+    })
+
 
 
 }
