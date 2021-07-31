@@ -200,6 +200,7 @@ async function checkstatus(feedback, colors) {
 
     for (const item of urls) {
         await checkpage.goto(item, {waitUntil: ["networkidle2"]})
+        await checkpage.waitForSelector(`[status]`); // default timeout is 30s
         let status = await checkpage.$$eval('[status]', el => el[0].getAttribute('status').includes('live'));
         if (status) {
             data.CustomChannels.forEach(i => {
