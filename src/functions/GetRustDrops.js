@@ -105,7 +105,7 @@ async function parseFacepunchStreamersPage(page) {
         //Get All Drops Add to Streamers
         const drops = $(".drops-group");
         drops.each((index, element) => {
-            const elements = $(element).find("a.drop");
+            const elements = $(element).find("a.drop-tile");
             elements.each((index, element) => {
                 const $element = $(element);
 
@@ -129,7 +129,7 @@ async function parseFacepunchStreamersPage(page) {
         //Get Drops which are General
         const GeneralDropsselector = $(".general-drops");
         GeneralDropsselector.each((index, element) => {
-            const elements = $(element).find("a.drop");
+            const elements = $(element).find("a.drop-tile");
             elements.each((index, element) => {
                 const $element = $(element);
 

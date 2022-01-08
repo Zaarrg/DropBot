@@ -20,11 +20,11 @@ async function start() {
             })
             .catch(err =>console.log(err));
 
-        const BotVersion = "1.3.3.2"
+        const BotVersion = "1.3.3.3"
 
         if (req.version !== BotVersion) {
             console.log(" ")
-            console.log(chalk.green("New Version to download available...") + " | " + chalk.gray("Your Version: ") +  chalk.magenta(BotVersion) + " | " + chalk.gray("Newest Version: ") +  chalk.magenta(req.version))
+            console.log(chalk.green("New Version to download available...") + " | " + chalk.gray("Your Version: ") +  chalk.magenta(BotVersion + " (dev)") + " | " + chalk.gray("Newest Version: ") +  chalk.magenta(req.version))
         }
         //Check Version End
 

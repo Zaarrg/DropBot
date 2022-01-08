@@ -53,6 +53,7 @@ async function StreamPage(startch) {
     await watchingpage.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
+    await watchingpage.bringToFront();
 
     console.log(" ")
     console.log(chalk.magenta("Watching " + chalk.cyan(startch.toString() + "...") ))
