@@ -18,11 +18,14 @@ async function StreamPage(startch) {
     if (data.debug) console.log("DEBUG: Starting CH: " + startch + " Live Chs: " + data.choi)
     //Open Watching Tab
     const watchingpage = await data.browser.newPage();
+    await watchingpage.setDefaultTimeout(data.settings.timeout)
     //Open Drops PAge tab
     const dropspage = await data.browser.newPage();
+    await dropspage.setDefaultTimeout(data.settings.timeout)
     //Open Drops campaign Page to get Drop name
     let campaignpage;
     if (data.Rustdrops_twitch === undefined) campaignpage = await data.browser.newPage();
+    await campaignpage.setDefaultTimeout(data.settings.timeout)
     //Set Cookies
     await dropspage.setCookie.apply(dropspage, data.cookies);
     //Set Cookies

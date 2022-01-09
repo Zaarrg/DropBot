@@ -40,6 +40,7 @@ async function StreamCustomPage(startch) {
     console.log(chalk.gray("Going to Starting Channel..."))
     //Open Watching Tab
     watchingpage = await data.browser.newPage();
+    await watchingpage.setDefaultTimeout(data.settings.timeout)
     //Set Cookies
     await watchingpage.setCookie.apply(watchingpage, data.cookies);
     //Goto Selectetd Starting Ch

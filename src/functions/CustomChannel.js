@@ -184,6 +184,7 @@ async function checkstatus(feedback, colors) {
 
 
     let checkpage = await data.browser.newPage();
+    await checkpage.setDefaultTimeout(data.settings.timeout)
 
 
     let urls = [];

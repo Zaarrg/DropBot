@@ -1,8 +1,9 @@
 const chalk = require("chalk");
-const {GetPaths} = require("./GetPahts");
+const {Getsettings} = require("./Getsettings");
 const {Login} = require("../Pages/LoginPage")
 const {Watch} = require("../Pages/WatchingPage")
 const axios = require("axios");
+const data = require("../Data/SavedData");
 
 
 
@@ -29,12 +30,14 @@ async function start() {
         //Check Version End
 
 
-    //Ask for Chrome Path
-    await GetPaths();
-    //Login
-    await Login();
-    //Start Watching Process
-    await Watch();
+    //Get Settings
+    await Getsettings().then(async (result) => {
+        data.settings = result
+        //Login
+        await Login();
+        //Start Watching Process
+        await Watch();
+    })
 
 
 

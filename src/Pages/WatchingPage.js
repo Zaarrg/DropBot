@@ -20,13 +20,14 @@ puppeteer.use(StealthPlugin())
 async function Watch() {
 
     //Start Puppeteer Main Watching Page
-    await puppeteer.launch({ headless: data.headless, executablePath: data.settings[0].pathexe}).then(async browser => {
+    await puppeteer.launch({ headless: data.headless, executablePath: data.settings.Chromeexe}).then(async browser => {
         let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
 
         let cookies = JSON.parse(cookiesString);
 
         //Open New Tab
         const page = await browser.newPage()
+        await page.setDefaultTimeout(data.settings.timeout)
 
         //Set Browser Data
         data.browser = browser;
@@ -55,7 +56,7 @@ async function Watch() {
 
             //Go to Rust Twitch Drops
             await page.goto(data.rustdrops, {waitUntil: ["domcontentloaded", "networkidle2"]});
-            await page.waitForSelector(`.section.streamer-drops, .section.general-drops, .section.is-getstarted`, { timeout: 10000 }); // wait for 10s
+            await page.waitForSelector(`.section.streamer-drops, .section.general-drops, .section.is-getstarted`); // default wait for 10s
 
             //Get Rust Drops From Rust Site
             await GetRustDrops(page, undefined,true).then(async r => {

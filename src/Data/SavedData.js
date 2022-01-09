@@ -18,13 +18,9 @@ let dropsmap = [];
 //starting ch
 let Startingchannel;
 
-let Executablepath;
-let UserDataDir;
-let UserDataDirboolean;
-
-
-//settings
-let settings = [];
+//Settings
+let settings = {};
+//Custom Channels
 let CustomChannels = [];
 let CustomChboolean;
 //Watch DAta
@@ -39,6 +35,7 @@ let headless = true;
 
 
 module.exports = {
+    settings,
     debug,
     Rustdrops_twitch,
     headless,
@@ -52,10 +49,6 @@ module.exports = {
     choi,
     dropsmap,
     Startingchannel,
-    Executablepath,
-    UserDataDir,
-    UserDataDirboolean,
-    settings,
     CustomChannels,
     CustomChboolean,
     offlinechs,

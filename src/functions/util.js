@@ -2,11 +2,11 @@ const chalk = require("chalk");
 const fs = require("fs");
 
 function etacalc(a) {
-    let result = 120-(120/100*a)
+    let result = 180-(180/100*a)
     let resultr = Math.round((result + Number.EPSILON) * 100) / 100;
     if (result === 1) {
         return chalk.gray(resultr + " Minute left")
-    } else if (result <= 120) {
+    } else if (result <= 180) {
         return chalk.gray(resultr + " Minutes left")
     } else {
         return chalk.gray("-" + " Minutes left")

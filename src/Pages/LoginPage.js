@@ -3,7 +3,6 @@
 //Start Puppeteer LoginPage
 const chalk = require("chalk");
 const fs = require("fs");
-
 const data = require("../Data/SavedData");
 
 
@@ -14,12 +13,14 @@ puppeteer.use(StealthPlugin())
 
 
 async function Login() {
-    await puppeteer.launch({ headless: false, executablePath: data.settings[0].pathexe, userDataDir: data.settings[1].UserDataPath}).then(async browser => {
+
+    await puppeteer.launch({ headless: false, executablePath: data.settings.Chromeexe, userDataDir: data.settings.UserDataPath}).then(async browser => {
 
 
 
         //Open Login Page
         const loginpage = await browser.newPage()
+        await loginpage.setDefaultTimeout(data.settings.timeout)
 
         //Goto Login Page
         console.log(" ");
@@ -30,8 +31,8 @@ async function Login() {
         console.log(chalk.gray("Please Login with you Account..."))
         try {
             await loginpage.waitForFunction(
-                'document.querySelector(\'title\').innerText.toString() === "Twitch"', { timeout: 300000 }
-            );
+                'document.querySelector(\'title\').innerText.toString() === "Twitch" ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector(\'title\').innerText.toString())'
+            ); //Default 30s timeout
         } catch (error) {
             console.log(chalk.red("Closing... You did not Login in Time"))
             inputReader.wait(chalk.gray("Press any Key to continue..."))
