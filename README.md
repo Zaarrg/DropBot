@@ -53,7 +53,7 @@
         <li>
       <a href="#usage">Getting Started</a>
       <ul>
-        <li><a href="#UserProfilDirectory">UserProfilDirectory</a></li>
+        <li><a href="#UserProfilDirectory">UserProfilDirectory / Auto Login</a></li>
         <li><a href="#custom-channels-example">Custom Channel's Example</a></li>
         <li>
           <a href="#adding-custom-channels">Adding Custom Channel's</a>
