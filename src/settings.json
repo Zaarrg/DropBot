@@ -1,7 +1,8 @@
 {
   "Chromeexe": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "UserDataPath": "",
+  "UserDataPath": "C:\\Users\\zaarr\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
   "timeout": 0,
   "headless": true,
-  "debug": false
+  "debug": false,
+  "displayless": false
 }

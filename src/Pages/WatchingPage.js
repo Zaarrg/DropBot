@@ -20,10 +20,27 @@ puppeteer.use(StealthPlugin())
 async function Watch() {
 
     //Start Puppeteer Main Watching Page
-    await puppeteer.launch({ headless: data.headless, executablePath: data.settings.Chromeexe}).then(async browser => {
-        let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
-
-        let cookies = JSON.parse(cookiesString);
+    await puppeteer.launch({ headless: data.headless, executablePath: data.settings.Chromeexe, args: ['--no-sandbox']}).then(async browser => {
+        let cookies;
+        if (!fs.existsSync('./twitch-session.json') && data.displayless) {
+            //Save Cookies
+            const cookiepage = await browser.newPage()
+            await cookiepage.setDefaultTimeout(data.settings.timeout)
+            await cookiepage.goto(data.loginttv);
+            console.log(" ");
+            console.log(chalk.gray("Saving Cookies..."))
+            cookies = await cookiepage.cookies();
+            await fs.writeFile('twitch-session.json', JSON.stringify(cookies, null, 2), function(err) {
+                if (err) throw err;
+                console.log(" ");
+                console.log(chalk.green("Successfully Saved Cookies..."))
+                console.log(" ");
+            });
+            cookiepage.close()
+        } else {
+            let cookiesString = fs.readFileSync('./twitch-session.json', 'utf8');
+            cookies = JSON.parse(cookiesString);
+        }
 
         //Open New Tab
         const page = await browser.newPage()
@@ -38,11 +55,7 @@ async function Watch() {
         await CustomChannel().then( async () => {
             if (data.CustomChboolean === true) {
                 //Start Custom Watching
-
-
-
-
-                await StreamCustomPage(data.Startingchannel.Channel);
+                await StreamCustomPage(data.Startingchannel);
 
             } else {
                 await intrust()
@@ -66,7 +79,7 @@ async function Watch() {
                     console.log(" ")
                     console.log(chalk.gray("Closing Bot and exiting..."));
                     console.log(" ")
-                    inputReader.wait(chalk.gray("Press any Key to continue..."))
+                    if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                     process.exit(20)
                 }
             })
@@ -84,7 +97,7 @@ async function Watch() {
             data.browser = browser;
             data.page = page;
             data.cookies = cookies
-            await StreamPage(data.Startingchannel.Channel).then(result => {
+            await StreamPage(data.Startingchannel).then(result => {
                 console.log(result)
             });
         }

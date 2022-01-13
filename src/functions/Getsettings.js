@@ -5,15 +5,17 @@ const chromePaths = require('chrome-paths');
 const inputReader = require("wait-console-input");
 const {validPath} = require("../functions/util")
 const data = require("../Data/SavedData");
+const {displayless} = require("../Data/SavedData");
 
 const path = './settings.json'
 
 let options = {
     'Chromeexe': "",
     'UserDataPath': "",
-    'timeout': 30000,
+    'timeout': 0,
     'headless': true,
-    'debug': false
+    'debug': false,
+    'displayless': false
 }
 
 async function Getsettings() {
@@ -23,14 +25,30 @@ async function Getsettings() {
         options = await JSON.parse(settingsfile)
 
         if (options.Chromeexe === "") {
-            await Chromepaths();
+            if (options.displayless === false) {
+                await Chromepaths();
+            } else {
+                console.error("No Chrome path found in settings.json")
+                process.exit(1)
+            }
+
         } else {
             console.log(" ");
             console.log(chalk.gray("Executable Path provided..."))
         }
 
         if (options.UserDataPath === "") {
-            await UserData()
+            if (options.displayless === false) {
+                await UserData()
+            } else {
+                if (fs.existsSync('./twitch-session.json')) {
+                    console.log(" ");
+                    console.log(chalk.gray("Cookies provided..."))
+                } else {
+                    console.error("No UserData or Cookies found...")
+                    process.exit(1)
+                }
+            }
         } else {
             console.log(" ");
             console.log(chalk.gray("UserData Path provided..."))
@@ -44,15 +62,21 @@ async function Getsettings() {
         });
 
     } else {
-        await Chromepaths()
-        await UserData()
+        const opsys = process.platform;
+        if (opsys === 'win32') {
+            await Chromepaths()
+            await UserData()
 
-        await fs.writeFile('settings.json', JSON.stringify(options, null, 2), function(err) {
-            if (err) throw err;
-            console.log(" ");
-            console.log(chalk.green("Successfully Saved Settings..."))
-            console.log(" ");
-        });
+            await fs.writeFile('settings.json', JSON.stringify(options, null, 2), function(err) {
+                if (err) throw err;
+                console.log(" ");
+                console.log(chalk.green("Successfully Saved Settings..."))
+                console.log(" ");
+            });
+        } else {
+            console.error('Please provide a settings.json to read...')
+            process.exit(1)
+        }
     }
     //Set some Values to saveddata.js
     await setsaveddatavalues()
@@ -61,9 +85,12 @@ async function Getsettings() {
 
 async function setsaveddatavalues() {
     data.debug = options.debug
-    if (options.debug === true) {console.log("Debug enabled")}
+    if (options.debug === true) {console.log(chalk.cyan("\nDebug enabled"))}
     data.headless = options.headless
-    if (options.headless === false) {console.log("Headless mode disabled")}
+    if (options.headless === false) {console.log(chalk.cyan("\nHeadless mode disabled"))}
+    data.displayless = options.displayless
+    if (options.displayless === true) {console.log(chalk.cyan("\nDisplayless mode enabled"))}
+    data.UserDataPath = options.UserDataPath
 }
 
 async function Chromepaths() {
@@ -93,7 +120,7 @@ async function Chromepaths() {
                     console.log(" ")
                     console.log(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
                     console.log(" ")
-                    inputReader.wait(chalk.gray("Press any Key to continue..."))
+                    if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                     process.exit(21);
                 }
 

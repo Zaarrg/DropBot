@@ -6,7 +6,7 @@ const outputAppName = 'TTVDropBot'
 let appName = 'TTVDropBot';
 let description = 'Twitch Drop Bot';
 
-let ver = "1.3.3" + ".3.0";
+let ver = "1.3.3" + ".4.0";
 
 const rc = {
     'CompanyName': appName,

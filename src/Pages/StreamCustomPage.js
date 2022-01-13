@@ -30,7 +30,7 @@ async function StreamCustomPage(startch) {
         console.log(" ")
         console.log(chalk.red("Did not found this Channel exiting..."))
         console.log(" ")
-        inputReader.wait(chalk.gray("Press any Key to continue..."))
+        if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
         process.exit(51)
     }
 

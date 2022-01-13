@@ -21,7 +21,7 @@ async function start() {
             })
             .catch(err =>console.log(err));
 
-        const BotVersion = "1.3.3.3"
+        const BotVersion = "1.3.3.4"
 
         if (req.version !== BotVersion) {
             console.log(" ")

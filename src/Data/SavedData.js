@@ -20,6 +20,8 @@ let Startingchannel;
 
 //Settings
 let settings = {};
+let displayless = false;
+let UserDataPath;
 //Custom Channels
 let CustomChannels = [];
 let CustomChboolean;
@@ -53,5 +55,7 @@ module.exports = {
     CustomChboolean,
     offlinechs,
     Streamers,
-    claimed
+    claimed,
+    displayless,
+    UserDataPath
 }

@@ -24,8 +24,10 @@ async function StreamPage(startch) {
     await dropspage.setDefaultTimeout(data.settings.timeout)
     //Open Drops campaign Page to get Drop name
     let campaignpage;
-    if (data.Rustdrops_twitch === undefined) campaignpage = await data.browser.newPage();
-    await campaignpage.setDefaultTimeout(data.settings.timeout)
+    if (data.Rustdrops_twitch === undefined) {
+        campaignpage = await data.browser.newPage();
+        await campaignpage.setDefaultTimeout(data.settings.timeout)
+    }
     //Set Cookies
     await dropspage.setCookie.apply(dropspage, data.cookies);
     //Set Cookies
@@ -39,6 +41,7 @@ async function StreamPage(startch) {
     
     //Got to campaignpage
     if (data.Rustdrops_twitch === undefined) {
+        await campaignpage.setCookie.apply(campaignpage, data.cookies);
         await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
         await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
     }

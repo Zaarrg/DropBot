@@ -6,8 +6,11 @@ Priority:
         At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop.
 
 - Check if the all Live Channels on 100% Drop Event works.
-- Remove Xpaths and use loops to loop throw all drops and get their status.
-- Event for All Channels Offline
+
+- Autoclaim
+
+
+
 
 For Later:
 - Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
@@ -18,6 +21,8 @@ For Later:
 
 
 Already Done:
+- Event for All Channels Offline [Done]
+- Remove Xpaths and use loops to loop throw all drops and get their status. [Done]
 - Give the User the ability to add Custom Urls [Done]
 - Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one. [Done]
 - No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance. [Done]

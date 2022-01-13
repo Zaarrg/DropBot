@@ -9,6 +9,8 @@ const {CreateCustomChannel} = require("../functions/CreateCustomChannel")
 
 async function CustomChannel() {
 
+    if (data.displayless === false) {
+
     await inquirer
         .prompt([
             {
@@ -44,7 +46,7 @@ async function CustomChannel() {
                                 console.log(" ");
                                 console.log(chalk.gray("Closing Bot, No Custom Channels Added!"))
                                 data.RustDrops = true;
-                                inputReader.wait(chalk.gray("Press any Key to continue..."))
+                                if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                                 process.exit(21);
                             }
                         });
@@ -113,7 +115,7 @@ async function CustomChannel() {
                                 console.log(" ");
                                 console.log(chalk.gray("Closing Bot, No Custom Channels Added!"))
                                 data.RustDrops = true;
-                                inputReader.wait(chalk.gray("Press any Key to continue..."))
+                                if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                                 process.exit(21);
                             }
                         });
@@ -174,6 +176,37 @@ async function CustomChannel() {
 
 
         });
+    } else {
+        const path = './CustomChannels.json'
+        if (fs.existsSync(path)) {
+            let customch = fs.readFileSync('./CustomChannels.json', 'utf8');
+            data.CustomChannels = JSON.parse(customch);
+
+            //Check Drops Amount...
+            if (data.CustomChannels.length === 0) {
+                console.log(" ");
+                console.log(chalk.gray("No Custom Channels Found..."))
+                process.exit(1)
+            }
+
+            console.log(" ");
+            console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+            console.log(" ");
+
+            //Let the User Select a Starting Ch
+            await checkstatus(true, true);
+            console.log(" ")
+            await SelectStartingCh(false);
+            data.CustomChboolean = true;
+
+        } else {
+            console.log(" ");
+            console.log(chalk.gray("No Custom Channels File found skipping..."))
+        }
+    }
+
+
+
 }
 
 async function checkstatus(feedback, colors) {
