@@ -3,10 +3,10 @@ const data = require("../Data/SavedData")
 const chalk = require("chalk");
 const fs = require("fs");
 const {validURL} = require("./util");
+const winston = require("winston");
 
 
 async function CreateCustomChannel(ask) {
-
     if (ask === true) {
         await inquirer
             .prompt([
@@ -17,32 +17,25 @@ async function CreateCustomChannel(ask) {
                 },
             ])
             .then(async (answers) => {
-
                 data.CustomChannel = JSON.stringify(answers, null, '  ');
                 data.CustomChannel = JSON.parse(data.CustomChannel);
 
                 if (data.CustomChannel.confirmed === false) {
                     return false;
                 } else {
-
                     await getCustomDetails()
-
                 }});
     } else {
         await getCustomDetails();
     }
 
-
         async function getCustomDetails() {
-
             let name;
             let ttvlink;
             let watchstatus;
             let time = -1;
             let points;
-
             const watch = ["Changed", "Time"]
-
             //Name of CH
             await inquirer
                 .prompt([
@@ -53,14 +46,11 @@ async function CreateCustomChannel(ask) {
                     },
                 ])
                 .then(async (answers) => {
-
-                    console.log(chalk.gray("Setting Name..."))
+                    winston.info(chalk.gray("Setting Name..."))
                     name = JSON.stringify(answers, null, '  ');
                     name = JSON.parse(name);
                     name = name.Name;
-
                 });
-
             //Link of CH
             await inquirer
                 .prompt([
@@ -72,14 +62,11 @@ async function CreateCustomChannel(ask) {
                     },
                 ])
                 .then(async (answers) => {
-
-                    console.log(chalk.gray("Setting TTV URL..."))
+                    winston.info(chalk.gray("Setting TTV URL..."))
                     ttvlink = JSON.stringify(answers, null, '  ');
                     ttvlink = JSON.parse(ttvlink);
                     ttvlink = ttvlink.ttvlink;
-
                 });
-
             //How to Watch the CH
             await inquirer
                 .prompt([
@@ -91,16 +78,13 @@ async function CreateCustomChannel(ask) {
                     },
                 ])
                 .then(async (answers) => {
-
-                    console.log(" ")
-                    console.log(chalk.gray("Setting Watch Type..."))
+                    winston.info(" ")
+                    winston.info(chalk.gray("Setting Watch Type..."))
                     watchstatus = JSON.stringify(answers, null, '  ');
                     watchstatus = JSON.parse(watchstatus);
-
                     if (watchstatus.watching === "Changed") {
                         watchstatus = "Changed";
                     } else {
-
                         watchstatus = "Time";
                         //How long to Watch CH
                         await inquirer
@@ -112,8 +96,7 @@ async function CreateCustomChannel(ask) {
                                 },
                             ])
                             .then(async (answers) => {
-
-                                console.log(chalk.gray("Setting Time..."))
+                                winston.info(chalk.gray("Setting Time..."))
                                 time = JSON.stringify(answers, null, '  ');
                                 time = JSON.parse(time);
                                 time = time.time;
@@ -121,7 +104,6 @@ async function CreateCustomChannel(ask) {
                             });
                     }
                 });
-
             //Points Farm
             await inquirer
                 .prompt([
@@ -132,30 +114,22 @@ async function CreateCustomChannel(ask) {
                     },
                 ])
                 .then(async (answers) => {
-
                     data.Points = JSON.stringify(answers, null, '  ');
                     data.Points = JSON.parse(data.Points);
-
                     points = data.Points.confirmed;
                 });
-
             //Set the Data
             data.CustomChannels.push({Name: name, TTVLink: ttvlink, WatchType: watchstatus, Time: time, Points: points})
-
             //Save Created CH
             await fs.writeFile('CustomChannels.json', JSON.stringify(data.CustomChannels, null, 2), function(err) {
                 if (err) throw err;
-                console.log(" ");
-                console.log(chalk.green("Successfully Saved Custom Channels..."))
-                console.log(" ");
+                winston.info(" ");
+                winston.info(chalk.green("Successfully Saved Custom Channels..."))
+                winston.info(" ");
             });
 
         }
-
-
-
 }
-
 module.exports = {
     CreateCustomChannel
 }

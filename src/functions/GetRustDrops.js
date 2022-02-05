@@ -1,13 +1,12 @@
 const data = require("../Data/SavedData");
 const chalk = require("chalk");
 const {statuscheck} = require("./util");
+const winston = require("winston");
 
 async function GetRustDrops(page, campaignpage, feedback ) {
     await page.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
-
-
     //Inject JQuery
     async function injectJQuery(page, campaignpage) {
         await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
@@ -17,83 +16,56 @@ async function GetRustDrops(page, campaignpage, feedback ) {
     }
 
     await injectJQuery(page, campaignpage);
-
     return await parseFacepunchStreamersPage(page).then(async (streamers) => {
         data.Streamers = streamers;
-
         if (campaignpage !== undefined) {
             return await parseRustcampaignpage(campaignpage).then(alltwitchdrops => {
-
                 data.Streamers.forEach((element, index) => {
-
                     alltwitchdrops.forEach((e, i) => {
-
-                        if (element.url === e.url) {
+                        if (element.url.toLowerCase() === e.url.toLowerCase()) {
                             element.twitch_name = e.drop
                         }
-
                     })
-
                 })
-
+                data.Streamers.forEach((e, i) => {
+                    if (data.claimed.includes(e.twitch_name)) {
+                        e.claimed = true;
+                    }
+                })
+                function claimedstatustostring (streamer) {return (streamer.claimed) ? chalk.greenBright('\u2713') : chalk.red("\u2718")}
                 if (feedback) {
                     data.Streamers.forEach((e, i) => {
-                        console.log(" ")
-                        console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                        winston.info(" ")
+                        winston.info(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop) + " | " + statuscheck(e.live) + " | " + claimedstatustostring(e))
                     })
-
                 }
-
                 return streamers;
-
             })
-
         } else if (data.Rustdrops_twitch !== undefined) {
-
             data.Streamers.forEach((element, index) => {
-
                 data.Rustdrops_twitch.forEach((e, i) => {
-
                     if (element.url === e.url) {
                         element.twitch_name = e.drop
                     }
-
                 })
-
             })
-
             if (feedback) {
                 data.Streamers.forEach((e, i) => {
-                    console.log(" ")
-                    console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                    winston.info(" ")
+                    winston.info(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
                 })
-
             }
-
             return streamers;
-
-
-
         } else {
-
             if (feedback) {
                 data.Streamers.forEach((e, i) => {
-                    console.log(" ")
-                    console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
+                    winston.info(" ")
+                    winston.info(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
                 })
-
             }
-
             return streamers;
-
         }
-
-
-
-
     });
-
-
 }
 
 async function parseFacepunchStreamersPage(page) {
@@ -127,7 +99,7 @@ async function parseFacepunchStreamersPage(page) {
 
 
         //Get Drops which are General
-        const GeneralDropsselector = $(".general-drops");
+        const GeneralDropsselector = $(".drops-group").last();
         GeneralDropsselector.each((index, element) => {
             const elements = $(element).find("a.drop-tile");
             elements.each((index, element) => {
@@ -143,14 +115,11 @@ async function parseFacepunchStreamersPage(page) {
         });
 
         //Filter General Drops out of Streamers
-        streamers = streamers.filter(item => !GeneralDrops.includes(item.url))
-
-
-
-
+        if ($(".drops-group").length !== 1) {
+            streamers = streamers.filter(item => !GeneralDrops.includes(item.url))
+        }
         return streamers;
     })
-
 }
 
 async function parseRustcampaignpage(campaignpage) {
@@ -177,14 +146,12 @@ async function parseRustcampaignpage(campaignpage) {
 
                 twitchrustdrops.push({drop: name, url: "https://www.twitch.tv" + link})
             })
-
             return twitchrustdrops
         })
-        if(data.debug) console.log("DEBUG: GOT RUST Campaing")
+        if(data.debug) winston.debug("DEBUG: GOT RUST Campaing " + JSON.stringify(rustDrops_twitch))
         data.Rustdrops_twitch = rustDrops_twitch;
         campaignpage.close();
         return data.Rustdrops_twitch
-
 }
 
 

@@ -5,12 +5,10 @@ const fs = require("fs");
 const inputReader = require("wait-console-input");
 const {SelectStartingCh} = require("./SelectStartingCh");
 const {CreateCustomChannel} = require("../functions/CreateCustomChannel")
-
+const winston = require("winston");
 
 async function CustomChannel() {
-
     if (data.displayless === false) {
-
     await inquirer
         .prompt([
             {
@@ -20,7 +18,6 @@ async function CustomChannel() {
             },
         ])
         .then(async (answers) => {
-
             let CustomAmswers
 
             CustomAmswers = JSON.stringify(answers, null, '  ');
@@ -28,34 +25,28 @@ async function CustomChannel() {
 
             if (CustomAmswers.confirmed === false) {
                 data.RustDrops = true;
-                return;
             } else {
-
                 const path = './CustomChannels.json'
-
                 if (fs.existsSync(path)) {
                     let customch = fs.readFileSync('./CustomChannels.json', 'utf8');
                     data.CustomChannels = JSON.parse(customch);
-
                     //Check Drops Amount...
                     if (data.CustomChannels.length === 0) {
-                        console.log(" ");
-                        console.log(chalk.gray("No Custom Channels Found..."))
+                        winston.info(" ");
+                        winston.info(chalk.gray("No Custom Channels Found..."))
                         await CreateCustomChannel(true).then(r => {
                             if (!r) {
-                                console.log(" ");
-                                console.log(chalk.gray("Closing Bot, No Custom Channels Added!"))
+                                winston.info(" ");
+                                winston.info(chalk.gray("Closing Bot, No Custom Channels Added!"))
                                 data.RustDrops = true;
                                 if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                                 process.exit(21);
                             }
                         });
                     }
-
-                    console.log(" ");
-                    console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
-                    console.log(" ");
-
+                    winston.info(" ");
+                    winston.info(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+                    winston.info(" ");
                     //Ask if user wanna add another ch
                     await inquirer
                         .prompt([
@@ -67,53 +58,35 @@ async function CustomChannel() {
                         ])
                         .then(async (answers) => {
                             let CustomA
-
                             CustomA = JSON.stringify(answers, null, '  ');
                             CustomA = JSON.parse(CustomA);
-
                             if (CustomA.confirmed === true) {
                                 await CreateCustomChannel(false);
                                 customch = fs.readFileSync('./CustomChannels.json', 'utf8');
-                                console.log(" ");
-                                console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
-                                console.log(" ");
+                                winston.info(" ");
+                                winston.info(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+                                winston.info(" ");
                             }
 
                         })
-
-
-
-
-
-
-
                     //Let the User Select a Starting Ch
                     await checkstatus(true, true);
-                    console.log(" ")
+                    winston.info(" ")
                     await SelectStartingCh(false);
                     data.CustomChboolean = true;
-
-
-
-
-
                 } else {
-
-                    console.log(" ");
-                    console.log(chalk.gray("No Custom Channels Found..."))
-
+                    winston.info(" ");
+                    winston.info(chalk.gray("No Custom Channels Found..."))
                     let customch;
-
                     await CreateCustomChannel(true);
-
                     //Check Drops Amount...
                     if (data.CustomChannels.length === 0) {
-                        console.log(" ");
-                        console.log(chalk.gray("No Custom Channels Found..."))
+                        winston.info(" ");
+                        winston.info(chalk.gray("No Custom Channels Found..."))
                         await CreateCustomChannel(true).then(r => {
                             if (!r) {
-                                console.log(" ");
-                                console.log(chalk.gray("Closing Bot, No Custom Channels Added!"))
+                                winston.info(" ");
+                                winston.info(chalk.gray("Closing Bot, No Custom Channels Added!"))
                                 data.RustDrops = true;
                                 if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                                 process.exit(21);
@@ -121,9 +94,9 @@ async function CustomChannel() {
                         });
                     }
 
-                    console.log(" ");
-                    console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
-                    console.log(" ");
+                    winston.info(" ");
+                    winston.info(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+                    winston.info(" ");
                     //Ask if user wanna add another ch
                     await inquirer
                         .prompt([
@@ -135,103 +108,64 @@ async function CustomChannel() {
                         ])
                         .then(async (answers) => {
                             let CustomA
-
                             CustomA = JSON.stringify(answers, null, '  ');
                             CustomA = JSON.parse(CustomA);
-
                             if (CustomA.confirmed === true) {
                                 await CreateCustomChannel(false);
                                 customch = fs.readFileSync('./CustomChannels.json', 'utf8');
-                                console.log(" ");
-                                console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
-                                console.log(" ");
+                                winston.info(" ");
+                                winston.info(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+                                winston.info(" ");
                             }
 
                         })
-
-
-
-
                     //Let the User Select a Starting Ch
                     await checkstatus(true, true);
-                    console.log(" ")
+                    winston.info(" ")
                     await SelectStartingCh(false);
                     data.CustomChboolean = true;
-
-
-
-
-
                 }
-
-
-
-
-
-
-
             }
-
-
-
-
         });
     } else {
         const path = './CustomChannels.json'
         if (fs.existsSync(path)) {
             let customch = fs.readFileSync('./CustomChannels.json', 'utf8');
             data.CustomChannels = JSON.parse(customch);
-
             //Check Drops Amount...
             if (data.CustomChannels.length === 0) {
-                console.log(" ");
-                console.log(chalk.gray("No Custom Channels Found..."))
+                winston.info(" ");
+                winston.info(chalk.gray("No Custom Channels Found..."))
                 process.exit(1)
             }
-
-            console.log(" ");
-            console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
-            console.log(" ");
-
+            winston.info(" ");
+            winston.info(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
+            winston.info(" ");
             //Let the User Select a Starting Ch
             await checkstatus(true, true);
-            console.log(" ")
+            winston.info(" ")
             await SelectStartingCh(false);
             data.CustomChboolean = true;
-
         } else {
-            console.log(" ");
-            console.log(chalk.gray("No Custom Channels File found skipping..."))
+            winston.info(" ");
+            winston.info(chalk.gray("No Custom Channels File found skipping..."))
         }
     }
-
-
-
 }
-
 async function checkstatus(feedback, colors) {
     if (feedback) {
-        console.log(" ");
-        console.log(chalk.gray("Checking Custom Channels Status..."))
+        winston.info(" ");
+        winston.info(chalk.gray("Checking Custom Channels Status..."))
     }
-
-
     let checkpage = await data.browser.newPage();
     await checkpage.setDefaultTimeout(data.settings.timeout)
-
-
     let urls = [];
-
     let Statuslst = [];
-
     data.choi = [];
 
     data.CustomChannels.forEach(item => {
             urls.push(item.TTVLink)
     })
-
-
-
     for (const item of urls) {
         await checkpage.goto(item, {waitUntil: ["networkidle2"]})
         await checkpage.waitForSelector(`[status]`); // default timeout is 30s
@@ -250,7 +184,6 @@ async function checkstatus(feedback, colors) {
                     Statuslst.push({Name: i.Name, TTVLink: item, Status: color()})
                 }
             })
-
         } else if (!status) {
             data.CustomChannels.forEach(i => {
                 function color() {
@@ -268,14 +201,12 @@ async function checkstatus(feedback, colors) {
             })
         }
     }
-
     Statuslst.forEach(el => {
         if (feedback) {
-            console.log(" ")
-            console.log(chalk.cyan(el.TTVLink) + " | " + chalk.magenta(el.Name)+ " | " + el.Status);
+            winston.info(" ")
+            winston.info(chalk.cyan(el.TTVLink) + " | " + chalk.magenta(el.Name)+ " | " + el.Status);
         }
     })
-
     checkpage.close();
     return Statuslst;
 }

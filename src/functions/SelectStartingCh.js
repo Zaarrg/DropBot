@@ -3,6 +3,7 @@ const data = require("../Data/SavedData")
 const chalk = require("chalk");
 const {CheckForLiveChannels} = require("../Checks/CheckForLiveChannels")
 const {getRandomInt} = require("../functions/util");
+const winston = require("winston");
 
 
 async function SelectStartingCh(CheckLive) {
@@ -24,8 +25,8 @@ async function SelectStartingCh(CheckLive) {
             ])
             .then(async (answers) => {
 
-                console.log(" ")
-                console.log(chalk.gray("Setting Starting Channel..."))
+                winston.info(" ")
+                winston.info(chalk.gray("Setting Starting Channel..."))
                 data.Startingchannel = JSON.stringify(answers, null, '  ');
                 data.Startingchannel = JSON.parse(data.Startingchannel);
                 data.Startingchannel = data.Startingchannel.Channel
@@ -41,25 +42,18 @@ async function SelectStartingCh(CheckLive) {
                             },
                         ])
                         .then(async (answers) => {
-
                             let awnser = JSON.stringify(answers, null, '  ');
                             awnser = JSON.parse(awnser);
 
                             if (!awnser.confirmed) {
                                 await SelectStartingCh();
                             }
-
                         });
-
-
                 }
-
-
-
             });
     } else {
         data.Startingchannel = data.choi[getRandomInt(data.choi.length)]
-        console.log(chalk.gray('\nSelected as starting Channel: ' + data.Startingchannel))
+        winston.info(chalk.gray('\nSelected as starting Channel: ' + data.Startingchannel))
     }
 }
 

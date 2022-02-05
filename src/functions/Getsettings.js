@@ -6,6 +6,7 @@ const inputReader = require("wait-console-input");
 const {validPath} = require("../functions/util")
 const data = require("../Data/SavedData");
 const {displayless} = require("../Data/SavedData");
+const winston = require("winston");
 
 const path = './settings.json'
 
@@ -15,7 +16,12 @@ let options = {
     'timeout': 0,
     'headless': true,
     'debug': false,
-    'displayless': false
+    'displayless': false,
+    'CheckClaimedOnStart': true,
+    'SkipLoginPage': false,
+    'ProgressCheckInterval': 60000,
+    'AutoClaim': true,
+    'LogToFile': false
 }
 
 async function Getsettings() {
@@ -28,13 +34,13 @@ async function Getsettings() {
             if (options.displayless === false) {
                 await Chromepaths();
             } else {
-                console.error("No Chrome path found in settings.json")
+                winston.error("No Chrome path found in settings.json")
                 process.exit(1)
             }
 
         } else {
-            console.log(" ");
-            console.log(chalk.gray("Executable Path provided..."))
+            winston.info(" ");
+            winston.info(chalk.gray("Executable Path provided..."))
         }
 
         if (options.UserDataPath === "") {
@@ -42,23 +48,23 @@ async function Getsettings() {
                 await UserData()
             } else {
                 if (fs.existsSync('./twitch-session.json')) {
-                    console.log(" ");
-                    console.log(chalk.gray("Cookies provided..."))
+                    winston.info(" ");
+                    winston.info(chalk.gray("Cookies provided..."))
                 } else {
-                    console.error("No UserData or Cookies found...")
+                    winston.error("No UserData or Cookies found...")
                     process.exit(1)
                 }
             }
         } else {
-            console.log(" ");
-            console.log(chalk.gray("UserData Path provided..."))
+            winston.info(" ");
+            winston.info(chalk.gray("UserData Path provided..."))
         }
 
         await fs.writeFile('settings.json', JSON.stringify(options, null, 2), function(err) {
             if (err) throw err;
-            console.log(" ");
-            console.log(chalk.green("Successfully Saved Settings..."))
-            console.log(" ");
+            winston.info(" ");
+            winston.info(chalk.green("Successfully Saved Settings..."))
+            winston.info(" ");
         });
 
     } else {
@@ -69,12 +75,12 @@ async function Getsettings() {
 
             await fs.writeFile('settings.json', JSON.stringify(options, null, 2), function(err) {
                 if (err) throw err;
-                console.log(" ");
-                console.log(chalk.green("Successfully Saved Settings..."))
-                console.log(" ");
+                winston.info(" ");
+                winston.info(chalk.green("Successfully Saved Settings..."))
+                winston.info(" ");
             });
         } else {
-            console.error('Please provide a settings.json to read...')
+            winston.error('Please provide a settings.json to read...')
             process.exit(1)
         }
     }
@@ -85,11 +91,11 @@ async function Getsettings() {
 
 async function setsaveddatavalues() {
     data.debug = options.debug
-    if (options.debug === true) {console.log(chalk.cyan("\nDebug enabled"))}
+    if (options.debug === true) {winston.debug(chalk.cyan("\nDebug enabled"))}
     data.headless = options.headless
-    if (options.headless === false) {console.log(chalk.cyan("\nHeadless mode disabled"))}
+    if (options.headless === false) {winston.info(chalk.cyan("\nHeadless mode disabled"))}
     data.displayless = options.displayless
-    if (options.displayless === true) {console.log(chalk.cyan("\nDisplayless mode enabled"))}
+    if (options.displayless === true) {winston.info(chalk.cyan("\nDisplayless mode enabled"))}
     data.UserDataPath = options.UserDataPath
 }
 
@@ -114,19 +120,19 @@ async function Chromepaths() {
 
                 //Check the Path
                 if (fs.existsSync(chromePaths.chrome)) {
-                    console.log(" ")
+                    winston.info(" ")
                     options.Chromeexe = await chromePaths.chrome //Set the Path
                 } else { //If auto detected path is invaild
-                    console.log(" ")
-                    console.log(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
-                    console.log(" ")
+                    winston.info(" ")
+                    winston.info(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
+                    winston.info(" ")
                     if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                     process.exit(21);
                 }
 
             } else { // If users selects no on auto detect providing it maunally
 
-                console.log(" ")
+                winston.info(" ")
                 await inquirer
                     .prompt([
                         {
@@ -138,8 +144,8 @@ async function Chromepaths() {
                     ])
                     .then(async (answers) => {
 
-                        console.log(" ")
-                        console.log(chalk.gray("Setting Executable Path..."))
+                        winston.info(" ")
+                        winston.info(chalk.gray("Setting Executable Path..."))
                         let Executablepath = JSON.stringify(answers, null, '  ');
                         Executablepath = JSON.parse(Executablepath);
 
@@ -179,8 +185,8 @@ async function UserData() {
                     ])
                     .then(async (answers) => {
 
-                        console.log(" ")
-                        console.log(chalk.gray("Setting UserData path..."))
+                        winston.info(" ")
+                        winston.info(chalk.gray("Setting UserData path..."))
 
                         let UserDataDir = JSON.stringify(answers, null, '  ');
                         UserDataDir = JSON.parse(UserDataDir);

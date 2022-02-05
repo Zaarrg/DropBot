@@ -1,8 +1,13 @@
 {
   "Chromeexe": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "UserDataPath": "C:\\Users\\zaarr\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
+  "UserDataPath": "C:\\Users\\zaarr\\AppData\\\\Local\\\\Google\\Chrome\\User Data\\Default",
   "timeout": 0,
   "headless": true,
   "debug": false,
-  "displayless": false
+  "displayless": false,
+  "CheckClaimedOnStart": true,
+  "SkipLoginPage": true,
+  "ProgressCheckInterval": 60000,
+  "AutoClaim": true,
+  "LogToFile": true
 }
