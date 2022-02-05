@@ -6,7 +6,6 @@ const inputReader = require("wait-console-input");
 const {SelectStartingCh} = require("./SelectStartingCh");
 const {CreateCustomChannel} = require("../functions/CreateCustomChannel")
 
-
 async function CustomChannel() {
 
     await inquirer
@@ -76,24 +75,13 @@ async function CustomChannel() {
                                 console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
                                 console.log(" ");
                             }
-
                         })
-
-
-
-
-
-
 
                     //Let the User Select a Starting Ch
                     await checkstatus(true, true);
                     console.log(" ")
                     await SelectStartingCh(false);
                     data.CustomChboolean = true;
-
-
-
-
 
                 } else {
 
@@ -144,35 +132,15 @@ async function CustomChannel() {
                                 console.log(chalk.gray("Found " + data.CustomChannels.length + " Custom Channels..."))
                                 console.log(" ");
                             }
-
                         })
-
-
-
 
                     //Let the User Select a Starting Ch
                     await checkstatus(true, true);
                     console.log(" ")
                     await SelectStartingCh(false);
                     data.CustomChboolean = true;
-
-
-
-
-
                 }
-
-
-
-
-
-
-
             }
-
-
-
-
         });
 }
 
@@ -182,9 +150,7 @@ async function checkstatus(feedback, colors) {
         console.log(chalk.gray("Checking Custom Channels Status..."))
     }
 
-
     let checkpage = await data.browser.newPage();
-
 
     let urls = [];
 
@@ -195,8 +161,6 @@ async function checkstatus(feedback, colors) {
     data.CustomChannels.forEach(item => {
             urls.push(item.TTVLink)
     })
-
-
 
     for (const item of urls) {
         await checkpage.goto(item, {waitUntil: ["networkidle2"]})
@@ -240,7 +204,6 @@ async function checkstatus(feedback, colors) {
             console.log(chalk.cyan(el.TTVLink) + " | " + chalk.magenta(el.Name)+ " | " + el.Status);
         }
     })
-
     checkpage.close();
     return Statuslst;
 }

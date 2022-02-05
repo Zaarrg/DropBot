@@ -1,10 +1,8 @@
 const chalk = require("chalk");
-const {GetPaths} = require("./GetPahts");
+const {GetPaths} = require("./GetPaths");
 const {Login} = require("../Pages/LoginPage")
 const {Watch} = require("../Pages/WatchingPage")
 const axios = require("axios");
-
-
 
 async function start() {
 
@@ -28,17 +26,12 @@ async function start() {
         }
         //Check Version End
 
-
     //Ask for Chrome Path
     await GetPaths();
     //Login
     await Login();
     //Start Watching Process
     await Watch();
-
-
-
-
 }
 
 module.exports = {

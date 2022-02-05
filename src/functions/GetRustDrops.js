@@ -2,12 +2,10 @@ const data = require("../Data/SavedData");
 const chalk = require("chalk");
 const {statuscheck} = require("./util");
 
-
 async function GetRustDrops(page, campaignpage, feedback ) {
     await page.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
-
 
     //Inject JQuery
     async function injectJQuery(page, campaignpage) {
@@ -32,9 +30,7 @@ async function GetRustDrops(page, campaignpage, feedback ) {
                         if (element.url === e.url) {
                             element.twitch_name = e.drop
                         }
-
                     })
-
                 })
 
                 if (feedback) {
@@ -42,11 +38,9 @@ async function GetRustDrops(page, campaignpage, feedback ) {
                         console.log(" ")
                         console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
                     })
-
                 }
 
                 return streamers;
-
             })
 
         } else {
@@ -56,19 +50,10 @@ async function GetRustDrops(page, campaignpage, feedback ) {
                     console.log(" ")
                     console.log(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)+ " | " + statuscheck(e.live))
                 })
-
             }
-
             return streamers;
-
         }
-
-
-
-
     });
-
-
 }
 
 async function parseFacepunchStreamersPage(page) {
@@ -120,12 +105,8 @@ async function parseFacepunchStreamersPage(page) {
         //Filter General Drops out of Streamers
         streamers = streamers.filter(item => !GeneralDrops.includes(item.url))
 
-
-
-
         return streamers;
     })
-
 }
 
 async function parseRustcampaignpage(campaignpage) {
@@ -152,12 +133,9 @@ async function parseRustcampaignpage(campaignpage) {
 
             twitchrustdrops.push({drop: name, url: "https://www.twitch.tv" + link})
         })
-
         return twitchrustdrops
     })
-
 }
-
 
 module.exports = {
     GetRustDrops

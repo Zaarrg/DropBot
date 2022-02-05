@@ -45,14 +45,8 @@ async function SelectStartingCh(CheckLive) {
                         if (!awnser.confirmed) {
                             await SelectStartingCh();
                         }
-
                     });
-
-
             }
-
-
-
         });
 }
 

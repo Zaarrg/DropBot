@@ -10,6 +10,5 @@ process.stdin.on('keypress', (key, data) => {
     }
 });
 
-
 //Start
 start();

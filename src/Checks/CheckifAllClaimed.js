@@ -9,11 +9,8 @@ async function CheckifAllClaimed() {
         if(data.choi.includes(e.url) && e.claimed) {
             alreadyclaimedandonline++
         }
-
     })
-
     return alreadyclaimedandonline === data.choi.length
-
 }
 
 module.exports = {

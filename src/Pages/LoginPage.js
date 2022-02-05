@@ -1,22 +1,14 @@
-
-
 //Start Puppeteer LoginPage
 const chalk = require("chalk");
 const fs = require("fs");
-
 const data = require("../Data/SavedData");
-
-
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const inputReader = require("wait-console-input");
 puppeteer.use(StealthPlugin())
 
-
 async function Login() {
     await puppeteer.launch({ headless: false, executablePath: data.settings[0].pathexe, userDataDir: data.settings[1].UserDataPath}).then(async browser => {
-
-
 
         //Open Login Page
         const loginpage = await browser.newPage()
@@ -56,7 +48,6 @@ async function Login() {
         console.log(chalk.gray("Closing Browser and Moving on..."))
         await browser.close()
     })
-
 }
 
 module.exports = {

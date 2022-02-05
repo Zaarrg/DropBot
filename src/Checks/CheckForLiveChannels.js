@@ -23,10 +23,8 @@ async function CheckForLiveChannels(removeurl) {
             {
                 if (ciEquals(data.choi[i], removeurl)) {
                     return [data.choi.splice(i, 1), i--];
-
                 }
             }
-
         }
     }
 
@@ -40,7 +38,6 @@ async function CheckForLiveChannels(removeurl) {
             if (!e.live) {
                 a++
             }
-
         })
 
         if(a === data.Streamers.length) {
@@ -58,16 +55,9 @@ async function CheckForLiveChannels(removeurl) {
                 console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
                 await delay(600000)
             }
-
-
         }
-
-
     }
-
     await alloffline();
-
-
 }
 
 module.exports = {

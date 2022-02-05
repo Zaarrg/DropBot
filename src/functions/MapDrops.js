@@ -13,14 +13,11 @@ async function MapDrops(dropspage) {
 
     await injectJQuery()
 
-
-
     async function parseTwitchDropsPage(dropspage) {
 
         return dropspage.evaluate(() => {
             let activedrops = [];
             let claimeddrops = [];
-
 
             const dropsinfo = $(".inventory-campaign-info");
             const drops = $('[data-test-selector="DropsCampaignInProgressRewards-container"]');
@@ -49,12 +46,9 @@ async function MapDrops(dropspage) {
                     } else {
                         urls.push(url);
                     }
-
-
                 } else {
                     urls.push(url);
                 }
-
             });
 
             //Get Progress and Name
@@ -76,7 +70,6 @@ async function MapDrops(dropspage) {
                     name: names[index],
                     percentage: progress[index]
                 })
-
             })
 
             //Filter the Gloabl Drops Out
@@ -86,16 +79,9 @@ async function MapDrops(dropspage) {
                     activedrops = activedrops.filter((item) => {
                         return item.url.startsWith('https://www.twitch.tv')
                     })
-                } catch (e) {
-
-                }
-
+                } catch (e) {}
             }
-
-
-
             return [activedrops, claimeddrops];
-            //
         });
     }
 
@@ -103,10 +89,7 @@ async function MapDrops(dropspage) {
         data.dropsmap = r[0];
         data.claimed = r[1];
     })
-
-
 }
-
 
 module.exports = {
     MapDrops

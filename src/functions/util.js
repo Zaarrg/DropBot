@@ -30,16 +30,13 @@ function secondstominutescalc(a, b) {
             return chalk.gray(a + " Minutes left")
         }
     }
-
 }
-
 
 function ciEquals(a, b) {
     return typeof a === 'string' && typeof b === 'string'
         ? a.localeCompare(b, undefined, { sensitivity: 'accent' }) === 0
         : a === b;
 }
-
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -81,7 +78,6 @@ function validPath(str) {
     } else {
         return "Please provide a Valid Path..."
     }
-
 }
 
 async function delay(ms) {

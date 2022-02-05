@@ -24,15 +24,12 @@ async function CreateCustomChannel(ask) {
                 if (data.CustomChannel.confirmed === false) {
                     return false;
                 } else {
-
                     await getCustomDetails()
-
-                }});
+                }
+            });
     } else {
         await getCustomDetails();
     }
-
-
         async function getCustomDetails() {
 
             let name;
@@ -58,7 +55,6 @@ async function CreateCustomChannel(ask) {
                     name = JSON.stringify(answers, null, '  ');
                     name = JSON.parse(name);
                     name = name.Name;
-
                 });
 
             //Link of CH
@@ -77,7 +73,6 @@ async function CreateCustomChannel(ask) {
                     ttvlink = JSON.stringify(answers, null, '  ');
                     ttvlink = JSON.parse(ttvlink);
                     ttvlink = ttvlink.ttvlink;
-
                 });
 
             //How to Watch the CH
@@ -117,7 +112,6 @@ async function CreateCustomChannel(ask) {
                                 time = JSON.stringify(answers, null, '  ');
                                 time = JSON.parse(time);
                                 time = time.time;
-
                             });
                     }
                 });
@@ -149,11 +143,7 @@ async function CreateCustomChannel(ask) {
                 console.log(chalk.green("Successfully Saved Custom Channels..."))
                 console.log(" ");
             });
-
         }
-
-
-
 }
 
 module.exports = {

@@ -4,7 +4,7 @@ const fs = require("fs");
 const data = require("../Data/SavedData")
 const chromePaths = require('chrome-paths');
 const inputReader = require("wait-console-input");
-const {validPath} = require("../functions/util")
+const {validPath} = require("./util")
 
 async function GetPaths() {
 
@@ -25,7 +25,6 @@ async function GetPaths() {
                         type: 'confirm',
                         name: 'confirmed',
                         message: 'Found it! Is this your Google Chrome Path? | ' + chalk.cyan(chromePaths.chrome),
-
                     },
                 ])
                 .then(async (answers) => {
@@ -66,12 +65,9 @@ async function GetPaths() {
                                 data.Executablepath = JSON.parse(data.Executablepath);
 
                                 data.settings.unshift({pathexe: data.Executablepath.pathexe, pathprovided: true})
-
                             });
-
                     }
                 });
-
 
             await fs.writeFile('settings.json', JSON.stringify(data.settings, null, 2), function(err) {
                 if (err) throw err;
@@ -118,19 +114,12 @@ async function GetPaths() {
                                 data.UserDataDir = JSON.stringify(answers, null, '  ');
                                 data.UserDataDir = JSON.parse(UserDataDir);
 
-
                                 data.settings.push({UserDataPath: data.UserDataDir.UserDataPath, datadirprovided: true})
-
                             });
                     } else {
                         return data.settings.push({UserDataDir: '', datadirprovided: false})
                     }
                 });
-
-
-
-
-
 
             await fs.writeFile('settings.json', JSON.stringify(data.settings, null, 2), function(err) {
                 if (err) throw err;
@@ -154,7 +143,6 @@ async function GetPaths() {
                     type: 'confirm',
                     name: 'confirmed',
                     message: 'Found it! Is this your Google Chrome Path? | ' + chalk.cyan(chromePaths.chrome),
-
                 },
             ])
             .then(async (answers) => {
@@ -174,10 +162,6 @@ async function GetPaths() {
                         inputReader.wait(chalk.gray("Press any Key to continue..."))
                         process.exit(21);
                     }
-
-
-
-
 
                 } else {
 
@@ -199,17 +183,9 @@ async function GetPaths() {
                             data.Executablepath = JSON.parse(data.Executablepath);
 
                             data.settings.push({pathexe: data.Executablepath.pathexe, pathprovided: true})
-
                         });
-
                 }
             });
-
-
-
-
-
-
 
         await inquirer
             .prompt([
@@ -243,13 +219,11 @@ async function GetPaths() {
                             data.UserDataDir = JSON.parse(data.UserDataDir);
 
                             data.settings.push({UserDataPath: data.UserDataDir.UserDataPath, datadirprovided: true})
-
                         });
                 } else {
                     return data.settings.push({UserDataDir: '', datadirprovided: false})
                 }
             });
-
 
         await fs.writeFile('settings.json', JSON.stringify(data.settings, null, 2), function(err) {
             if (err) throw err;

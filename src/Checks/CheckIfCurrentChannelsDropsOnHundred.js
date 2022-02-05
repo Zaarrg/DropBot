@@ -3,8 +3,6 @@ const {ciEquals} = require("../functions/util");
 
 async function CheckIfCurrentChannelsDropsOnHundred() {
 
-
-
     let chswith100 = 0;
 
     data.dropsmap.forEach((element, index) => {
@@ -16,18 +14,10 @@ async function CheckIfCurrentChannelsDropsOnHundred() {
                 if(element.percentage === 100) {
                     chswith100++
                 }
-
-
             }
-
-
         })
-
     })
-
     return chswith100 === data.choi.length;
-
-
 }
 
 module.exports = {

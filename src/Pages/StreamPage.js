@@ -10,7 +10,6 @@ const {SamePercentCheck} = require("../Checks/CheckIfSamePercent");
 const {etacalc} = require("../functions/util");
 const {getRandomInt} = require("../functions/util");
 
-
 async function StreamPage(startch) {
     //Open New Tab to the Starting ch
     console.log(" ")
@@ -48,18 +47,13 @@ async function StreamPage(startch) {
     await watchingpage.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
-
     console.log(" ")
     console.log(chalk.magenta("Watching " + chalk.cyan(startch.toString() + "...") ))
     console.log(" ")
 
     //Start CurrentProgress Event
     await CurrentProgressEvent(dropspage, startch, watchingpage, campaignpage);
-
 }
-
-
-
 
 //CurrentProgressEvent
 let retry = 0;
@@ -105,7 +99,6 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
-
                         }
 
                         if (AllLiveClaimed) {
@@ -165,8 +158,8 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     }
-
                                 }
+
                             } else if (PercentCurrentDrop < 100 && PercentCurrentDrop >= 0) {
                                 retry = 0;
                                 console.log(chalk.gray("Current Progress: ") + chalk.white(PercentCurrentDrop + " %") + chalk.gray(" | " + etacalc(PercentCurrentDrop)));
@@ -213,8 +206,8 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
-
                             }
+
                         } else if (CurrentChannelStatus === false) {
                             console.log(" ")
                             console.log(chalk.gray("Current Channel Offline looking for new one..."))
@@ -235,8 +228,8 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
-
                         }
+
                     } else if(CurrentChannelsAllHundred === true) {
                         console.log(" ")
                         console.log(chalk.cyan("Reached ") + chalk.green("100 % ") + chalk.cyan("on all currently Live Channels..."));
@@ -254,15 +247,9 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                 })
             })
         });
-    }) //5
+    })
 }
-
-
-
-
 
 module.exports = {
     StreamPage
 }
-
-

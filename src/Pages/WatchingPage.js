@@ -1,8 +1,6 @@
 const chalk = require("chalk");
 const fs = require("fs");
-
 const data = require("../Data/SavedData");
-
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const {StreamCustomPage} = require("./StreamCustomPage");
@@ -12,10 +10,6 @@ const {SelectStartingCh} = require("../functions/SelectStartingCh");
 const {GetRustDrops} = require("../functions/GetRustDrops");
 const inputReader = require('wait-console-input')
 puppeteer.use(StealthPlugin())
-
-
-
-
 
 async function Watch() {
 
@@ -38,11 +32,7 @@ async function Watch() {
             if (data.CustomChboolean === true) {
                 //Start Custom Watching
 
-
-
-
                 await StreamCustomPage(data.Startingchannel.Channel);
-
             } else {
                 await intrust()
             }
@@ -80,12 +70,6 @@ async function Watch() {
                 console.log(result)
             });
         }
-
-
-
-
-
-
         console.log("All Done - Something went wrong...")
     })
 }

@@ -34,7 +34,6 @@ async function StreamCustomPage(startch) {
         process.exit(51)
     }
 
-
     //Open New Tab to the Starting ch
     console.log(" ")
     console.log(chalk.gray("Going to Starting Channel..."))
@@ -65,7 +64,6 @@ async function StreamCustomPage(startch) {
 
     //Start CurrentProgress Event
     await CurrentProgressEvent(WatchType, time, starturl);
-
 }
 
 //CurrentProgressEvent
@@ -94,11 +92,9 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                     if (item.TTVLink !==  starturl) {
                         onlinechs.push(item.TTVLink);
                     }
-
                 } else {
                     offlinechs.push(item.TTVLink);
                 }
-
             })
 
             data.CustomChannels.forEach(r => {
@@ -106,7 +102,6 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                     pointi = r.Points;
                 }
             })
-
 
             await farmpoint().then(async points => {
 
@@ -131,7 +126,6 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                                 t++
                             }
 
-
                             if (onlinechs.length === 0) {
                                 console.log(" ");
                                 console.log(chalk.gray("No other Online Custom Channels found waiting for new Channels to go Online..."));
@@ -151,18 +145,9 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                                 console.log(chalk.magenta("Starting to Watch " + chalk.cyan(randomurl.toString() + "...")));
 
                                 return StreamCustomPage(randomurl.toString());
-
-
                             }
-
-
-
                         }
-
-
                     }
-
-
 
                 } else {
                     console.log(" ");
@@ -176,7 +161,6 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                             return CurrentProgressEvent(WatchType, time, starturl)
                         })
 
-
                     } else {
                         console.log(" ");
                         console.log(chalk.gray("Found other Channel..."));
@@ -187,52 +171,11 @@ async function CurrentProgressEvent(WatchType, time, starturl) {
                         console.log(chalk.gray("Starting to Watch " + randomurl.toString() + "..."));
 
                         return StreamCustomPage(randomurl);
-
-
                     }
-
-
-
-
                 }
-
-
-
-
-
-
-
-
-
-
-
             })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         })
-
-
-
-
     })
-
-
-
 }
 
 async function pointscheck(points, status, onoff) {
@@ -253,10 +196,7 @@ async function pointscheck(points, status, onoff) {
     } else {
         return " "
     }
-
-
 }
-
 
 async function farmpoint() {
 
@@ -274,21 +214,13 @@ async function farmpoint() {
         await Bonusraw[0].click();
 
         BonusStatus = true;
-    } catch (e) {
-
-    }
-
+    } catch (e) {}
     return {Points: rawpoints, Bonus: BonusStatus}
-
-
 }
-
-
 
 module.exports = {
     StreamCustomPage
 }
-
 
 //Todo
 //- Check ob alle chs bereits angeschaut wurden...
