@@ -1,23 +1,28 @@
 Todo:
 
 Priority:
-- Get All Already gotten Drops from Twitch, to prevent loop and filter all Channels out witch are already claimed.
-    -> Would Fix this:
-        At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop.
+- fix rust moving everything to generaldrops (BIG)
+(- auto reconnect)
+For other Games:
+- Add feature to search specific twitch games for streams with enabled drops and watch them maybe sort by viewer count as watch priorty.
 
-- Check if the all Live Channels on 100% Drop Event works.
-- Remove Xpaths and use loops to loop throw all drops and get their status.
-- Event for All Channels Offline
 
 For Later:
 - Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
 - The Bot should automaticlly stop if the user has all Drops.
 - Add a Force Feature to only watch the Channle Selected and prevent the bot from switching if its offline.
+- Check if the all Live Channels on 100% Drop Event works.
 
 
-
-
+Newly Done:
+- Autoclaim [DONE]
+- Get All Already gotten Drops from Twitch, to prevent loop and filter all Channels out witch are already claimed.
+    -> Would Fix this:
+        At the moment there is no difference in Drop is already claimed or Drop Progress was not started yet. Could Result in Endless Retry loop. [DONE]
+- Option to Skip the cookie check (Browser opening even tho there is a cookie file while logging in) [DONE]
 Already Done:
+- Event for All Channels Offline [Done]
+- Remove Xpaths and use loops to loop throw all drops and get their status. [Done]
 - Give the User the ability to add Custom Urls [Done]
 - Improve the 100% Event. Change it from Randomly selecting a channel to Randomly select a channel and exclude the current one. [Done]
 - No Event at the moment to handel the Situation of all avaiable Streams Have 100% on the Drop. Bot would Look for new channel every 2 Minutes -> Bad Performance. [Done]

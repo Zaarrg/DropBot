@@ -8,6 +8,7 @@ const rustdrops = "https://twitch.facepunch.com/"
 
 let Streamers = [];
 let claimed = [];
+let Rustdrops_twitch = undefined
 
 //Live Channels
 let choi = [];
@@ -17,13 +18,11 @@ let dropsmap = [];
 //starting ch
 let Startingchannel;
 
-let Executablepath;
-let UserDataDir;
-let UserDataDirboolean;
-
-
-//settings
-let settings = [];
+//Settings
+let settings = {};
+let displayless = false;
+let UserDataPath;
+//Custom Channels
 let CustomChannels = [];
 let CustomChboolean;
 //Watch DAta
@@ -32,8 +31,16 @@ let page;
 let browser;
 let RustDrops = false;
 
+//Debug
+let debug = false;
+let headless = true;
+
 
 module.exports = {
+    settings,
+    debug,
+    Rustdrops_twitch,
+    headless,
     cookies,
     RustDrops,
     page,
@@ -44,13 +51,11 @@ module.exports = {
     choi,
     dropsmap,
     Startingchannel,
-    Executablepath,
-    UserDataDir,
-    UserDataDirboolean,
-    settings,
     CustomChannels,
     CustomChboolean,
     offlinechs,
     Streamers,
-    claimed
+    claimed,
+    displayless,
+    UserDataPath
 }

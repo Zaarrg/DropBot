@@ -2,13 +2,13 @@ const data = require("../Data/SavedData")
 const chalk = require("chalk");
 const {delay} = require("../functions/util");
 const {statuscheckboolean, ciEquals} = require("../functions/util")
+const winston = require("winston");
 
 let i = 0;
-
 async function CheckForLiveChannels(removeurl) {
     data.choi = [];
-    console.log(" ")
-    console.log(chalk.gray("Checking for Live Channels"))
+    winston.info(" ")
+    winston.info(chalk.gray("Checking for Live Channels"))
 
     data.Streamers.forEach((e, i) => {
         if (e.live) {
@@ -18,7 +18,6 @@ async function CheckForLiveChannels(removeurl) {
 
     async function removewatching() {
         if (removeurl !== undefined) {
-
             for (let i = 0; i < data.choi.length; i++)
             {
                 if (ciEquals(data.choi[i], removeurl)) {
@@ -26,21 +25,29 @@ async function CheckForLiveChannels(removeurl) {
 
                 }
             }
-
         }
     }
-
     await removewatching();
+
+    async function removeclaimed() {
+            for (let i = 0; i < data.choi.length; i++)
+            {
+                data.Streamers.forEach(e => {
+                    if (data.choi[i] === e.url && e.claimed) {
+                        return [data.choi.splice(i, 1), i--];
+                    }
+                })
+            }
+    }
+    await removeclaimed();
 
     async function alloffline() {
         let a = 0;
 
         data.Streamers.forEach((e, i) => {
-
             if (!e.live) {
                 a++
             }
-
         })
 
         if(a === data.Streamers.length) {
@@ -49,25 +56,18 @@ async function CheckForLiveChannels(removeurl) {
             })
 
             if (removeurl === undefined) {
-                console.log(" ")
-                console.log(chalk.magenta("All Channels Offline... Select any Channel to start..."))
+                winston.info(" ")
+                winston.info(chalk.magenta("All Channels Offline... Select any Channel to start..."))
             } else {
-                console.log(" ")
-                console.log(chalk.magenta("All Channels Offline..."))
-                console.log(" ")
-                console.log(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
+                winston.info(" ")
+                winston.info(chalk.magenta("All Channels Offline..."))
+                winston.info(" ")
+                winston.info(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
                 await delay(600000)
             }
-
-
         }
-
-
     }
-
     await alloffline();
-
-
 }
 
 module.exports = {

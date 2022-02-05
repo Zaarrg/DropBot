@@ -102,10 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
-*.exe
 src/twitch-session.json
 src/settings.json
 src/CustomChannels.json
 src/settings.json
 src/settings.json
 TTVDropBot Temporarily Fixed.zip
+*.bat
+*.xml
+*.iml

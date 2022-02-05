@@ -1,4 +1,3 @@
-<!-- PROJECT LOGO -->  
 <br />  
 <p align="center">  
   <a href="https://github.com/Zaarrg/TTVDropBot/README.md">  

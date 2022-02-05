@@ -1,7 +1,3 @@
-
-
-
-//Progress
 const {MapDrops} = require("../functions/MapDrops");
 const {GetRustDrops} = require("../functions/GetRustDrops");
 const data = require("../Data/SavedData");
@@ -13,16 +9,11 @@ async function CheckProgressCurrentPage(page, dropspage, startch, campaignpage) 
     await MapDrops(dropspage)
 
     let name;
-
     data.Streamers.forEach((e, i) => {
-
         if (e.url === startch) name = e.twitch_name
-
         if (data.claimed.includes(e.twitch_name)) {
             e.claimed = true;
         }
-
-
     })
 
     for (let i = 0; i < data.dropsmap.length; i++)
@@ -32,12 +23,7 @@ async function CheckProgressCurrentPage(page, dropspage, startch, campaignpage) 
         } else if (data.claimed.includes(name)) {
             return -1
         }
-
-
     }
-
-
-
 }
 
 module.exports = {

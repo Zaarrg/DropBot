@@ -2,19 +2,17 @@ const chalk = require("chalk");
 const fs = require("fs");
 
 function etacalc(a) {
-    let result = 120-(120/100*a)
+    let result = 180-(180/100*a)
     let resultr = Math.round((result + Number.EPSILON) * 100) / 100;
     if (result === 1) {
         return chalk.gray(resultr + " Minute left")
-    } else if (result <= 120) {
+    } else if (result <= 180) {
         return chalk.gray(resultr + " Minutes left")
     } else {
         return chalk.gray("-" + " Minutes left")
     }
 }
-
 function secondstominutescalc(a, b) {
-
     if (b === true) {
         let result = a/60;
 
@@ -32,15 +30,11 @@ function secondstominutescalc(a, b) {
     }
 
 }
-
-
 function ciEquals(a, b) {
     return typeof a === 'string' && typeof b === 'string'
         ? a.localeCompare(b, undefined, { sensitivity: 'accent' }) === 0
         : a === b;
 }
-
-
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -52,7 +46,6 @@ function statuscheck(raw) {
         return chalk.greenBright("Live")
     }
 }
-
 function statuscheckboolean(status) {
     if(status.includes("Offline")) {
         return false
@@ -60,7 +53,6 @@ function statuscheckboolean(status) {
         return true
     }
 }
-
 function validURL(str) {
     const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -74,21 +66,17 @@ function validURL(str) {
         return "Please provide a Valid URL..."
     }
 }
-
 function validPath(str) {
     if (fs.existsSync(str)) {
         return true
     } else {
         return "Please provide a Valid Path..."
     }
-
 }
-
 async function delay(ms) {
     // return await for better async stack trace support in case of errors.
     return await new Promise(resolve => setTimeout(resolve, ms));
 }
-
 module.exports = {
     etacalc,
     ciEquals,
