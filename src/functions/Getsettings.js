@@ -9,7 +9,7 @@ const {displayless} = require("../Data/SavedData");
 const winston = require("winston");
 
 const path = './settings.json'
-
+const opsys = process.platform;
 let options = {
     'Chromeexe': "",
     'UserDataPath': "",
@@ -68,8 +68,7 @@ async function Getsettings() {
         });
 
     } else {
-        const opsys = process.platform;
-        if (opsys === 'win32') {
+        if (opsys === 'win32' || opsys === 'linux' && !data.settings.displayless) {
             await Chromepaths()
             await UserData()
 
@@ -119,15 +118,20 @@ async function Chromepaths() {
             if (Pathawnser.confirmed === true) {
 
                 //Check the Path
-                if (fs.existsSync(chromePaths.chrome)) {
+                if (opsys !== 'linux') {
+                    if (fs.existsSync(chromePaths.chrome)) {
+                        winston.info(" ")
+                        options.Chromeexe = await chromePaths.chrome //Set the Path
+                    } else { //If auto detected path is invaild
+                        winston.info(" ")
+                        winston.info(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
+                        winston.info(" ")
+                        if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
+                        process.exit(21);
+                    }
+                } else {
                     winston.info(" ")
                     options.Chromeexe = await chromePaths.chrome //Set the Path
-                } else { //If auto detected path is invaild
-                    winston.info(" ")
-                    winston.info(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
-                    winston.info(" ")
-                    if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
-                    process.exit(21);
                 }
 
             } else { // If users selects no on auto detect providing it maunally

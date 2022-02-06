@@ -34,7 +34,7 @@ async function Login() {
         }
         try {
             await loginpage.waitForFunction(
-                'document.querySelector(\'title\').innerText.toString() === "Twitch" ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector(\'title\').innerText.toString())'
+                "document.querySelector('title').innerText.toString() === 'Twitch' ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector('title').innerText.toString())"
             ); //Default 30s timeout
         } catch (error) {
             winston.info(chalk.red("Closing... You did not Login in Time"))
