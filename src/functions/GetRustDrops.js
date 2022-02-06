@@ -32,11 +32,11 @@ async function GetRustDrops(page, campaignpage, feedback ) {
                         e.claimed = true;
                     }
                 })
-                function claimedstatustostring (streamer) {return (streamer.claimed) ? chalk.greenBright('\u2713') : chalk.red("\u2718")}
+                function claimedstatustostring (streamer) {return (streamer.claimed) ? chalk.greenBright.italic('Claimed') : chalk.red.italic("Unclaimed")}
                 if (feedback) {
                     data.Streamers.forEach((e, i) => {
                         winston.info(" ")
-                        winston.info(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop) + " | " + statuscheck(e.live) + " | " + claimedstatustostring(e))
+                        winston.info(chalk.cyan(e.url) + " | " + chalk.magenta(e.drop)  + " | " + statuscheck(e.live)  + " | " + claimedstatustostring(e) )
                     })
                 }
                 return streamers;
@@ -74,7 +74,8 @@ async function GetRustDrops(page, campaignpage, feedback ) {
 }
 
 async function parseFacepunchStreamersPage(page) {
-
+    if (data.debug) winston.info(chalk.gray("Waiting for FacepunchStreamersSite to load (WaitForSelector)"));
+    await page.waitForSelector('.drops-group', {visible: true});
     return await page.evaluate(() => {
         let streamers = [];
         let GeneralDrops = [];
@@ -128,7 +129,8 @@ async function parseFacepunchStreamersPage(page) {
 }
 
 async function parseRustcampaignpage(campaignpage) {
-
+    if (data.debug) winston.info(chalk.gray("Waiting for Campaignpage to load (WaitForSelector)"));
+    await campaignpage.waitForSelector('[alt="Rust"]', {visible: true});
         const rustDrops_twitch = await campaignpage.evaluate(() => {
             let DropDivs = [];
             let twitchrustdrops = [];

@@ -7,7 +7,6 @@ async function MapDrops(dropspage) {
         waitUntil: ["networkidle2", "domcontentloaded"]
     })
     data.dropsmap = [];
-
     await parseTwitchDropsPage(dropspage).then(r => {
         data.dropsmap = r[0];
         data.claimed = r[1];
@@ -21,6 +20,8 @@ async function MapDrops(dropspage) {
 }
 
 async function parseTwitchDropsPage(dropspage) {
+    if (data.debug) winston.info(chalk.gray("Waiting for Dropspage to load (WaitForSelector)"));
+    await dropspage.waitForSelector('[data-test-selector="DropsCampaignInProgressRewards-container"]', {visible: true});
     await dropspage.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
     let autoclaimstatus = data.settings.AutoClaim
     return dropspage.evaluate((autoclaimstatus) => {

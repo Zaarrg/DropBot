@@ -86,6 +86,8 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                 winston.info('%o', data.claimed)
                 winston.info("  Live cHs:")
                 winston.info('%o', data.choi)
+                winston.info("  Drops Map:")
+                winston.info('%o', data.dropsmap)
             }
             if (data.debug) winston.info("DEBUG: PercentCurrentDrop: " + PercentCurrentDrop)
 
