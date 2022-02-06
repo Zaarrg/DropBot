@@ -30,7 +30,7 @@ async function Login() {
         winston.info(chalk.gray("Please Login with you Account..."))
         if (data.debug && displayless) {
             await loginpage.screenshot({path: 'screenshot.png'})
-            winston.debug("DEBUG: Status Screen of Loginpage")
+            winston.info("DEBUG: Status Screen of Loginpage")
         }
         try {
             await loginpage.waitForFunction(

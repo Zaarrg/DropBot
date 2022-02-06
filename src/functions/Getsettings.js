@@ -34,7 +34,7 @@ async function Getsettings() {
             if (options.displayless === false) {
                 await Chromepaths();
             } else {
-                winston.error("No Chrome path found in settings.json")
+                winston.error("ERROR: No Chrome path found in settings.json")
                 process.exit(1)
             }
 
@@ -51,7 +51,7 @@ async function Getsettings() {
                     winston.info(" ");
                     winston.info(chalk.gray("Cookies provided..."))
                 } else {
-                    winston.error("No UserData or Cookies found...")
+                    winston.error("ERROR: No UserData or Cookies found...")
                     process.exit(1)
                 }
             }
@@ -79,7 +79,7 @@ async function Getsettings() {
                 winston.info(" ");
             });
         } else {
-            winston.error('Please provide a settings.json to read...')
+            winston.error('ERROR: Please provide a settings.json to read...')
             process.exit(1)
         }
     }
@@ -90,11 +90,11 @@ async function Getsettings() {
 
 async function setsaveddatavalues() {
     data.debug = options.debug
-    if (options.debug === true) {winston.debug(chalk.cyan("\nDebug enabled"))}
+    if (options.debug === true) {winston.info(chalk.cyan("Debug enabled"))}
     data.headless = options.headless
-    if (options.headless === false) {winston.info(chalk.cyan("\nHeadless mode disabled"))}
+    if (options.headless === false) {winston.info(chalk.cyan("Headless mode disabled"))}
     data.displayless = options.displayless
-    if (options.displayless === true) {winston.info(chalk.cyan("\nDisplayless mode enabled"))}
+    if (options.displayless === true) {winston.info(chalk.cyan("Displayless mode enabled"))}
     data.UserDataPath = options.UserDataPath
 }
 

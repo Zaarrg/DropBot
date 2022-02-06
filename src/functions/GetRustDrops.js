@@ -44,10 +44,15 @@ async function GetRustDrops(page, campaignpage, feedback ) {
         } else if (data.Rustdrops_twitch !== undefined) {
             data.Streamers.forEach((element, index) => {
                 data.Rustdrops_twitch.forEach((e, i) => {
-                    if (element.url === e.url) {
+                    if (element.url.toLowerCase() === e.url.toLowerCase()) {
                         element.twitch_name = e.drop
                     }
                 })
+            })
+            data.Streamers.forEach((e, i) => {
+                if (data.claimed.includes(e.twitch_name)) {
+                    e.claimed = true;
+                }
             })
             if (feedback) {
                 data.Streamers.forEach((e, i) => {
@@ -148,7 +153,7 @@ async function parseRustcampaignpage(campaignpage) {
             })
             return twitchrustdrops
         })
-        if(data.debug) winston.debug("DEBUG: GOT RUST Campaing " + JSON.stringify(rustDrops_twitch))
+        if(data.debug) winston.info("DEBUG: GOT RUST Campaing \n %o", rustDrops_twitch)
         data.Rustdrops_twitch = rustDrops_twitch;
         campaignpage.close();
         return data.Rustdrops_twitch

@@ -14,6 +14,11 @@ For Later:
 - Check if the all Live Channels on 100% Drop Event works.
 
 
+1.3.3.4 Fixes todo:
+Fix Debug not Logging the actual object (Console DONE file still not logging) [Done]
+Fix all live are claimed on start and having no choices to start from [Fixed] but Drops Already claimed does not seem to work...[Done]
+Typo ReadME UserDataPath [Done]
+
 Newly Done:
 - Autoclaim [DONE]
 - Get All Already gotten Drops from Twitch, to prevent loop and filter all Channels out witch are already claimed.

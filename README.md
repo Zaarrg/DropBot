@@ -80,7 +80,7 @@
   
 Well I was tired of always checking which Rust Drops are available and which Streamers are Online, and most of the time while I was sleeping the "nice" Drops were Online.  
   
-So I made this bot to Automatically farm Drops until you have all of them. Oh, and btw the code is a mess and im a beginner so don't expect a well coded application.  
+So I made this bot to Automatically farm Drops until you have all of them. Oh, and btw the code is a mess and im a beginner so don't expect a well coded application, use at ur own Risk.
   
 Here's why:  
 * You don't waste your time checking who is online.  
@@ -102,10 +102,15 @@ There are two ways you can use this bot.
   
 ### Installation  
   
-* Executable  
-1. Download the Zip File with the Executable and NPM packages to your PC [https://github.com/Zaarrg/TTVDropBot/releases](https://github.com/Zaarrg/TTVDropBot/releases)  
+* Windows Executable  
+1. Download the Zip File or the Executable to your PC [https://github.com/Zaarrg/TTVDropBot/releases](https://github.com/Zaarrg/TTVDropBot/releases)  
 2. Extract the Zip File into a Folder  
-3. Run TTVDropBot.exe  
+3. Run TTVDropBot.exe
+
+- Linux Executable
+1. [Download](https://github.com/Zaarrg/TTVDropBot/releases) the Linux executable. 
+2. Give it permissions to run as executable.
+3. Run TTVDropBot-linux-*
   
   
 * npm - [Nodejs Required](https://nodejs.org/en/)  
@@ -170,7 +175,7 @@ Down below you can find the settings Variables and what they do.
 
 ### UserDataPath and AutoLogin
 
-- For AutoLogin Login in via the bot and it will reuse the gather cookies after first time Login or you can provide the UserDataPath and the bot will use the twitch-session cookies saved there.
+- After Loging in for the first time the gather cookies will be saved as twitch-session.json and reused on next startup to automatically log you in or you can provide the UserDataPath and the bot will use the twitch-session cookies saved there.
 
 - You can specify a User Profile Directory / User Data Path. This causes Chrome to save all the data to this folder and to read data from this folder. Can be Provided for AutoLogin.
 
@@ -186,7 +191,7 @@ Down below you can find the settings Variables and what they do.
 - Should the bot run in headless or not. True means the bot will not show any Chrome Window. False means the bot will fully show Google Chrome, useful for checking what the bot is doing and error cause detection.
 
 ### Debug
-- If enabled the Bot will log gather Data to the console. Should only be used for error cause detection.
+- If enabled the Bot will log gathered Data to the console. Should only be used for error cause detection.
 
 ### Displayless
 - Allows the bot to run fully automatic without any user input. Only Recommended for advanced users. Very useful for running via pm2 and running on GuiLess systems like ubuntu on a vps.

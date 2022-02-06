@@ -75,7 +75,7 @@ async function Watch() {
             await page.waitForSelector(`.section.streamer-drops, .section.general-drops, .section.is-getstarted`); // default wait for 10s
             //Get Rust Drops From Rust Site
             await GetRustDrops(page, campaignpage,true).then(async r => {
-                if (data.debug) winston.debug("DEBUG: GetRustDrops Result: " + JSON.stringify(r))
+                if (data.debug) winston.info("DEBUG: GetRustDrops Result: %o", r)
                 if (r.length === 0) {
                     winston.info(" ")
                     winston.info(chalk.red('No Rust Drops available...'));
@@ -87,9 +87,9 @@ async function Watch() {
                 }
             })
             if (data.debug) {
-                winston.debug("DEBUG: Rust Drops: ")
-                data.Streamers.forEach((element) => winston.info(element))
-                winston.debug("DEBUG END")
+                winston.info("DEBUG: Rust Drops: ")
+                data.Streamers.forEach((element) => winston.info('%o', element))
+                winston.info("DEBUG END")
             }
             //Let the User Select a Starting Ch
             await SelectStartingCh(true);

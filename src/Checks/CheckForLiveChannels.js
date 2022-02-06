@@ -30,13 +30,24 @@ async function CheckForLiveChannels(removeurl) {
     await removewatching();
 
     async function removeclaimed() {
+            let chstoremove = 0;
+            const datachoibackup = [];
+            data.choi.forEach(e => datachoibackup.push(e))
+
             for (let i = 0; i < data.choi.length; i++)
             {
                 data.Streamers.forEach(e => {
                     if (data.choi[i] === e.url && e.claimed) {
+                        chstoremove++
                         return [data.choi.splice(i, 1), i--];
                     }
                 })
+            } //Check if All Live Are Claimed if so dont remove them
+            if (chstoremove === datachoibackup.length) {
+                data.choi = datachoibackup
+                winston.info(" ")
+                winston.info(chalk.gray("All Live Channels Claimed..."))
+                winston.info(" ")
             }
     }
     await removeclaimed();

@@ -15,7 +15,7 @@ async function StreamPage(startch) {
     //Open New Tab to the Starting ch
     winston.info(" ")
     winston.info(chalk.gray("Going to Starting Channel..."))
-    if (data.debug) winston.debug("DEBUG: Starting CH: " + startch + " Live Chs: " + data.choi)
+    if (data.debug) winston.info("DEBUG: Starting CH: " + startch + " Live Chs: %o", data.choi)
     //Open Watching Tab
     const watchingpage = await data.browser.newPage();
     await watchingpage.setDefaultTimeout(data.settings.timeout)
@@ -76,34 +76,33 @@ async function StreamPage(startch) {
 let retry = 0;
 async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpage) {
     await delay(data.settings.ProgressCheckInterval).then( async () => {
-        if (data.debug) winston.debug("DEBUG: Starting Checks...")
+        if (data.debug) winston.info("DEBUG: Starting Checks...")
         await CheckProgressCurrentPage(data.page, dropspage, startch, campaignpage).then(async (PercentCurrentDrop) => {
 
             if (data.debug) {
-                winston.debug("DEBUG: Got the following data to work with: (Streamers)")
-                data.Streamers.forEach((element) => winston.info(element))
+                winston.info("DEBUG: Got the following data to work with: (Streamers)")
+                data.Streamers.forEach((element) => winston.info('%o', element))
                 winston.info(" Claimed Chs:")
-                winston.info(data.claimed)
+                winston.info('%o', data.claimed)
                 winston.info("  Live cHs:")
-                winston.info(data.choi)
+                winston.info('%o', data.choi)
             }
-            if (data.debug) winston.debug("DEBUG: PercentCurrentDrop: " + PercentCurrentDrop)
+            if (data.debug) winston.info("DEBUG: PercentCurrentDrop: " + PercentCurrentDrop)
 
             await CheckIfOffline(startch).then(async (CurrentChannelStatus) => {
 
-                if (data.debug) winston.debug("DEBUG: CurrentChannelStatus: " + CurrentChannelStatus)
+                if (data.debug) winston.info("DEBUG: CurrentChannelStatus: " + CurrentChannelStatus)
 
                 await CheckIfCurrentChannelsDropsOnHundred().then(async (CurrentChannelsAllHundred) => {
 
-                    if (data.debug) winston.debug("DEBUG: Are CurrentChannelsallclaimed/hundred: " + CurrentChannelsAllHundred)
+                    if (data.debug) winston.info("DEBUG: Are CurrentChannelsallclaimed/hundred: " + CurrentChannelsAllHundred)
 
                     await SamePercentCheck(PercentCurrentDrop).then(async (SamePercentCheckResult) => {
 
-                        if (data.debug) winston.debug("DEBUG: Is it the Same Percentage (SamePrecentCheck): " + SamePercentCheckResult)
+                        if (data.debug) winston.info("DEBUG: Is it the Same Percentage (SamePrecentCheck): " + SamePercentCheckResult)
 
                        await CheckifAllClaimed().then(async (AllLiveClaimed) => {
-
-                           if (data.debug) winston.debug("DEBUG: Are all live claimed: (Allliveclaimed): " + AllLiveClaimed)
+                           if (data.debug) winston.info("DEBUG: Are all live claimed: (Allliveclaimed): " + AllLiveClaimed)
 
                         if (SamePercentCheckResult) {
                             winston.info(" ");
@@ -115,14 +114,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -137,7 +136,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
@@ -145,7 +144,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -171,7 +170,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels().then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
-                                            if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                            if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     } else {
@@ -179,7 +178,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         await CheckForLiveChannels(startch).then(async () => {
                                             dropspage.close();
                                             watchingpage.close();
-                                            if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                            if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                             return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                         })
                                     }
@@ -200,14 +199,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
-                                        if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                        if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
-                                        if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                        if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -222,14 +221,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                     await CheckForLiveChannels().then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
-                                        if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                        if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 } else {
                                     await CheckForLiveChannels(startch).then(async () => {
                                         dropspage.close();
                                         watchingpage.close();
-                                        if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                        if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
@@ -245,14 +244,14 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             } else {
                                 await CheckForLiveChannels(startch).then(async () => {
                                     dropspage.close();
                                     watchingpage.close();
-                                    if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                    if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                     return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                 })
                             }
@@ -265,7 +264,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                             await CheckForLiveChannels(startch).then(async () => {
                                 dropspage.close();
                                 watchingpage.close();
-                                if (data.debug) winston.debug("Channels to randomly choose new one: " + data.choi)
+                                if (data.debug) winston.info("Channels to randomly choose new one: %o", data.choi)
                                 return await StreamPage(data.choi[getRandomInt(data.choi.length)]);
                             })
                         })

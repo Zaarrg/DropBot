@@ -13,9 +13,13 @@ const { printf } = format;
 async function start() {
     //Logger Start
     //Log to File
-    const fileFormat = printf(({ message, timestamp }) => {
-        return `${timestamp}: ${message}`});
-    const consoleFormat = printf(log => log.message)
+    const fileFormat = printf((log) => {
+        return `${log.timestamp}: ${log.message}`
+    });
+    const consoleFormat = printf((log) => {
+        return log.message
+    })
+
     // Logger configuration
     process.on('unhandledRejection', (reason, promise) => {
         throw reason;})
@@ -33,6 +37,7 @@ async function start() {
                 timestamp: true,
                 format: format.combine(
                     format.uncolorize(),
+                    format.splat(),
                     format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
                     fileFormat,
                 )
@@ -47,6 +52,7 @@ async function start() {
                 timestamp: true,
                 format: format.combine(
                     format.uncolorize(),
+                    format.splat(),
                     format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
                     fileFormat,
                 )
@@ -58,6 +64,8 @@ async function start() {
         handleExceptions: true,
         RejectionHandler: true,
         format: format.combine(
+            format.prettyPrint(),
+            format.splat(),
             consoleFormat
         )
     }));
@@ -71,10 +79,10 @@ async function start() {
                 return data.data;
             })
             .catch(err =>winston.info(err));
-        const BotVersion = "1.3.3.4"
+        const BotVersion = "1.3.3.5"
         if (req.version !== BotVersion) {
             winston.info(" ")
-            winston.info(chalk.green("New Version to download available...") + " | " + chalk.gray("Your Version: ") +  chalk.magenta(BotVersion + " (dev)") + " | " + chalk.gray("Newest Version: ") +  chalk.magenta(req.version))
+            winston.info(chalk.green("New Version to download available...") + " | " + chalk.gray("Your Version: ") +  chalk.magenta(BotVersion + " (main)") + " | " + chalk.gray("Newest Version: ") +  chalk.magenta(req.version))
         }
         //Check Version End
     //Get Settings
