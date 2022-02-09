@@ -109,7 +109,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                         if (SamePercentCheckResult) {
                             winston.info(" ");
                             winston.info(chalk.red("Percentage was same for at least 4 ticks... Looking for other channel..."));
-                            if (data.choi <= 1) {
+                            if (data.choi.length <= 1) {
                                 winston.info(" ")
                                 winston.info(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
                                 await delay(600000);
@@ -133,7 +133,7 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                             winston.info(chalk.cyan("All live Channels ") + chalk.green("claimed..."));
                             winston.info(" ")
                             winston.info(chalk.magenta("Waiting for new Channels to go Live... Retry in 10 Minutes "));
-                            if (data.choi <= 1) {
+                            if (data.choi.length <= 1) {
                                 await delay(600000);
                                 await CheckForLiveChannels().then(async () => {
                                     dropspage.close();

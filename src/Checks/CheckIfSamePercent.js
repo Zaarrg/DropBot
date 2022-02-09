@@ -14,6 +14,7 @@ async function SamePercentCheck(PercentCurrentDrop) {
             SamePercent++;
 
         } else if (LastPercent !== PercentCurrentDrop) {
+            LastPercent = PercentCurrentDrop;
             SamePercent = 0;
         }
 
