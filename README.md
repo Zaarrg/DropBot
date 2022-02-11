@@ -48,7 +48,7 @@
             <li><a href="#displayless">Displayless</a></li>  
             <li><a href="#checkclaimedonstart">CheckClaimedOnStart</a></li>  
             <li><a href="#skiploginpage">SkipLoginPage</a></li>  
-            <li><a href="#skipuserdatapathquestion ">SkipUserDataPathQuestion</a></li>  
+            <li><a href="#skipuserdatapathquestion">SkipUserDataPathQuestion</a></li>  
             <li><a href="#progresscheckinterval">ProgressCheckInterval</a></li>  
             <li><a href="#auto-claim">AutoClaim</a></li>  
             <li><a href="#logtofile">LogToFile</a></li>  
