@@ -21,7 +21,14 @@ async function MapDrops(dropspage) {
 
 async function parseTwitchDropsPage(dropspage) {
     if (data.debug) winston.info(chalk.gray("Waiting for Dropspage to load (WaitForSelector)"));
-    await dropspage.waitForSelector('[data-test-selector="DropsCampaignInProgressRewards-container"]', {visible: true});
+    let elementexists = await dropspage.evaluate(() => {
+        let el = document.querySelector("[data-test-selector=\"DropsCampaignInProgressRewards-container\"]")
+        return el ? el.innerText : ""
+    })
+    if (elementexists !== "") {
+        try { await dropspage.waitForSelector('[data-test-selector="DropsCampaignInProgressRewards-container"]'); } catch (e) {winston.info(chalk.yellow('WARNING: No Twitch Drops found in your inventory...'))}
+    } else { winston.info(chalk.gray('No Twitch Drops to progress found in your inventory...')) }
+
     await dropspage.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
     let autoclaimstatus = data.settings.AutoClaim
     return dropspage.evaluate((autoclaimstatus) => {

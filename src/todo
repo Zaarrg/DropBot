@@ -1,7 +1,10 @@
 Todo:
 
 Priority:
-- fix rust moving everything to generaldrops (BIG)
+
+- ability to watch any drops enabled twitch game there is. (could also replace the bot 'all drops are general drops' handle)
+- handle all channels offline in the last 24h
+
 (- auto reconnect)
 For other Games:
 - Add feature to search specific twitch games for streams with enabled drops and watch them maybe sort by viewer count as watch priorty.
@@ -9,9 +12,12 @@ For other Games:
 
 For Later:
 - Ability to go back to the selecting Twitch Channel by pressing a Key to switch channels while the Programm is running.
-- The Bot should automaticlly stop if the user has all Drops.
 - Add a Force Feature to only watch the Channle Selected and prevent the bot from switching if its offline.
 - Check if the all Live Channels on 100% Drop Event works.
+
+1.3.3.6:
+- fix rust moving everything to generaldrops (BIG) [Done]
+- The Bot should automaticlly stop if the user has claimed all Drops. [Done only works with claimed ones]
 
 
 1.3.3.4 Fixes todo:

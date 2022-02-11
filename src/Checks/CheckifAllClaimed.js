@@ -9,7 +9,7 @@ async function CheckifAllClaimed() {
             alreadyclaimedandonline++
         }
     })
-    return alreadyclaimedandonline === data.choi.length
+    return (data.alldropsgeneral) ? false : alreadyclaimedandonline === data.choi.length
 }
 
 module.exports = {

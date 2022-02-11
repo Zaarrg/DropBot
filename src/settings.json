@@ -7,6 +7,7 @@
   "displayless": false,
   "CheckClaimedOnStart": true,
   "SkipLoginPage": true,
+  "SkipUserDataPathQuestion": true,
   "ProgressCheckInterval": 60000,
   "AutoClaim": true,
   "LogToFile": true

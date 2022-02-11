@@ -48,6 +48,7 @@
             <li><a href="#displayless">Displayless</a></li>  
             <li><a href="#checkclaimedonstart">CheckClaimedOnStart</a></li>  
             <li><a href="#skiploginpage">SkipLoginPage</a></li>  
+            <li><a href="#skipuserdatapathquestion ">SkipUserDataPathQuestion </a></li>  
             <li><a href="#progresscheckinterval">ProgressCheckInterval</a></li>  
             <li><a href="#auto-claim">AutoClaim</a></li>  
             <li><a href="#logtofile">LogToFile</a></li>  
@@ -247,6 +248,9 @@ Example CustomChannels File:
 
 ### SkipLoginPage
 - Option to skip the LoginPage and prevent it from always opening on start. Only use if twitch-session.jso (cookies) are provided. 
+
+### SkipUserDataPathQuestion
+- Option to skip the UserDataPathQuestion and prevent it from always opening when not providing one.
 
 ### ProgressCheckInterval
 - Option to change the Progress Interval in ms. Default is `60000` which is every `60` seconds the bot will check the progress. Can be increased for slow internet connections to prevent the bot from retrying so often.

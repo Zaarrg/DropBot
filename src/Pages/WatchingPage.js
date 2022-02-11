@@ -91,6 +91,7 @@ async function Watch() {
                 data.Streamers.forEach((element) => winston.info('%o', element))
                 winston.info("DEBUG END")
             }
+            if (data.alldropsgeneral) {winston.info(chalk.yellow('\nAll Rust drops are general Drops. You can watch any available channel...')); data.settings.AutoClaim = true;}
             //Let the User Select a Starting Ch
             await SelectStartingCh(true);
             //Start Watching

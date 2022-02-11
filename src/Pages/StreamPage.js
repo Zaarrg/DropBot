@@ -10,6 +10,8 @@ const {SamePercentCheck} = require("../Checks/CheckIfSamePercent");
 const {etacalc} = require("../functions/util");
 const {getRandomInt} = require("../functions/util");
 const winston = require("winston");
+const {AllChannelsClaimedCheck} = require("../Checks/AllChannelsClaimedCheck");
+const inputReader = require("wait-console-input");
 
 async function StreamPage(startch) {
     //Open New Tab to the Starting ch
@@ -151,6 +153,16 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                 })
                             }
                         }
+                           await AllChannelsClaimedCheck().then(async (AllChannelsClaimed) => {
+                               if (AllChannelsClaimed) {
+                                   winston.info(" ");
+                                   winston.info(chalk.cyan("All Channels ") + chalk.green("claimed..."));
+                                   winston.info(" ")
+                                   winston.error(chalk.magenta("Work is done here, going on vacation..."));
+                                   if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
+                                   process.exit(31)
+                               }
+                           })
                     if (CurrentChannelsAllHundred === false) {
                         if (CurrentChannelStatus === true) {
                             if (PercentCurrentDrop === undefined) {
@@ -234,6 +246,13 @@ async function CurrentProgressEvent(dropspage, startch, watchingpage, campaignpa
                                         return await StreamPage(data.choi[getRandomInt(data.choi.length)])
                                     })
                                 }
+                            } else if (PercentCurrentDrop instanceof Array) {
+                                if (data.debug) winston.info("General Drops Array in progress: %o", PercentCurrentDrop)
+                                winston.info('\n')
+                                PercentCurrentDrop.forEach(e => {
+                                    winston.info(chalk.gray("Current Progress: ") + chalk.white(e.percentage + " %") + chalk.gray(" | Drop Name: ") + chalk.white(e.name) + chalk.gray(" | " + etacalc(e.percentage)));
+                                })
+                                return await CurrentProgressEvent(dropspage, startch, watchingpage)
                             }
                         } else if (CurrentChannelStatus === false) {
                             winston.info(" ")

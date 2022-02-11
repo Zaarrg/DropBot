@@ -14,7 +14,7 @@ let Rustdrops_twitch = undefined
 let choi = [];
 let offlinechs = [];
 let dropsmap = [];
-
+let alldropsgeneral = false;
 //starting ch
 let Startingchannel;
 
@@ -38,6 +38,7 @@ let headless = true;
 
 module.exports = {
     settings,
+    alldropsgeneral,
     debug,
     Rustdrops_twitch,
     headless,

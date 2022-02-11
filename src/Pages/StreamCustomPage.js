@@ -181,7 +181,7 @@ async function farmpoint(page) {
     //Inject JQuery
     await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.6.0.js'})
     if (data.debug) winston.info(chalk.gray("Waiting for WatchingPage to load (WaitForSelector)"));
-    await page.waitForSelector('[data-test-selector="balance-string"]', {visible: true});
+    try {await page.waitForSelector('[data-test-selector="balance-string"]', {visible: true});} catch (e) {winston.info(chalk.yellow('WARNING: Points Balance not loaded...'))}
     return await page.evaluate(() => {
         let rawPoints = $('[data-test-selector="balance-string"]').text()
         let communitybuttons = $('[data-test-selector="community-points-summary"]').find("button")

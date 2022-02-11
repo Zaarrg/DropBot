@@ -19,6 +19,7 @@ let options = {
     'displayless': false,
     'CheckClaimedOnStart': true,
     'SkipLoginPage': false,
+    'SkipUserDataPathQuestion': false,
     'ProgressCheckInterval': 60000,
     'AutoClaim': true,
     'LogToFile': false
@@ -45,7 +46,9 @@ async function Getsettings() {
 
         if (options.UserDataPath === "") {
             if (options.displayless === false) {
-                await UserData()
+                if (options.SkipUserDataPathQuestion === false) {
+                    await UserData()
+                } else {winston.info(chalk.gray('\nSkipping UserDataPath Question...'))}
             } else {
                 if (fs.existsSync('./twitch-session.json')) {
                     winston.info(" ");
