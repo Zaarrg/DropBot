@@ -22,7 +22,7 @@ async function MapDrops(dropspage) {
 async function parseTwitchDropsPage(dropspage) {
     if (data.debug) winston.info(chalk.gray("Waiting for Dropspage to load (WaitForSelector)"));
     let elementexists = await dropspage.evaluate(() => {
-        let el = document.querySelector("[data-test-selector=\"DropsCampaignInProgressRewards-container\"]")
+        let el = document.querySelector('[data-test-selector="DropsCampaignInProgressRewards-container"]')
         return el ? el.innerText : ""
     })
     if (elementexists !== "") {

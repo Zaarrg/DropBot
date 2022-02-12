@@ -110,7 +110,10 @@ async function GetRustDrops(page, campaignpage, feedback ) {
 
 async function parseFacepunchStreamersPage(page) {
     if (data.debug) winston.info(chalk.gray("Waiting for FacepunchStreamersSite to load (WaitForSelector)"));
-    try {await page.waitForSelector('.drops-group', {visible: true});} catch (e) {winston.info(chalk.yellow('WARNING: Facepunch Streamers not loaded...'))}
+    let elementexists = await page.evaluate(() => {let el = document.querySelector('.drops-group'); return el ? el.innerText : ""})
+    if (elementexists !== "") {
+        try {await page.waitForSelector('.drops-group', {visible: true});} catch (e) {winston.info(chalk.yellow('WARNING: Facepunch Streamers not loaded...'))}
+    }
     return await page.evaluate(() => {
         let streamers = [];
         let GeneralDrops = [];
@@ -166,7 +169,10 @@ async function parseFacepunchStreamersPage(page) {
 
 async function parseRustcampaignpage(campaignpage) {
     if (data.debug) winston.info(chalk.gray("Waiting for Campaignpage to load (WaitForSelector)"));
-    try {await campaignpage.waitForSelector('[alt="Rust"]', {visible: true});} catch (e) {winston.info(chalk.yellow('WARNING: Rust Campaign page not loaded..'))}
+    let elementexists = await campaignpage.evaluate(() => {let el = document.querySelector('[alt="Rust"]'); return el ? el.innerText : ""})
+    if (elementexists !== "") {
+        try {await campaignpage.waitForSelector('[alt="Rust"]', {visible: true});} catch (e) {winston.info(chalk.yellow('WARNING: Rust Campaign page not loaded..'))}
+    }
         const rustDrops_twitch = await campaignpage.evaluate(() => {
             let DropDivs = [];
             let twitchrustdrops = [];
