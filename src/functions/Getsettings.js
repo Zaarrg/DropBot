@@ -114,11 +114,8 @@ async function Chromepaths() {
         ])
         .then(async (answers) => {
 
-            let Pathawnser = JSON.stringify(answers, null, '  ');
-            Pathawnser = JSON.parse(Pathawnser);
-
             //If users selects yes
-            if (Pathawnser.confirmed === true) {
+            if (answers.confirmed === true) {
 
                 //Check the Path
                 if (opsys !== 'linux') {

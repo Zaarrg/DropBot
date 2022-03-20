@@ -45,7 +45,13 @@ async function StreamPage(startch) {
     if (data.Rustdrops_twitch === undefined) {
         await campaignpage.setCookie.apply(campaignpage, data.cookies);
         await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
-        await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+        try {
+            await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+        } catch (e) {
+            winston.info(chalk.red(" Could not find any Rust Campaign on twitch... "))
+            winston.info(' ')
+            winston.error(e)
+        }
     }
     //Check for 18+
     winston.info(" ")
@@ -57,7 +63,7 @@ async function StreamPage(startch) {
         localStorage.setItem('volume', '0.5')
         localStorage.setItem('video-quality', '{"default":"160p30"}')
     })
-    await watchingpage.setViewport({ width: 1280, height: 720 })
+    await watchingpage.setViewport({ width: 1280, height: 1080 })
     await watchingpage.reload({
         waitUntil: ["networkidle2", "domcontentloaded"]
     })

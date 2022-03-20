@@ -1,0 +1,14 @@
+{
+  "Chromeexe": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+  "UserDataPath": "",
+  "timeout": 0,
+  "headless": true,
+  "debug": false,
+  "displayless": false,
+  "CheckClaimedOnStart": true,
+  "SkipLoginPage": true,
+  "SkipUserDataPathQuestion": true,
+  "ProgressCheckInterval": 60000,
+  "AutoClaim": true,
+  "LogToFile": true
+}

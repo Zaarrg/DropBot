@@ -79,7 +79,7 @@ async function start() {
                 return data.data;
             })
             .catch(err =>winston.info(err));
-        const BotVersion = "1.3.3.6"
+        const BotVersion = "1.3.3.7"
         if (req.version !== BotVersion) {
             winston.info(" ")
             winston.info(chalk.green("New Version to download available...") + " | " + chalk.gray("Your Version: ") +  chalk.magenta(BotVersion + " (main)") + " | " + chalk.gray("Newest Version: ") +  chalk.magenta(req.version))

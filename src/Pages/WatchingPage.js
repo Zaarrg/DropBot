@@ -63,7 +63,13 @@ async function Watch() {
                 campaignpage = await browser.newPage()
                 await campaignpage.setCookie.apply(campaignpage, data.cookies);
                 await campaignpage.goto('https://www.twitch.tv/drops/campaigns', {waitUntil: ["domcontentloaded", "networkidle2"]});
-                await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+                try {
+                    await campaignpage.waitForSelector(`h3[title="Rust"]`); // default timeout is 30s
+                } catch (e) {
+                    winston.info(chalk.red("Closing... No Rust Campaign found on twitch... Make sure its available, sometimes it starts later on twitch then scheduled..."))
+                    if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
+                    process.exit(22);
+                }
                 const dropspage = await browser.newPage()
                 await dropspage.goto('https://www.twitch.tv/drops/inventory', {waitUntil: ["domcontentloaded", "networkidle2"]});
                 await dropspage.waitForSelector("main.twilight-main > div.root-scrollable"); // default timeout is 30s

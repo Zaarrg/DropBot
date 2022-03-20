@@ -37,9 +37,21 @@ async function Login() {
                 "document.querySelector('title').innerText.toString() === 'Twitch' ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector('title').innerText.toString())"
             ); //Default 30s timeout
         } catch (error) {
-            winston.info(chalk.red("Closing... You did not Login in Time"))
-            if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
-            process.exit(22);
+            try {
+                await loginpage.waitForFunction(
+                    "document.querySelector('title').innerText.toString() === 'Twitch' ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector('title').innerText.toString())"
+                ); //Default 30s timeout
+            } catch (e) {
+                try {
+                    await loginpage.waitForFunction(
+                        "document.querySelector('title').innerText.toString() === 'Twitch' ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector('title').innerText.toString())"
+                    ); //Default 30s timeout
+                } catch (e) {
+                    winston.info(chalk.red("Closing... You did not Login in Time"))
+                    if (!data.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
+                    process.exit(22);
+                }
+            }
         }
         winston.info(" ");
         winston.info(chalk.green("Success Login..."))
