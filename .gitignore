@@ -1,0 +1,9 @@
+/node_modules/
+/.npmrc
+/build/
+/twitch-session.json
+/src/**/*.bat
+*.log
+/package/**/*.json
+.npmrc
+/settings.json
