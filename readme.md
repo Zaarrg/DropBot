@@ -13,14 +13,14 @@
 
 <p align="center">
   <br>
-  <a href="https://github.com/Josee9988/project-template/issues">
-    <img src="https://img.shields.io/github/stars/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Josee9988/project-template's issues"/>
+  <a href="https://github.com/Zaarrg/TTVDropBot/issues">
+    <img src="https://img.shields.io/github/stars/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot issues"/>
   </a>
-  <a href="https://github.com/josee9988/project-template/pulls">
-    <img src="https://img.shields.io/github/commit-activity/y/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Josee9988/project-template's pull requests"/>
+  <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
+    <img src="https://img.shields.io/github/commit-activity/y/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot pull requests"/>
   </a>
-  <a href="https://github.com/josee9988/project-template/pulls">
-    <img src="https://img.shields.io/github/last-commit/Zaarrg/TTVDropBot?color=97CA00&style=for-the-badge&logo=github" alt="@Josee9988/project-template's pull requests"/>
+  <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
+    <img src="https://img.shields.io/github/last-commit/Zaarrg/TTVDropBot?color=97CA00&style=for-the-badge&logo=github" alt="Zaarrg/TTVDropBot requests"/>
   </a>
 </p>
 
@@ -44,16 +44,16 @@
 
 <br />
 
----
+
 ## ⚡ **Installation**
 
-<h2 align="center">Windows</h2>
+<h3 align="center" >Windows</h3>
 
 1. Download the windows executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Move the executable to a folder.
 3. **Execute** the `TTVDropBot.exe`. The **settings** and **twitch-session** will be generated right beside the executable.
 
-<h2 align="center">Linux</h2>
+<h3 align="center">Linux</h3>
 
 1. Download the linux executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Move the executable to a folder.
@@ -67,8 +67,8 @@
     ```bash
     ./TTVDropBot-linux-x64
     ```
-<h2 align="center">Ubuntu</h2>
-**Using Bot with No GUI - Only Command Line**
+<h3 align="center">Ubuntu</h3>
+<b>Using Bot with No GUI - Only Command Line</b>
 
 1. Download the linux executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Drag and Drop a `settings.json` and `twitch-session.json` file right beside the executable.
@@ -175,28 +175,28 @@ Down below you can find the settings Variables and what they do.
 - Providing a userdatapath, will give the loginpage the option to use cookies out of your browser. Option not really needed anymore.
 - You can find the UserdataPath under <code>chrome://version</code> then under <code>Profile Path</code>
 
-###Debug
+### Debug
 - Will log important values to the console for debugging.
 
-###Displayless
+### Displayless
 - Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui]()
 
-###ProgressCheckInterval
+### ProgressCheckInterval
 - The time in ms, in what interval the progress should be checked. Recommended is `60000 ms - 60 s` anything under could cause twitch blocking your request.
 
-###WaitforOnlineChannels
+### WaitforOnlineChannels
 - If set to false the Bot will no longer wait 5 Minutes for new Channels to come online. It will switch to another game instead.
 
-###Prioritylist
+### Prioritylist
 - A list of Games the bot should watch / prioritize. Only Provide games with active Drop Campaigns in this Format:
     `["Rust","Fortnite", "Elite: Dangerous"]` 
 - You can get the valid name from: `https://www.twitch.tv/directory`
 - If provided the bot will only watch the games listed.
 
-###AutoClaim
+### AutoClaim
 - Allow the bot to autoClaim or not
 
-###LogToFile
+### LogToFile
 - Log the Console to a file.
 
 <br/>
@@ -208,13 +208,13 @@ Down below you can find the settings Variables and what they do.
 
 ![Twitch Drops](https://i.imgur.com/kBabjJL.png)
 
-###Name
+### Name
 - The Name can be any String like `Rainbow Six, Best Ch ever etc...`
 
-###Twitch Url
+### Twitch Url
 - The Url is very important, never use the same Url twice, it has to be a valid Channel link and has always to start with `https://www.twitch.tv/`. Example for a Valid Url: `https://www.twitch.tv/rainbow6tw`
 
-###How the Channel should be Watched
+### How the Channel should be Watched
 
 `Watch until the time runs out:`
 - Watches the channel until the left time reaches 0 then switches to other custom channel.
@@ -222,20 +222,20 @@ Down below you can find the settings Variables and what they do.
 `Watch indefinitely:`
 - Watches the channel until it goes offline, then switches.
 
-###Farm Points
+### Farm Points
 - Pretty simple, should the bot farm Points or not.
 
-###Editing already Added Channel's
+### Editing already Added Channel's
 - You can always edit Channel's which are already added in the `CustomChannels.json`.
 
 ---
 
 ## 🎉 Enjoy the bot and hopefully its helpful!
 
-[![GitHub's followers](https://img.shields.io/github/followers/Zaarrg.svg?style=social)](https://github.com/Josee9988)
-[![GitHub stars](https://img.shields.io/github/stars/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Josee9988/project-template/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Josee9988/project-template/watchers)
-[![GitHub forks](https://img.shields.io/github/forks/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Josee9988/project-template/network/members)
+[![GitHub's followers](https://img.shields.io/github/followers/Zaarrg.svg?style=social)](https://github.com/Zaarrg)
+[![GitHub stars](https://img.shields.io/github/stars/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/watchers)
+[![GitHub forks](https://img.shields.io/github/forks/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/network/members)
 
 Have fun and Enjoy! 😃
 
