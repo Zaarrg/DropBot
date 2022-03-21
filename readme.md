@@ -123,7 +123,7 @@
 
 ![Twitch Drops](https://i.imgur.com/DzB5qjX.png)
 
-**4. Step**
+**5. Step**
 <p align="center">
     <b>🎉 Enjoy! You are successfully watching your drop.</b><br/>
 </p>
