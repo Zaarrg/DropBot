@@ -47,7 +47,7 @@ async function customloop(channelLogin: string) {
     await liveCheck(channelLogin, true);
     let neededtimeinms = (currentdrop.Time * 60000)
     if (status === 'running') {
-        if (currentdrop.TTVLink === 'Watch until time runs out') {
+        if (currentdrop.WatchType === "Watch until time runs out") {
             if (watchedtime < neededtimeinms) {
                 await pointsCheck(channelLogin).then(async points => {
                     await sendMinuteWatched(channelLogin.toString().toLowerCase())
