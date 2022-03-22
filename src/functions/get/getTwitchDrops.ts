@@ -50,8 +50,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
         })
     }
     if (feedback) {
-    winston.info(' ')
-    winston.info(chalk.gray('Looking for a Live Channel...'))
+        winston.info(' ')
+        winston.info(chalk.gray('Looking for a Live Channel...'))
     }
     //Check if drop has a Live channel
     for (const e of userdata.drops) {
@@ -72,23 +72,27 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     const rawInventory = await TwitchGQL._SendQuery("Inventory", {}, '27f074f54ff74e0b05c8244ef2667180c2f911255e589ccd693a1a52ccca7367', 'OAuth ' + userdata.auth_token, true)
     let Inventory = rawInventory[0].data.currentUser.inventory
     if (userdata.settings.debug) winston.info('rawinventory %o', rawInventory)
-        Inventory.gameEventDrops.forEach((claimeddrop: GameEventDrops) => {
-            userdata.claimedDrops.push({
-                id: claimeddrop.id,
-                imageurl: claimeddrop.imageURL,
-                name: claimeddrop.name,
-                game: claimeddrop.game
-            })
+    Inventory.gameEventDrops.forEach((claimeddrop: GameEventDrops) => {
+        userdata.claimedDrops.push({
+            id: claimeddrop.id,
+            imageurl: claimeddrop.imageURL,
+            name: claimeddrop.name,
+            game: claimeddrop.game
         })
+    })
 
 
     //Match inventory drops in progress to the right Drops
     userdata.drops.forEach(DropElement => {
-        Inventory.dropCampaignsInProgress.forEach((e: DropCampaignsInProgress) => {
-            if (DropElement.dropid === e.id) {
-                DropElement.timebasedrop = e.timeBasedDrops;
-            }
-        })
+        if (Inventory.dropCampaignsInProgress !== null) {
+            Inventory.dropCampaignsInProgress.forEach((e: DropCampaignsInProgress) => {
+                if (DropElement.dropid === e.id) {
+                    DropElement.timebasedrop = e.timeBasedDrops;
+                }
+            })
+        } else {
+            if (userdata.settings.debug) winston.info('No Drops in Progress...')
+        }
     })
 
     //Make sure self object exits
@@ -128,60 +132,60 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
 
 export async function askWhatDropToStart(random: boolean, filterlive: boolean, filterNonActive: boolean, filterlast: boolean) {
 
-        userdata.drops.forEach(drop => {
-            if (filterlive) {
-                if (drop.live) {
-                    userdata.availableDropNameChoices.push(drop.dropname)
-                }
-            } else {
+    userdata.drops.forEach(drop => {
+        if (filterlive) {
+            if (drop.live) {
                 userdata.availableDropNameChoices.push(drop.dropname)
             }
-        })
-
-        if (filterNonActive) {
-            for (const [i, DropName] of userdata.availableDropNameChoices.entries()) {
-                if (userdata.nonActiveDrops.includes(DropName)){
-                    userdata.availableDropNameChoices.splice(i, 1)
-                    winston.info(' ')
-                    winston.info(chalk.yellow(DropName + ' | ' + 'was removed because the drop ended or not started yet...'))
-                }
-            }
-        }
-
-        if (filterlast) {
-            for (const [i, choice] of userdata.availableDropNameChoices.entries()) {
-                if (choice === userdata.startDrop) {
-                    userdata.availableDropNameChoices.splice(i, 1)
-                }
-            }
-        }
-
-        if (userdata.availableDropNameChoices.length === 0) {
-            winston.info(' ')
-            winston.info(chalk.gray('All available Channels Offline... Select any Drop to start watching...'))
-            userdata.drops.forEach(drop => {
-                userdata.availableDropNameChoices.push(drop.dropname)
-            })
-        }
-
-        winston.info(' ')
-        if (!random) {
-            await inquirer
-                .prompt([
-                    {
-                        type: 'list',
-                        name: 'namelist',
-                        message: 'What Drop do you wanna start Watching?',
-                        choices: userdata.availableDropNameChoices,
-                    },
-                ])
-                .then(async (answer: {namelist: string}) => {
-                    userdata.startDrop = answer.namelist
-                });
         } else {
-            userdata.startDrop = userdata.availableDropNameChoices[getRandomInt(userdata.availableDropNameChoices.length)]
-            winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.startDrop))
+            userdata.availableDropNameChoices.push(drop.dropname)
         }
+    })
+
+    if (filterNonActive) {
+        for (const [i, DropName] of userdata.availableDropNameChoices.entries()) {
+            if (userdata.nonActiveDrops.includes(DropName)){
+                userdata.availableDropNameChoices.splice(i, 1)
+                winston.info(' ')
+                winston.info(chalk.yellow(DropName + ' | ' + 'was removed because the drop ended or not started yet...'))
+            }
+        }
+    }
+
+    if (filterlast) {
+        for (const [i, choice] of userdata.availableDropNameChoices.entries()) {
+            if (choice === userdata.startDrop) {
+                userdata.availableDropNameChoices.splice(i, 1)
+            }
+        }
+    }
+
+    if (userdata.availableDropNameChoices.length === 0) {
+        winston.info(' ')
+        winston.info(chalk.gray('All available Channels Offline... Select any Drop to start watching...'))
+        userdata.drops.forEach(drop => {
+            userdata.availableDropNameChoices.push(drop.dropname)
+        })
+    }
+
+    winston.info(' ')
+    if (!random) {
+        await inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'namelist',
+                    message: 'What Drop do you wanna start Watching?',
+                    choices: userdata.availableDropNameChoices,
+                },
+            ])
+            .then(async (answer: {namelist: string}) => {
+                userdata.startDrop = answer.namelist
+            });
+    } else {
+        userdata.startDrop = userdata.availableDropNameChoices[getRandomInt(userdata.availableDropNameChoices.length)]
+        winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.startDrop))
+    }
 
 }
 

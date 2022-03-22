@@ -11,11 +11,11 @@ export async function getCurrentDrop(DropcurrentlyWatching: string) {
         foundlivech: [],
         isClaimed: false
     };
-    userdata.drops.forEach((drop) => {
+    for (const drop of userdata.drops) {
         if (drop.foundlivech.includes(DropcurrentlyWatching)) {
             CurrentDrop = drop;
         }
-    })
+    }
     return CurrentDrop
 }
 

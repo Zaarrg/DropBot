@@ -186,7 +186,7 @@ async function directlogin(emailcode: string, facode: string) {
                         winston.info(' ')
                         let code = await askforauthcode(3022);
                         await directlogin(code, '');
-                    } else {
+                    } else if (!fs.existsSync('./twitch-session.json')) {
                         attempt++
                         nm = '';
                         pw = '';
