@@ -2,6 +2,7 @@
 /.npmrc
 /build/
 /twitch-session.json
+/CustomChannels.json
 /src/**/*.bat
 *.log
 /package/**/*.json
