@@ -132,7 +132,7 @@
 
 
 
-<h2 align="center">Step by Step Usage: Custom Channels</h3>
+<h3 align="center">Step by Step Usage: Custom Channels</h3>
 
 **1. Step**
 <p align="center">
@@ -231,7 +231,7 @@ Down below you can find the settings Variables and what they do.
 
 ---
 
-## Json Files Examples
+## 📄 Json Files Examples
 
 ### Example Settings.json
 ```json
