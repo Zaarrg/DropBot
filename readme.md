@@ -104,14 +104,14 @@
 **2. Step**
 
 <p align="center">
-     <b>Select <code>Twitch Drops</code> to watch a Twitch Campaign or <code>Custom Channels</code> if you want to add your own channels. Refer to <a href="https://github.com/Zaarrg/TTVDropBot/tree/v2#step-by-step-usage-custom-channels">Step by Step Usage: Custom Channels</a> for those.</b><br/>
+     <b>Select <code>Twitch Drops</code> to watch a Twitch Campaign or <code>Custom Channels</code> if you want to add your own channels. Refer to <a href="https://github.com/Zaarrg/TTVDropBot/#step-by-step-usage-custom-channels">Step by Step Usage: Custom Channels</a> for those.</b><br/>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/DRqIkpz.png)
 
 **3. Step**
 <p align="center">
-    <b>Select the campaign you want to start watching. If you want to only watch certain campaign and not all refer to <a href="https://github.com/Zaarrg/TTVDropBot/tree/v2#prioritylist">Settings: Priority list</a></b><br/>
+    <b>Select the campaign you want to start watching. If you want to only watch certain campaign and not all refer to <a href="https://github.com/Zaarrg/TTVDropBot/#prioritylist">Settings: Priority list</a></b><br/>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/CMuV729.png)
@@ -179,7 +179,7 @@ Down below you can find the settings Variables and what they do.
 - Will log important values to the console for debugging.
 
 ### Displayless
-- Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui](https://github.com/Zaarrg/TTVDropBot/tree/v2#ubuntu)
+- Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui](https://github.com/Zaarrg/TTVDropBot/#ubuntu)
 
 ### ProgressCheckInterval
 - The time in ms, in what interval the progress should be checked. Recommended is `60000 ms - 60 s` anything under could cause twitch blocking your request.
@@ -226,7 +226,7 @@ Down below you can find the settings Variables and what they do.
 - Pretty simple, should the bot farm Points or not.
 
 ### Editing already Added Channel's
-- You can always edit Channel's which are already added in the [CustomChannels.json]('https://github.com/Zaarrg/TTVDropBot/tree/v2#example-customchannelsjson').
+- You can always edit Channel's which are already added in the [CustomChannels.json]('https://github.com/Zaarrg/TTVDropBot/#example-customchannelsjson').
 
 
 ---
