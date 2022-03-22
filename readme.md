@@ -226,7 +226,7 @@ Down below you can find the settings Variables and what they do.
 - Pretty simple, should the bot farm Points or not.
 
 ### Editing already Added Channel's
-- You can always edit Channel's which are already added in the [CustomChannels.json]('google.com').
+- You can always edit Channel's which are already added in the [CustomChannels.json]('https://github.com/Zaarrg/TTVDropBot/tree/v2#example-customchannelsjson').
 
 
 ---
