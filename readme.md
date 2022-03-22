@@ -160,7 +160,7 @@
     <b>🎉 Enjoy! You are successfully watching your Custom Channel.</b><br/>
 </p>
 
-![Twitch Drops](https://i.imgur.com/AZt3xpU.png)
+![Twitch Drops](https://i.imgur.com/k95h9Tu.png)
 
 ---
 

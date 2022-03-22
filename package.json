@@ -6,8 +6,8 @@
   "scripts": {
     "start:dev": "ts-node ./src/index.ts",
     "build": "rimraf ./build && tsc",
-    "package": "npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
-    "packageforlinux": "npm run build && pkg -o ./package/TTVDropBot-linux/TTVDropBot-linux-x64 --config package.json -t node14-linux-x64 ./build/index.js",
+    "package": "rimraf ./package/TTVDropBot && npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
+    "packageforlinux": "rimraf ./package/TTVDropBot-linux && npm run build && pkg -o ./package/TTVDropBot-linux/TTVDropBot-linux-x64 --config package.json -t node14-linux-x64 ./build/index.js",
     "start:production": "npm run build && node build/index.js"
   },
   "repository": {

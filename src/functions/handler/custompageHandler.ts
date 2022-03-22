@@ -55,7 +55,7 @@ async function customloop(channelLogin: string) {
                     await customloop(channelLogin)
                 });
 
-            } else if (watchedtime === neededtimeinms) {
+            } else if (watchedtime >= neededtimeinms) {
                 status = 'stopped'
                 winston.info(chalk.green('Finished watching the channel: ' + channelLogin))
                 winston.info(chalk.gray('Looking for a new Channel...'))

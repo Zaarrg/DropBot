@@ -93,7 +93,6 @@ async function askforauthcode(errorcode: number) {
     return input
 }
 
-
 async function directlogin(emailcode: string, facode: string) {
             let attempt = 0;
             const details = await askforacccountdetails()
@@ -120,6 +119,7 @@ async function directlogin(emailcode: string, facode: string) {
             await axios.post('https://passport.twitch.tv/login', body, config)
                 .then(async function (response) {
                     let response_data = response.data
+                    if (userdata.settings.debug) winston.info('loginresponse %o', response_data)
                     winston.info(chalk.green("Successfully Logged in..."))
 
                     let authcookie = [{
@@ -145,18 +145,22 @@ async function directlogin(emailcode: string, facode: string) {
                     } catch (e) {}
 
                     if (attempt === 3) {
-                        winston.info(chalk.gray('Failed 3 time to login closing...'))
+                        winston.info(chalk.gray('Failed 3 times to login closing...'))
                         throw 'Failed to Login...'
                     }
                     if (errorcode === 1000) {
+                        nm = '';
+                        pw = '';
                         winston.info(chalk.gray('Login failed due to CAPTCHA...'))
                         winston.info(' ')
                         winston.info(chalk.gray('Your login attempt was denied by CAPTCHA. Please wait 12h or login via the browser...'))
                         winston.info(' ')
                         winston.info(chalk.gray('Redirecting to browser login...'))
                         await browserlogin()
-                    } else if (errorcode === 3001) {
+                    } else if (errorcode === 3001 || errorcode === 2005) {
                         attempt++
+                        nm = '';
+                        pw = '';
                         winston.info(chalk.gray("Login failed due to incorrect username or password..."))
                         await directlogin('', '');
                     } else if (errorcode === 3012) {
@@ -182,6 +186,15 @@ async function directlogin(emailcode: string, facode: string) {
                         winston.info(' ')
                         let code = await askforauthcode(3022);
                         await directlogin(code, '');
+                    } else {
+                        attempt++
+                        nm = '';
+                        pw = '';
+                        winston.info(chalk.gray('Login failed for an unknown reason...'))
+                        winston.info(chalk.gray('The Reason is probably:'))
+                        winston.info(chalk.yellow('Error Code: ' + error.data.error_code + ' | Reason: ' + error.data.error + ' | Error Description: ' + error.error_description))
+                        winston.info(' ')
+                        await directlogin('', '');
                     }
                 })
 }

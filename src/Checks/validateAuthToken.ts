@@ -16,7 +16,6 @@ export async function validateAuthToken() {
         })
         .catch(function (error) {
             winston.error(chalk.red('ERROR'))
-            console.log(error)
             throw error.response.status + ' ' + error.response.statusText + ' ' + error.response.data.message
         })
 
