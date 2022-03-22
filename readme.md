@@ -226,7 +226,55 @@ Down below you can find the settings Variables and what they do.
 - Pretty simple, should the bot farm Points or not.
 
 ### Editing already Added Channel's
-- You can always edit Channel's which are already added in the `CustomChannels.json`.
+- You can always edit Channel's which are already added in the [CustomChannels.json]('google.com').
+
+
+---
+
+## Json Files Examples
+
+### Example Settings.json
+```json
+{
+"Loginmethod": "normal",
+"Chromeexe": "",
+"UserDataPath": "",
+"debug": true,
+"displayless": false,
+"ProgressCheckInterval": 15000,
+"WaitforOnlineChannels": true,
+"Prioritylist": [],
+"AutoClaim": true,
+"LogToFile": true
+}
+```
+
+### Example CustomChannels.json
+```json
+[
+  {
+    "Name": "tarik",
+    "TTVLink": "https://www.twitch.tv/tarik",
+    "WatchType": "Watch until time runs out",
+    "Time": "50",
+    "Points": true,
+    "live": null,
+    "Pointsamount": ""
+  }
+]
+```
+
+### Example Twitch Session
+```json
+[
+  {
+    "name": "auth-token",
+    "value": "yourtoken"
+  }
+]
+```
+
+
 
 ---
 
