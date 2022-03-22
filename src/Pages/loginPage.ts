@@ -31,12 +31,15 @@ export async function Login() {
             winston.info("DEBUG: Status Screen of Loginpage")
         }
         try {
-            await loginpage.waitForFunction(
-                "document.querySelector('title').innerText.toString() === 'Twitch' ? true : /\\([0-9]+\\) Twitch$/.test(document.querySelector('title').innerText.toString())"
-            ); //Default 30s timeout
-
+            await loginpage.waitForNavigation().then((r: any )=> {
+                if (r._url !== 'https://www.twitch.tv/?no-reload=true') {
+                    winston.info(chalk.red("Closing... Failed to Login..."))
+                    if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
+                    process.exit(22);
+                }
+            })
         } catch (error) {
-            winston.info(chalk.red("Closing... You did not Login in Time"))
+            winston.info(chalk.red("Closing... Failed to Login..."))
             if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
             process.exit(22);
         }

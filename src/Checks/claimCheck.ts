@@ -17,7 +17,7 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
     let timebasedlenght = (CurrentDrop.timebasedrop.length - nonworkingamount)
     let hundredpercent = 0;
     let isclaimedamount = 0;
-    
+
     for (const timedrop of CurrentDrop.timebasedrop) {
         if (timedrop.requiredMinutesWatched === timedrop.self.currentMinutesWatched) {
             hundredpercent++
@@ -47,6 +47,7 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
     //Check if all Drops of the game are claimed/claimable
     await allgameddropsclaimableCheck()
 
+    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount)
     //All Claimable
     if (hundredpercent >= timebasedlenght) {
         winston.info(' ')
@@ -81,10 +82,11 @@ async function allgameddropsclaimableCheck() {
         let isclaimedorclaimableamount = 0;
         drop.timebasedrop.forEach(time => {
             amount++
-            if (time.requiredMinutesWatched === time.self.currentMinutesWatched || time.self.isClaimed) {
+            if (time.requiredMinutesWatched === time.self.currentMinutesWatched || time.self.isClaimed === true) {
                 isclaimedorclaimableamount++
             }
         })
+        if (userdata.settings.debug) winston.info('Claim CHECK LOOP ' + isclaimedorclaimableamount + ' | ' + amount + ' | ' + nonworkingamount)
         if (isclaimedorclaimableamount >= (amount-nonworkingamount)) {
             winston.info(' ')
             winston.info(chalk.green('All drops of the game claimed or claimable... Looking for a new Game....'))

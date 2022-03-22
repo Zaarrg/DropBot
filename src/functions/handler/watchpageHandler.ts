@@ -16,20 +16,21 @@ const {Base64} = require('js-base64');
 let status:string = 'stopped';
 
 export async function WatchingEventHandlerStart(DropcurrentlyWatching: string) {
-        if (status === 'stopped') {
-            await getTwitchDrops(userdata.game, false)
-            await allOfflineCheck()
-            await liveCheck(DropcurrentlyWatching, false);
-            await sendMinuteWatched(DropcurrentlyWatching.toString().toLowerCase())
-            status = 'running'
-            await loop(DropcurrentlyWatching);
-        } else if (status === 'running') {
-            await loop(DropcurrentlyWatching);
-        }
+    if (status === 'stopped') {
+        await getTwitchDrops(userdata.game, false)
+        await allOfflineCheck()
+        await liveCheck(DropcurrentlyWatching, false);
+        await sendMinuteWatched(DropcurrentlyWatching.toString().toLowerCase())
+        status = 'running'
+        await loop(DropcurrentlyWatching);
+    } else if (status === 'running') {
+        await loop(DropcurrentlyWatching);
+    }
 }
 
 async function loop(DropcurrentlyWatching: string) {
     await delay(userdata.settings.ProgressCheckInterval);
+    if (userdata.settings.debug) winston.info('UserDATA %o', JSON.stringify(userdata,null, 2))
     //Update Drop Data
     await getTwitchDrops(userdata.game, false)
     await allOfflineCheck()
@@ -37,7 +38,7 @@ async function loop(DropcurrentlyWatching: string) {
     //Get the right Drop
     if (status === 'running') {
         await getCurrentDrop(DropcurrentlyWatching).then(async (CurrentDrop) => {
-            if (userdata.settings.debug) winston.info('CurrentDrop %o', CurrentDrop)
+            if (userdata.settings.debug) winston.info('CurrentDrop %o', JSON.stringify(CurrentDrop,null, 2))
             await claimableCheck(CurrentDrop, userdata.settings.AutoClaim)
             await dateCheck(CurrentDrop, false)
             await SamePercentCheck(CurrentDrop)
@@ -135,4 +136,3 @@ export async function sendMinuteWatched(ChannelLogin: string) {
         winston.info('minute sent!!' + post.status)
     }
 }
-

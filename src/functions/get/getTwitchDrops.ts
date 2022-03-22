@@ -17,7 +17,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     const DropCampaignDetails = await TwitchGQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true)
     userdata.userid = DropCampaignDetails[0].data.currentUser.id
     let allDropCampaings = DropCampaignDetails[0].data.currentUser.dropCampaigns
-    if (userdata.settings.debug) winston.info('DropCampain %o', DropCampaignDetails)
+    if (userdata.settings.debug) winston.info('DropCampain %o', JSON.stringify(DropCampaignDetails,null, 2))
 
     await allDropCampaings.forEach((campaign: Campaign) => {
         if (campaign.status === 'ACTIVE') {
@@ -71,7 +71,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     //Check if drop is started if so get data and set it
     const rawInventory = await TwitchGQL._SendQuery("Inventory", {}, '27f074f54ff74e0b05c8244ef2667180c2f911255e589ccd693a1a52ccca7367', 'OAuth ' + userdata.auth_token, true)
     let Inventory = rawInventory[0].data.currentUser.inventory
-    if (userdata.settings.debug) winston.info('rawinventory %o', rawInventory)
+    if (userdata.settings.debug) winston.info('rawinventory %o', JSON.stringify(rawInventory,null, 2))
     Inventory.gameEventDrops.forEach((claimeddrop: GameEventDrops) => {
         userdata.claimedDrops.push({
             id: claimeddrop.id,
