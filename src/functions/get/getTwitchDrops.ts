@@ -184,7 +184,7 @@ export async function askWhatDropToStart(random: boolean, filterlive: boolean, f
             });
     } else {
         userdata.startDrop = userdata.availableDropNameChoices[getRandomInt(userdata.availableDropNameChoices.length)]
-        winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.startDrop))
+        winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.startDrop)))
     }
 
 }
@@ -223,13 +223,13 @@ export async function askWhatGameToWatch(random: boolean) {
                 });
         } else {
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
-            winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.game))
+            winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.game)))
         }
     } else {
         if (userdata.settings.Prioritylist.length === 0) {
             winston.warn(chalk.yellow('Warning: Please add Games to your Priorty List, otherwise the bot will select a random game...'))
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
-            winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.game))
+            winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.game)))
         } else {
             userdata.game = userdata.settings.Prioritylist[0]
             winston.info(chalk.gray('Selected a drop to from your Priority List watch: ' + userdata.startDrop))

@@ -8,9 +8,13 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
     //filter all non active drops
     let nonworkingamount = 0;
+    let preconditions = false;
     CurrentDrop.timebasedrop.forEach(timedrop => {
         if (timedrop.self.status === 'Not Active' || timedrop.self.status === 'Ended') {
             nonworkingamount++
+        }
+        if (timedrop.preconditionDrops !== null) {
+            preconditions = true
         }
     })
 
@@ -26,7 +30,7 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
             isclaimedamount++
         }
 
-        if (autoclaim) {
+        if (autoclaim || preconditions) {
             //Auto Claim if possible
             for (const benefit of timedrop.benefitEdges) {
                 if (timedrop.self.currentMinutesWatched === timedrop.requiredMinutesWatched && timedrop.self.dropInstanceID !== null) {
@@ -37,17 +41,17 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
                         }
                     }
                     await TwitchGQL._SendQuery("DropsPage_ClaimDropRewards", opts, 'a455deea71bdc9015b78eb49f4acfbce8baa7ccbedd28e549bb025bd0f751930', 'OAuth ' + userdata.auth_token, true)
-                    winston.info(chalk.gray('Claimed ' + chalk.green(timedrop.name)))
-
+                    if (autoclaim) winston.info(chalk.gray('Claimed ' + chalk.green(timedrop.name)))
+                    if (preconditions && !autoclaim) winston.info(chalk.gray('Claimed ' + chalk.green(timedrop.name) + ' because otherwise cant watch next drop...'))
                 }
             }
         }
     }
 
     //Check if all Drops of the game are claimed/claimable
+    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount)
     await allgameddropsclaimableCheck()
 
-    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount)
     //All Claimable
     if (hundredpercent >= timebasedlenght) {
         winston.info(' ')
@@ -63,35 +67,33 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
         winston.info(chalk.green('All Drops Claimable or Claimed... Looking for new ones...'))
         await restartHandler(true, true, true, true, false)
     }
-
-
-
 }
 
 async function allgameddropsclaimableCheck() {
+    let nonworkingamount = 0;
+    let amount = 0;
+    let isclaimedorclaimableamount = 0;
     for (const drop of userdata.drops) {
         //filter all non active drops
-        let nonworkingamount = 0;
         drop.timebasedrop.forEach(timedrop => {
             if (timedrop.self.status === 'Not Active' || timedrop.self.status === 'Ended') {
                 nonworkingamount++
             }
         })
 
-        let amount = 0;
-        let isclaimedorclaimableamount = 0;
         drop.timebasedrop.forEach(time => {
             amount++
             if (time.requiredMinutesWatched === time.self.currentMinutesWatched || time.self.isClaimed === true) {
                 isclaimedorclaimableamount++
             }
         })
-        if (userdata.settings.debug) winston.info('Claim CHECK LOOP ' + isclaimedorclaimableamount + ' | ' + amount + ' | ' + nonworkingamount)
-        if (isclaimedorclaimableamount >= (amount-nonworkingamount)) {
-            winston.info(' ')
-            winston.info(chalk.green('All drops of the game claimed or claimable... Looking for a new Game....'))
-            await restartHandler(true, true, true, true, true)
-        }
+    }
+
+    if (userdata.settings.debug) winston.info('Claim CHECK LOOP ' + isclaimedorclaimableamount + ' | ' + amount + ' | ' + nonworkingamount)
+    if ( isclaimedorclaimableamount >= (amount-nonworkingamount)) {
+        winston.info(' ')
+        winston.info(chalk.green('All drops of the game claimed or claimable... Looking for a new Game....'))
+        await restartHandler(true, true, true, true, true)
     }
 }
 
@@ -99,12 +101,11 @@ async function allgameddropsclaimableCheck() {
 
 export async function matchClaimedDrops() {
     //Check if Drop isclaimed
-    let claimeddrops = 0;
     userdata.claimedDrops.forEach(claimeddrop => {
         userdata.drops.forEach(drop => {
             drop.timebasedrop.forEach(timebasedrop => {
                 timebasedrop.benefitEdges.forEach(benefit => {
-                    if (claimeddrop.imageurl === benefit.benefit.imageAssetURL) {
+                    if (claimeddrop.imageurl.toString() === benefit.benefit.imageAssetURL.toString()) {
                         try {
                             timebasedrop.self.isClaimed = true
                         } catch (e) {
@@ -115,13 +116,22 @@ export async function matchClaimedDrops() {
                                 isClaimed: true
                             }
                         }
-                        claimeddrops++
                     }
                 })
-                if (drop.timebasedrop.length === claimeddrops) {
-                    drop.isClaimed = true;
-                }
             })
         })
     })
+
+    userdata.drops.forEach(drop => {
+        let claimeddrops = 0;
+        drop.timebasedrop.forEach(timebasedrop => {
+            if (timebasedrop.self.isClaimed) {
+                claimeddrops++
+            }
+            if (drop.timebasedrop.length === claimeddrops) {
+                drop.isClaimed = true;
+            }
+        })
+    })
+
 }

@@ -20,13 +20,13 @@ export async function SamePercentCheck(CurrentDrop: Drop) {
         })
         PercentChecker = true;
     } else if (PercentChecker) {
-        if (LastPercentArray === CurrentPercentArray) {
+        if (JSON.stringify(LastPercentArray) === JSON.stringify(CurrentPercentArray)) {
             SamePercent++;
-        } else if (LastPercentArray !== CurrentPercentArray) {
+        } else if (JSON.stringify(LastPercentArray) !== JSON.stringify(CurrentPercentArray)) {
             LastPercentArray = CurrentPercentArray;
             SamePercent = 0;
         }
-        if (SamePercent === 3) {
+        if (SamePercent === 4) {
             SamePercent = 0;
             PercentChecker = false;
             LastPercentArray = [];

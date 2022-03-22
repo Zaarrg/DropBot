@@ -17,7 +17,7 @@ const winston = require('winston');
 (async () => {
 
     await init_logger()
-    await CheckVersion("2.0.0.0")
+    await CheckVersion("2.0.0.1")
 
     //Get Settings
     await GetSettings()

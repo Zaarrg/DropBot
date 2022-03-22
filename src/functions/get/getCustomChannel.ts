@@ -141,7 +141,7 @@ export async function askCustomChannelStart(random: boolean, filterlive: boolean
                 userdata.startDrop = drop.TTVLink.split('https://www.twitch.tv/')[1]
             }
         })
-        winston.info(chalk.gray('Selected a random drop to watch: ' + userdata.startDrop))
+        winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.startDrop)))
     }
 }
 

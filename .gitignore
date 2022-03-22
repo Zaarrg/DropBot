@@ -8,3 +8,4 @@
 /package/**/*.json
 .npmrc
 /settings.json
+src/twitch-session.json
