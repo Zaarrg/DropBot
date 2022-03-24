@@ -1,4 +1,4 @@
-import {Drop} from "../functions/get/getCurrentDrop";
+import {Drop, getCurrentDrop} from "../functions/get/getCurrentDrop";
 import winston from "winston";
 import chalk from "chalk";
 import {restartHandler} from "../functions/handler/restartHandler";
@@ -66,6 +66,10 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
         winston.info(' ')
         winston.info(chalk.green('All Drops Claimable or Claimed... Looking for new ones...'))
         await restartHandler(true, true, true, true, false)
+    } else {
+        nonworkingamount = 0;
+        hundredpercent = 0;
+        isclaimedamount = 0;
     }
 }
 
@@ -106,14 +110,9 @@ export async function matchClaimedDrops() {
             drop.timebasedrop.forEach(timebasedrop => {
                 timebasedrop.benefitEdges.forEach(benefit => {
                     if (claimeddrop.imageurl.toString() === benefit.benefit.imageAssetURL.toString()) {
-                        try {
-                            timebasedrop.self.isClaimed = true
-                        } catch (e) {
-                            timebasedrop['self'] = {
-                                __typename: "TimeBasedDropSelfEdge",
-                                currentMinutesWatched: 0,
-                                dropInstanceID: null,
-                                isClaimed: true
+                        for (const [i, drops] of drop.timebasedrop.entries()) {
+                            if (drops.self.isClaimed === null) {
+                                drop.isClaimed = true;
                             }
                         }
                     }
@@ -123,15 +122,15 @@ export async function matchClaimedDrops() {
     })
 
     userdata.drops.forEach(drop => {
-        let claimeddrops = 0;
         drop.timebasedrop.forEach(timebasedrop => {
-            if (timebasedrop.self.isClaimed) {
-                claimeddrops++
-            }
-            if (drop.timebasedrop.length === claimeddrops) {
-                drop.isClaimed = true;
+            if (drop.isClaimed && timebasedrop.self.isClaimed === null) {
+                timebasedrop['self'] = {
+                    __typename: "TimeBasedDropSelfEdge",
+                    currentMinutesWatched: 0,
+                    dropInstanceID: null,
+                    isClaimed: true
+                }
             }
         })
     })
-
 }

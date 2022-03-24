@@ -113,7 +113,7 @@ async function directlogin(emailcode: string, facode: string) {
     if (emailcode !== '') {
         Object.assign(body, {"twitchguard_code": emailcode})
     } else if (facode !== '') {
-        Object.assign(body, {"authy_token": emailcode})
+        Object.assign(body, {"authy_token": facode})
     }
 
     await axios.post('https://passport.twitch.tv/login', body, config)
@@ -126,14 +126,12 @@ async function directlogin(emailcode: string, facode: string) {
                 "name": "auth-token",
                 "value": response_data.access_token,
             }]
-            await fs.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2), function (err: any) {
-                if (err) throw err;
+            await fs.promises.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
                 winston.info(" ");
                 winston.info(chalk.green("Successfully Saved Cookies..."))
                 winston.info(" ");
-            });
+            }).catch(err => {throw err})
             await getTwitchUserDetails();
-
 
         })
         .catch(async function (error) {
@@ -248,7 +246,7 @@ async function getTwitchUserDetails() {
             userdata.clientid = response_data.client_id
         })
         .catch(function (error) {
-            winston.error(chalk.red('ERROR'))
+            winston.error(chalk.red('ERROR: Could not validate your auth token...'))
             throw error.response.status + ' ' + error.response.statusText + ' ' + error.response.data.message
         })
 

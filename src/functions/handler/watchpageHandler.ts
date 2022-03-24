@@ -98,13 +98,19 @@ export async function sendMinuteWatched(ChannelLogin: string) {
             'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
             'Authorization': 'OAuth rck8xjgc7bknjru2tpu56tq5452xna'
         }
+    }).catch(err => {
+        winston.error("ERROR: Could not load https://www.twitch.tv... Check your connection...")
+        throw err
     })
 
     let SettingsJSReg = new RegExp('https://static\.twitchcdn\.net/config/settings\.[0-9a-f]{32}\.js')
     let parsehtml = SettingsJSReg.exec(gethtml.data.toString())
     if (parsehtml![0] === null) winston.error("Error while parsing Settings Url...")
 
-    const getSettingsJS = await axios.get(parsehtml![0].toString())
+    const getSettingsJS = await axios.get(parsehtml![0].toString()).catch(err => {
+        winston.error("ERROR: Could not load your twitch settings... Check your connection...")
+        throw err
+    })
 
     let SpadeReg = new RegExp('(https://video-edge-[.\\w\\-/]+\\.ts)')
     let parseJS = SpadeReg.exec(getSettingsJS.data.toString())
@@ -131,7 +137,10 @@ export async function sendMinuteWatched(ChannelLogin: string) {
         }
     }
 
-    const post = await axios.post(parseJS![0].toString(), b64, config)
+    const post = await axios.post(parseJS![0].toString(), b64, config).catch(err => {
+        winston.error("ERROR: Could not send minute watching event...")
+        throw err
+    })
     if (userdata.settings.debug) {
         winston.info('minute sent!!' + post.status)
     }

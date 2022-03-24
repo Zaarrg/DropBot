@@ -17,8 +17,7 @@ const winston = require('winston');
 (async () => {
 
     await init_logger()
-    await CheckVersion("2.0.0.1")
-
+    await CheckVersion("2.0.0.2")
     //Get Settings
     await GetSettings()
     //Login
@@ -37,11 +36,7 @@ const winston = require('winston');
         }
         await watchoptionSwitch()
     }
-
-
     winston.info(chalk.gray('Idle!'))
-    
-
 })();
 
 

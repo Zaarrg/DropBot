@@ -227,12 +227,11 @@ async function getCustomDetails() {
             }
             userdata.customchannel.push(CustomChannel)
             //Save Created CH
-            await fs.writeFile('CustomChannels.json', JSON.stringify(userdata.customchannel, null, 2), function(err) {
-                if (err) throw err;
+            await fs.promises.writeFile('twitch-session.json', JSON.stringify(userdata.customchannel, null, 2)).then(function () {
                 winston.info(" ");
                 winston.info(chalk.green("Successfully Saved Custom Channels..."))
                 winston.info(" ");
-            });
+            }).catch(err => {throw err})
         });
 }
 

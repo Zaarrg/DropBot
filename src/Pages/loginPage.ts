@@ -50,13 +50,11 @@ export async function Login() {
         winston.info(chalk.gray("Saving Cookies..."))
         userdata.cookies = await loginpage.cookies();
 
-        await fs.writeFile('twitch-session.json', JSON.stringify(userdata.cookies, null, 2), function(err: any) {
-            if (err) throw err;
+        await fs.promises.writeFile('twitch-session.json', JSON.stringify(userdata.cookies, null, 2)).then(function () {
             winston.info(" ");
             winston.info(chalk.green("Successfully Saved Cookies..."))
             winston.info(" ");
-        });
-
+        }).catch((err: any) => {throw err})
         //Close Browser
         winston.info(" ");
         winston.info(chalk.gray("Closing Browser and Moving on..."))

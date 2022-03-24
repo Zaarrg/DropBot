@@ -131,7 +131,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
 }
 
 export async function askWhatDropToStart(random: boolean, filterlive: boolean, filterNonActive: boolean, filterlast: boolean) {
-
+    userdata.availableDropNameChoices = []
     userdata.drops.forEach(drop => {
         if (filterlive) {
             if (drop.live) {
@@ -227,12 +227,12 @@ export async function askWhatGameToWatch(random: boolean) {
         }
     } else {
         if (userdata.settings.Prioritylist.length === 0) {
-            winston.warn(chalk.yellow('Warning: Please add Games to your Priorty List, otherwise the bot will select a random game...'))
+            winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
-            winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.game)))
+            winston.info(chalk.gray('Selected a random Game to watch: ' + chalk.white(userdata.game)))
         } else {
             userdata.game = userdata.settings.Prioritylist[0]
-            winston.info(chalk.gray('Selected a drop to from your Priority List watch: ' + userdata.startDrop))
+            winston.info(chalk.gray('Selected a Game from your Priority List watch: ' + userdata.game))
         }
     }
 

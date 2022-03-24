@@ -26,12 +26,11 @@ export default async function () {
         }
         return userdata.settings
     } else {
-            await fs.writeFile('settings.json', JSON.stringify(userdata.settings, null, 2), function(err: any) {
-                if (err) throw err;
-                winston.info(" ");
-                winston.info(chalk.green("Successfully Created Settings..."))
-                winston.info(" ");
-            });
+        await fs.promises.writeFile('settings.json', JSON.stringify(userdata.settings, null, 2)).then(function () {
+            winston.info(" ");
+            winston.info(chalk.green("Successfully Created Settings..."))
+            winston.info(" ");
+        }).catch((err: any) => {throw err})
     }
 }
 

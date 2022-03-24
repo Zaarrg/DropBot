@@ -5,7 +5,7 @@ import {WatchingEventHandlerStart} from "./handler/watchpageHandler";
 
 export async function startWatching() {
     let channelLogin:string = ''
-    for (const Drops of userdata.drops) {
+    for await (const Drops of userdata.drops) {
         if (Drops.dropname === userdata.startDrop) {
             channelLogin = Drops.foundlivech[0]
         }
@@ -16,5 +16,4 @@ export async function startWatching() {
 
     //Start WatchingEventHandler
     await WatchingEventHandlerStart(channelLogin)
-
 }

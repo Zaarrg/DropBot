@@ -1,3 +1,8 @@
+import axiosRetry from "axios-retry";
+import axios from "axios";
+import chalk from "chalk";
+import {delay} from "../../utils/util";
+
 const fs = require("fs");
 const winston = require('winston');
 const {format} = require("winston");
@@ -14,8 +19,12 @@ export default async function () {
     const fileFormat = printf((log: Log) => {return `${log.timestamp}: ${log.message}`});
     const consoleFormat = printf((log: Log) => {return log.message})
     // Logger configuration
-    process.on('unhandledRejection', (reason, promise) => {
-        throw reason;})
+    process.on('unhandledRejection', async (reason, promise) => {
+            winston.error(reason)
+            winston.info('ERROR: Closing in 30 seconds...')
+            await delay(30000)
+            process.exit(21);
+    })
 
     try {
         await createConsoleLogger(consoleFormat)
@@ -33,8 +42,14 @@ export default async function () {
         throw 'Invalid/Corrupted JSON file...'
     }
 
-
-
+    //Set Retries
+    axiosRetry(axios, {
+        retries: 3,
+        retryDelay: (retryCount, error) => {
+            winston.info(chalk.yellow('Failed axios Request... Retrying in 30 seconds... Try: ' + retryCount + "/3 " + error));
+            return 30000; // time interval between retries
+        }
+    });
 }
 
 async function createConsoleLogger(consoleFormat: any) {

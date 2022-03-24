@@ -15,7 +15,7 @@ export async function validateAuthToken() {
             userdata.clientid = response_data.client_id
         })
         .catch(function (error) {
-            winston.error(chalk.red('ERROR'))
+            winston.error(chalk.red('ERROR: Could not validate your auth token...'))
             throw error.response.status + ' ' + error.response.statusText + ' ' + error.response.data.message
         })
 

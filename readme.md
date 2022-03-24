@@ -82,6 +82,24 @@
 
 ⚠️ _If you want to watch Custom Channels drag and drop a `customchannels.json` to your executable location_ ⚠️
 
+
+<h3 align="center">Npm</h3>
+
+1. Clone the **[Repository](https://github.com/Zaarrg/TTVDropBot)**.
+    ```bash
+    git clone https://github.com/Zaarrg/TTVDropBot
+    ```
+
+2. Install NPM packages.
+    ```bash
+    npm install
+    ```
+3. Run the bot via npm scripts.
+    ```bash
+    npm run start:production
+   OR
+    npm run start:dev
+    ```
 ---
 
 ## 📚 **How to use the Bot?**

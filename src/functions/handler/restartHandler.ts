@@ -14,17 +14,18 @@ export async function restartHandler(random: boolean, filterlive: boolean, filte
     } else if (newgame && userdata.settings.Prioritylist.length > 0) {
         await WatchingEventHandlerStop()
         await selectGamefromList()
-        await getTwitchDrops(userdata.game, true)
-        await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
-        await startWatching()
+        await getTwitchDrops(userdata.game, true).then(async () => {
+            await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
+            await startWatching()
+        })
     } else {
         await WatchingEventHandlerStop()
         await askWhatGameToWatch(true)
-        await getTwitchDrops(userdata.game, true)
-        await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
-        await startWatching()
+        await getTwitchDrops(userdata.game, true).then(async () => {
+            await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
+            await startWatching()
+        })
     }
-
 }
 
 async function selectGamefromList() {
