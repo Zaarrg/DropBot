@@ -31,8 +31,8 @@ export async function SamePercentCheck(CurrentDrop: Drop) {
             PercentChecker = false;
             LastPercentArray = [];
             CurrentPercentArray = [];
-            winston.info(' ')
-            winston.info(chalk.yellow('All Drops have the same percentage for at least 4 tries... Looking for new Drops...'))
+            winston.silly(" ")
+            winston.info(chalk.yellow('All Drops have the same percentage for at least 4 tries... Looking for new Drops...'),{event: "newDrop"})
             await restartHandler(true, true, true, true, false)
         }
     }

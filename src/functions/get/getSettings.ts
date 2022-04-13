@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import {userdata} from "../../data/userdata"
-import { validPath } from "../../utils/util";
-
+import {userdata} from "../../index"
+import {validPath} from "../../utils/util";
+import init_logger from "../logger/logger";
 const fs = require("fs");
 const winston = require("winston");
 const chromePaths = require('chrome-paths');
@@ -14,29 +14,32 @@ const opsys = process.platform;
 export default async function () {
 
     if (fs.existsSync(path)) { //If settings file exists
-        let settingsfile = fs.readFileSync('./settings.json', 'utf8');
-        userdata.settings = await JSON.parse(settingsfile)
-
-        await logimportantvalues()
-        winston.info(" ");
+        await fs.promises.readFile('./settings.json', 'utf8').then(async (settingsfile: any) => {
+            userdata.settings = await JSON.parse(settingsfile)
+            await init_logger() //Create Logger after settings read
+        })
+        winston.silly(" ");
         winston.info(chalk.green("Successfully Loaded Settings..."))
-        winston.info(" ");
+        winston.silly(" ");
         if(userdata.settings.displayless && userdata.settings.Prioritylist.length === 0) {
             winston.warn(chalk.yellow('Warning: Please add Games to your Priorty List, otherwise the bot will select a random game...'))
         }
         return userdata.settings
     } else {
+        await init_logger()
         await fs.promises.writeFile('settings.json', JSON.stringify(userdata.settings, null, 2)).then(function () {
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.green("Successfully Created Settings..."))
-            winston.info(" ");
+            winston.silly(" ");
         }).catch((err: any) => {throw err})
+        return userdata.settings
     }
 }
 
-async function logimportantvalues() {
+export async function logimportantvalues() {
     if (userdata.settings.debug) {winston.info(chalk.cyan("Debug enabled"))}
     if (userdata.settings.displayless) {winston.info(chalk.cyan("Displayless mode enabled"))}
+    if (userdata.settings.WebHookURL !== "") {winston.info(chalk.cyan("Discord Webhook enabled"))}
 }
 
 export async function Chromepaths() {
@@ -58,23 +61,23 @@ export async function Chromepaths() {
                 //Check the Path
                 if (opsys !== 'linux') {
                     if (fs.existsSync(chromePaths.chrome)) {
-                        winston.info(" ")
+                        winston.silly(" ")
                         userdata.settings.Chromeexe = await chromePaths.chrome //Set the Path
                     } else { //If auto detected path is invaild
-                        winston.info(" ")
-                        winston.info(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
-                        winston.info(" ")
+                        winston.silly(" ")
+                        winston.error(chalk.red("Invalid Path... Please restart the Bot and provide a new one manually..."))
+                        winston.silly(" ")
                         if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                         process.exit(21);
                     }
                 } else {
-                    winston.info(" ")
+                    winston.silly(" ")
                     userdata.settings.Chromeexe = await chromePaths.chrome //Set the Path
                 }
 
             } else { // If users selects no on auto detect providing it maunally
 
-                winston.info(" ")
+                winston.silly(" ")
                 await inquirer
                     .prompt([
                         {
@@ -86,7 +89,7 @@ export async function Chromepaths() {
                     ])
                     .then(async (Answer: {pathexe: string}) => {
 
-                        winston.info(" ")
+                        winston.silly(" ")
                         winston.info(chalk.gray("Setting Executable Path..."))
 
                         userdata.settings.Chromeexe = Answer.pathexe
@@ -94,5 +97,9 @@ export async function Chromepaths() {
                     });
             }
         });
-
+    await fs.promises.writeFile('settings.json', JSON.stringify(userdata.settings, null, 2)).then(function () {
+        winston.silly(" ");
+        winston.info(chalk.green("Successfully Saved Settings..."))
+        winston.silly(" ");
+    }).catch((err: any) => {throw err})
 }

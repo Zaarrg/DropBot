@@ -1,6 +1,6 @@
-import {timebased, userdata} from "../../data/userdata";
-
-export async function getCurrentDrop(DropcurrentlyWatching: string) {
+import {timebased} from "../../data/userdata";
+import {userdata} from "../../index"
+export async function getCurrentDrop() {
     let CurrentDrop:Drop = {
         dropid: '',
         dropname: '',
@@ -12,7 +12,7 @@ export async function getCurrentDrop(DropcurrentlyWatching: string) {
         isClaimed: false
     };
     for (const drop of userdata.drops) {
-        if (drop.foundlivech.includes(DropcurrentlyWatching)) {
+        if (userdata.startDrop === drop.dropname) {
             CurrentDrop = drop;
         }
     }

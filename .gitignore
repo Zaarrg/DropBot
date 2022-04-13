@@ -9,3 +9,4 @@
 .npmrc
 /settings.json
 src/twitch-session.json
+.idea/codestream.xml

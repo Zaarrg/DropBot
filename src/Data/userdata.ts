@@ -1,29 +1,61 @@
-type UserData = {
-    loginpageurl: string,
-    cookies: Object[],
-    auth_token: string,
-    watch_option: string,
-    game: string,
-    clientid: string,
-    userid: string,
-    drops: Array<DropsArray>
-    claimedDrops: Array<ClaimedDropsArray>,
-    nonActiveDrops: Array<string>,
-    availableDropNameChoices: Array<string>,
-    startDrop: string,
+export class userdataclass {
+    loginpageurl: string;
+    cookies: Object[];
+    auth_token: string;
+    watch_option: string;
+    game: string;
+    clientid: string;
+    userid: string;
+    drops: Array<DropsArray>;
+    claimedDrops: Array<ClaimedDropsArray>;
+    nonActiveDrops: Array<string>;
+    availableDropNameChoices: Array<string>;
+    startDrop: string;
     settings: {
-        Loginmethod: string,
-        Chromeexe: string,
-        UserDataPath: string,
-        debug: boolean,
-        displayless: boolean,
-        ProgressCheckInterval: number,
-        WaitforOnlineChannels: boolean,
-        Prioritylist: Array<string>,
-        AutoClaim: boolean,
-        LogToFile: boolean
-    },
-    customchannel: Array<CustomChannel>
+        Chromeexe: string;
+        UserDataPath: string;
+        WebHookURL: string;
+        WebHookEvents: Array<string>;
+        debug: boolean;
+        displayless: boolean;
+        ProgressCheckInterval: number;
+        RetryDelay: number;
+        WaitforChannels: boolean;
+        Prioritylist: Array<string>;
+        AutoClaim: boolean;
+        LogToFile: boolean;
+    };
+    customchannel: Array<CustomChannel>;
+
+    constructor() {
+        this.loginpageurl = "https://www.twitch.tv/login";
+        this.cookies = [];
+        this.auth_token = "";
+        this.watch_option = "";
+        this.game = "";
+        this.clientid = "";
+        this.userid = "";
+        this.drops = [];
+        this.claimedDrops = [];
+        this.nonActiveDrops = [];
+        this.availableDropNameChoices = [];
+        this.startDrop = "";
+        this.settings = {
+            Chromeexe: "",
+            UserDataPath: "",
+            WebHookURL: "",
+            WebHookEvents: [],
+            debug: false,
+            displayless: false,
+            ProgressCheckInterval: 60000,
+            RetryDelay: 60000,
+            WaitforChannels: true,
+            Prioritylist: [],
+            AutoClaim: true,
+            LogToFile: true
+        }
+        this.customchannel = [];
+    }
 }
 
 type ClaimedDropsArray = {
@@ -82,8 +114,6 @@ type benefitEdges = {
     __typename: string
 }
 
-
-
 type Channel = {
     id: string,
     displayName: string,
@@ -97,34 +127,5 @@ export type CustomChannel = {
     WatchType: string,
     Time: number,
     Points: boolean,
-    live: boolean | null,
-    Pointsamount: string
-}
-
-export let userdata: UserData = {
-    loginpageurl: "https://www.twitch.tv/login",
-    cookies: [],
-    auth_token: "",
-    watch_option: "",
-    game: "",
-    clientid: "",
-    userid: "",
-    drops: [],
-    claimedDrops: [],
-    nonActiveDrops: [],
-    availableDropNameChoices: [],
-    startDrop: "",
-    settings: {
-        Loginmethod: "normal",
-        Chromeexe: "",
-        UserDataPath: "",
-        debug: false,
-        displayless: false,
-        ProgressCheckInterval: 60000,
-        WaitforOnlineChannels: true,
-        Prioritylist: [],
-        AutoClaim: true,
-        LogToFile: false
-    },
-    customchannel: []
+    live?: boolean | null
 }

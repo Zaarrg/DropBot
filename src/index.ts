@@ -1,25 +1,31 @@
+export const version = "2.0.0.3";
+import {userdataclass} from "./Data/userdata";
+export let userdata = new userdataclass();
 import chalk from "chalk";
-import init_logger from "./functions/logger/logger"
 import CheckVersion from "./checks/versionCheck"
-import GetSettings from "./functions/get/getSettings"
+import GetSettings, {logimportantvalues} from "./functions/get/getSettings"
 import GetWatchOption from "./functions/get/getWatchOption"
 import {askWhatDropToStart, askWhatGameToWatch, getTwitchDrops} from "./functions/get/getTwitchDrops"
-import { userdata } from "./data/userdata";
 import {startWatching} from "./functions/startWatching";
 import {login} from "./functions/login/defaultlogin";
 import fs from "fs";
 import {getCustomChannel} from "./functions/get/getCustomChannel";
 import {CustomEventHandlerStart} from "./functions/handler/custompageHandler";
 import {validateAuthToken} from "./checks/validateAuthToken";
-
+import {matchArgs, setArgs} from "./functions/get/getArgs";
+import * as rax from 'retry-axios';
+import {retryConfig} from "./utils/util";
 const winston = require('winston');
+const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 
 (async () => {
-
-    await init_logger()
-    await CheckVersion("2.0.0.2")
     //Get Settings
-    await GetSettings()
+    await setArgs();
+    await GetSettings();
+    await matchArgs();
+    await setRetries();
+    await logimportantvalues()
+    await CheckVersion(version)
     //Login
     await login()
     //Validate
@@ -58,4 +64,11 @@ async function watchoptionSwitch() {
             await CustomEventHandlerStart(userdata.startDrop)
             break;
     }
+}
+
+async function setRetries() {
+    await TwitchGQL.SetRetryTimeout(userdata.settings.RetryDelay).then(() => {
+        retryConfig.retryDelay = userdata.settings.RetryDelay;
+        rax.attach();
+    })
 }

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { userdata } from "../data/userdata";
+import { userdata } from "../index";
 
 const winston = require("winston");
 const fs = require("fs");
@@ -20,11 +20,11 @@ export async function Login() {
             await loginpage.setCookie.apply(loginpage, cokkies);
         }
         //Goto Login Page
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.gray("Starting Login Page..."))
         await loginpage.goto(userdata.loginpageurl, {waitUntil: "networkidle2"})
         //Wait for User to Login
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.gray("Please Login with you Account..."))
         if (userdata.settings.debug && userdata.settings.displayless) {
             await loginpage.screenshot({path: 'screenshot.png'})
@@ -43,20 +43,20 @@ export async function Login() {
             if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
             process.exit(22);
         }
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.green("Success Login..."))
         //Save Cookies
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.gray("Saving Cookies..."))
         userdata.cookies = await loginpage.cookies();
 
         await fs.promises.writeFile('twitch-session.json', JSON.stringify(userdata.cookies, null, 2)).then(function () {
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.green("Successfully Saved Cookies..."))
-            winston.info(" ");
+            winston.silly(" ");
         }).catch((err: any) => {throw err})
         //Close Browser
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.gray("Closing Browser and Moving on..."))
         await browser.close()
     })

@@ -1,10 +1,11 @@
 import winston from "winston";
 import chalk from "chalk";
-import {userdata} from "../../data/userdata";
+import {userdata} from "../../index" ;
 import {Chromepaths} from "../get/getSettings";
 import {Login} from "../../pages/loginPage";
 import fs from "fs";
 import axios from "axios";
+import {retryConfig} from "../../utils/util";
 const inquirer = require("inquirer");
 
 let pw: string = '';
@@ -12,9 +13,9 @@ let nm: string = '';
 export async function login() {
     if (!fs.existsSync('./twitch-session.json')) {
         if (!userdata.settings.displayless) {
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray('Please Login into your Twitch Account...'))
-            winston.info(" ");
+            winston.silly(" ");
 
             let options = ["Directly via Command Line", "Via Browser"]
             await inquirer
@@ -41,9 +42,9 @@ export async function login() {
         }
     } else {
         await getTwitchUserDetails()
-        winston.info(" ");
+        winston.silly(" ");
         winston.info(chalk.gray('Found a twitch-session... No need to login...'))
-        winston.info(" ");
+        winston.silly(" ");
     }
 
 
@@ -101,7 +102,8 @@ async function directlogin(emailcode: string, facode: string) {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
             "Content-type": "text/plain",
-        }
+        },
+        raxConfig: retryConfig
     }
     let body = {
         "client_id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
@@ -127,15 +129,15 @@ async function directlogin(emailcode: string, facode: string) {
                 "value": response_data.access_token,
             }]
             await fs.promises.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.green("Successfully Saved Cookies..."))
-                winston.info(" ");
+                winston.silly(" ");
             }).catch(err => {throw err})
             await getTwitchUserDetails();
 
         })
         .catch(async function (error) {
-            winston.info(' ')
+            winston.silly(" ")
             winston.error(chalk.yellow('Something went wrong...'))
             let errorcode = 0;
             try {
@@ -150,9 +152,9 @@ async function directlogin(emailcode: string, facode: string) {
                 nm = '';
                 pw = '';
                 winston.info(chalk.gray('Login failed due to CAPTCHA...'))
-                winston.info(' ')
+                winston.silly(" ")
                 winston.info(chalk.gray('Your login attempt was denied by CAPTCHA. Please wait 12h or login via the browser...'))
-                winston.info(' ')
+                winston.silly(" ")
                 winston.info(chalk.gray('Redirecting to browser login...'))
                 await browserlogin()
             } else if (errorcode === 3001 || errorcode === 2005) {
@@ -164,24 +166,24 @@ async function directlogin(emailcode: string, facode: string) {
             } else if (errorcode === 3012) {
                 attempt++
                 winston.info(chalk.gray("Invaild 2FA..."))
-                winston.info(' ')
+                winston.silly(" ")
                 let code = await askforauthcode(3011);
                 await directlogin('', code);
             } else if (errorcode === 3023) {
                 attempt++
                 winston.info(chalk.gray("Invaild Email Code..."))
-                winston.info(' ')
+                winston.silly(" ")
                 let code = await askforauthcode(3022);
                 await directlogin('', code);
             }
             if (errorcode === 3011) {
                 winston.info(chalk.gray('2FA token required..."'))
-                winston.info(' ')
+                winston.silly(" ")
                 let code = await askforauthcode(3011);
                 await directlogin('', code);
             } else if (errorcode === 3022) {
                 winston.info(chalk.gray('Email code required...'))
-                winston.info(' ')
+                winston.silly(" ")
                 let code = await askforauthcode(3022);
                 await directlogin(code, '');
             } else if (!fs.existsSync('./twitch-session.json')) {
@@ -191,12 +193,11 @@ async function directlogin(emailcode: string, facode: string) {
                 winston.info(chalk.gray('Login failed for an unknown reason...'))
                 winston.info(chalk.gray('The Reason is probably:'))
                 winston.info(chalk.yellow('Error Code: ' + error.data.error_code + ' | Reason: ' + error.data.error + ' | Error Description: ' + error.error_description))
-                winston.info(' ')
+                winston.silly(" ")
                 await directlogin('', '');
             }
         })
 }
-
 
 async function browserlogin() {
 
@@ -213,7 +214,6 @@ async function browserlogin() {
     }
 
 }
-
 
 async function getTwitchUserDetails() {
     if (fs.existsSync('./twitch-session.json')) {
@@ -237,9 +237,10 @@ async function getTwitchUserDetails() {
 
     let auth = 'OAuth ' + userdata.auth_token
     let head = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
         Authorization: auth
     }
-    await axios.get('https://id.twitch.tv/oauth2/validate', {headers: head})
+    await axios.get('https://id.twitch.tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
         .then(function (response){
             let response_data = response.data
             userdata.userid = response_data.client_id

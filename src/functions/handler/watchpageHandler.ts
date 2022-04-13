@@ -1,9 +1,9 @@
 import {getTwitchDrops} from "../get/getTwitchDrops";
-import {userdata} from "../../data/userdata";
+import {userdata} from "../../index" ;
 import {allOfflineCheck, liveCheck} from "../../checks/liveCheck";
 import winston from "winston";
 import {getCurrentDrop} from "../get/getCurrentDrop";
-import {delay, minutestoPercent} from "../../utils/util";
+import {delay, minutestoPercent, retryConfig} from "../../utils/util";
 import {dateCheck} from "../../checks/dateCheck";
 import axios from "axios";
 import {claimableCheck} from "../../checks/claimCheck";
@@ -34,46 +34,30 @@ async function loop(DropcurrentlyWatching: string) {
     //Update Drop Data
     await getTwitchDrops(userdata.game, false)
     await allOfflineCheck()
-    await liveCheck(DropcurrentlyWatching, false);
     //Get the right Drop
     if (status === 'running') {
-        await getCurrentDrop(DropcurrentlyWatching).then(async (CurrentDrop) => {
+        await getCurrentDrop().then(async (CurrentDrop) => {
             if (userdata.settings.debug) winston.info('CurrentDrop %o', JSON.stringify(CurrentDrop,null, 2))
+            //Switch DropcurrentlyWatching to a live one if current offline and new live ch available
+            if (!CurrentDrop.foundlivech.includes(DropcurrentlyWatching) && CurrentDrop.foundlivech.length > 0) {
+                DropcurrentlyWatching = CurrentDrop.foundlivech[0]
+                winston.info(chalk.gray("Switched current Channel to " + chalk.white(DropcurrentlyWatching) + "..."))
+                winston.silly(" ")
+            }
+            await liveCheck(DropcurrentlyWatching, false);
             await claimableCheck(CurrentDrop, userdata.settings.AutoClaim)
             await dateCheck(CurrentDrop, false)
             await SamePercentCheck(CurrentDrop)
             await pointsCheck(DropcurrentlyWatching).then(points => {
-                winston.info(chalk.gray('Watching ' + chalk.white(DropcurrentlyWatching) + ' | Points: ' + chalk.white(points.toString())))
+                winston.info(chalk.gray('Watching ' + chalk.white(DropcurrentlyWatching) + ' | Points: ' + chalk.white(points.toString())), {event: "progress"})
             })
             for (const [i, drop] of CurrentDrop.timebasedrop.entries()) {
                 let dropslenght = CurrentDrop.timebasedrop.length;
-                winston.info(chalk.gray("Current Progress: ") + chalk.white( minutestoPercent(drop.self.currentMinutesWatched, drop.requiredMinutesWatched)+" %") + chalk.gray(" | Watched " + chalk.white(drop.self.currentMinutesWatched + "/" + drop.requiredMinutesWatched) + " Minutes" + chalk.gray(" | Drop ") + chalk.white((i+1) + "/" + dropslenght) + chalk.gray(" | Status ") + chalk.white(drop.self.status) + chalk.gray(" | isClaimed ") + chalk.white(drop.self.isClaimed)));
+                    winston.info(chalk.gray("Current Progress: ") + chalk.white( minutestoPercent(drop.self.currentMinutesWatched, drop.requiredMinutesWatched)+" %") + chalk.gray(" | Watched " + chalk.white(drop.self.currentMinutesWatched + "/" + drop.requiredMinutesWatched) + " Minutes" + chalk.gray(" | Drop ") + chalk.white((i+1) + "/" + dropslenght) + chalk.gray(" | Status ") + chalk.white(drop.self.status) + chalk.gray(" | isClaimed ") + chalk.white(drop.self.isClaimed)), {event: "progress"});
+
             }
-            winston.info(' ')
-
-
-            //All Channels Watched but not all Claimed - YES
-            // All Channels Claimed - YES
-
-            //Check if current Drop is fully Claimed/Watched then switch to another drop - YES
-            //Offline Scenario handle | What to do when channel is offline => look for new drop - YES
-            //What do to when all Channels are Offline - YES
-
-
-            //How to handle General Drops like in Rust - not needed
-
-            //TODO
-            //Farm Chennl Points - YES
-            //Displayless... - YES
-            //Custom Channels - YES
-
-
-            //Other Stuff
-            //Auto Claim - YES
-            //Revamp settings => throw out whats not needed - YES
+            winston.silly(' ', {event: "progressEnd"})
             await sendMinuteWatched(DropcurrentlyWatching)
-
-
         })
         if (userdata.settings.debug) winston.info('Interval Executed')
         if (status === 'running') await loop(DropcurrentlyWatching)
@@ -94,10 +78,12 @@ export async function sendMinuteWatched(ChannelLogin: string) {
 
     const gethtml = await axios.get('https://www.twitch.tv', {
         headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
             'encoding': 'utf8',
             'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
             'Authorization': 'OAuth rck8xjgc7bknjru2tpu56tq5452xna'
-        }
+        },
+        raxConfig: retryConfig
     }).catch(err => {
         winston.error("ERROR: Could not load https://www.twitch.tv... Check your connection...")
         throw err
@@ -107,7 +93,7 @@ export async function sendMinuteWatched(ChannelLogin: string) {
     let parsehtml = SettingsJSReg.exec(gethtml.data.toString())
     if (parsehtml![0] === null) winston.error("Error while parsing Settings Url...")
 
-    const getSettingsJS = await axios.get(parsehtml![0].toString()).catch(err => {
+    const getSettingsJS = await axios.get(parsehtml![0].toString(), {raxConfig: retryConfig}).catch(err => {
         winston.error("ERROR: Could not load your twitch settings... Check your connection...")
         throw err
     })
@@ -134,7 +120,8 @@ export async function sendMinuteWatched(ChannelLogin: string) {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
             "Content-type": "text/plain",
-        }
+        },
+        raxConfig: retryConfig
     }
 
     const post = await axios.post(parseJS![0].toString(), b64, config).catch(err => {
@@ -142,6 +129,6 @@ export async function sendMinuteWatched(ChannelLogin: string) {
         throw err
     })
     if (userdata.settings.debug) {
-        winston.info('minute sent!!' + post.status)
+        winston.info('minute sent!!' + post?.status)
     }
 }

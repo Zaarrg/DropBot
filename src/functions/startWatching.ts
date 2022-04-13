@@ -1,6 +1,6 @@
 import winston from "winston";
 import chalk from "chalk";
-import {userdata} from "../data/userdata";
+import {userdata} from "../index" ;
 import {WatchingEventHandlerStart} from "./handler/watchpageHandler";
 
 export async function startWatching() {
@@ -11,8 +11,8 @@ export async function startWatching() {
         }
     }
 
-    winston.info(' ')
-    winston.info(chalk.gray('Starting to watch..'))
+    winston.silly(" ")
+    winston.info(chalk.gray('Starting to watch..'), {event: "progress"})
 
     //Start WatchingEventHandler
     await WatchingEventHandlerStart(channelLogin)

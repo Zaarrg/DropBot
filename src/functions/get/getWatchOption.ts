@@ -1,4 +1,4 @@
-import {userdata} from "../../data/userdata";
+import {userdata} from "../../index" ;
 
 const inquirer = require("inquirer");
 

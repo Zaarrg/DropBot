@@ -31,8 +31,8 @@ export async function dateCheck(CurrentDrop: Drop, onlymatch: boolean) {
         }
 
         if (noworkingamount === dropslenght && !onlymatch) {
-            winston.info(' ')
-            winston.info(chalk.yellow('All Drops are stopped or nonActive at the moment... Looking for new ones...'))
+            winston.silly(" ")
+            winston.info(chalk.yellow('All Drops are stopped or nonActive at the moment... Looking for new ones...'), {event: "newDrop"})
             await restartHandler(true, true, true, true, false)
         }
 

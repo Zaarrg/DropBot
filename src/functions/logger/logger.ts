@@ -1,7 +1,5 @@
-import axiosRetry from "axios-retry";
-import axios from "axios";
-import chalk from "chalk";
-import {delay} from "../../utils/util";
+import {sendWebhook, webhookHandler} from "../handler/webHookHandler";
+import {userdata} from "../../index" ;
 
 const fs = require("fs");
 const winston = require('winston');
@@ -10,22 +8,25 @@ const { printf } = format;
 
 export default async function () {
 
-    type Log = {
-        message: string,
-        level: string,
-        timestamp: string
-    }
-
     const fileFormat = printf((log: Log) => {return `${log.timestamp}: ${log.message}`});
     const consoleFormat = printf((log: Log) => {return log.message})
     // Logger configuration
-    process.on('unhandledRejection', async (reason, promise) => {
-            winston.error(reason)
-            winston.info('ERROR: Closing in 30 seconds...')
-            await delay(30000)
+    process.on('unhandledRejection', async (reason : string, promise) => {
+            winston.error("Unhandled Rejection at: %o", promise)
+            winston.error("Unhandled Rejection Reason: " + reason)
+        if (userdata.settings.WebHookURL !== "") {
+            await sendWebhook([reason, "More Details can be found in the error Log...", "Closing Bot..."], "ERROR", userdata.settings.WebHookURL, 16711680).then((request) => {
+                if (!request) {
+                    winston.info('Could not send Webhook with ERROR: Closing Bot...')
+                    process.exit(21);
+                } else {
+                    process.exit(21);
+                }
+            })
+        } else {
             process.exit(21);
+        }
     })
-
     try {
         await createConsoleLogger(consoleFormat)
         if (fs.existsSync('./settings.json')) {
@@ -41,20 +42,12 @@ export default async function () {
         winston.error('ERROR')
         throw 'Invalid/Corrupted JSON file...'
     }
-
-    //Set Retries
-    axiosRetry(axios, {
-        retries: 3,
-        retryDelay: (retryCount, error) => {
-            winston.info(chalk.yellow('Failed axios Request... Retrying in 30 seconds... Try: ' + retryCount + "/3 " + error));
-            return 30000; // time interval between retries
-        }
-    });
+    return true
 }
 
 async function createConsoleLogger(consoleFormat: any) {
-    winston.add(new winston.transports.Console({
-        level: 'info',
+    const consoleLogger = new winston.transports.Console({
+        level: 'silly',
         handleExceptions: true,
         RejectionHandler: true,
         format: format.combine(
@@ -62,19 +55,19 @@ async function createConsoleLogger(consoleFormat: any) {
             format.splat(),
             consoleFormat
         )
-    }));
+    })
+    winston.add(consoleLogger);
+    consoleLogger.on('logged', async function (log:any) {if (userdata.settings.WebHookURL !== "") await webhookHandler(log)})
 }
 
-
 async function createFilelogger(fileFormat:any) {
-
     winston.add(new winston.transports.File({
-        filename: './TTVDropBot-out.log',
+        filename: './logs/TTVDropBot-out.log',
         level: 'info',
         handleExceptions: true,
         RejectionHandler: true,
-        maxsize: 10242880,
-        maxFiles: 10,
+        maxsize: "20m",
+        maxFiles: 5,
         timestamp: true,
         format: format.combine(
             format.uncolorize(),
@@ -84,12 +77,12 @@ async function createFilelogger(fileFormat:any) {
         )
     }));
     winston.add(new winston.transports.File({
-        filename: './TTVDropBot-error.log',
+        filename: './logs/TTVDropBot-error.log',
         level: 'error',
         handleExceptions: true,
         RejectionHandler: true,
-        maxsize: 10242880,
-        maxFiles: 10,
+        maxsize: "20m",
+        maxFiles: 5,
         timestamp: true,
         format: format.combine(
             format.uncolorize(),
@@ -98,8 +91,11 @@ async function createFilelogger(fileFormat:any) {
             fileFormat,
         )
     }));
+}
 
-
-
-
+export type Log = {
+    message: string,
+    event?: string,
+    level: string,
+    timestamp: string
 }

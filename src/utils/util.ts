@@ -1,3 +1,7 @@
+import * as rax from "retry-axios";
+import winston from "winston";
+import {userdata} from "../index";
+
 const chalk = require("chalk");
 const fs = require("fs");
 
@@ -57,3 +61,15 @@ export async function delay(ms: number) {
     return await new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export let retryConfig = {
+    retry: 3,
+    noResponseRetries: 3,
+    retryDelay: userdata.settings.RetryDelay,
+    statusCodesToRetry: [[100, 199], [429, 429, 400], [500, 599]],
+    httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT', 'POST'],
+    onRetryAttempt: (err:any) => {
+        const cfg = rax.getConfig(err);
+        winston.info(chalk.yellow('Failed axios Request... Retrying in '+ Math.round(((cfg?.retryDelay)!/1000) * 100)/100 + ' seconds... Try: ' + cfg?.currentRetryAttempt + "/3 " + err), {event: "requestRetry"});
+    },
+    backoffType: 'static'
+}

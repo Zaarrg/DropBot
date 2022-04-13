@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/Zaarrg/TTVDropBot.git"
   },
+  "bin": {
+    "ttvdropbot": "./src/index.ts"
+  },
   "author": "Zarg",
   "license": "MIT",
   "bugs": {
@@ -21,25 +24,27 @@
   },
   "homepage": "https://github.com/Zaarrg/TTVDropBot#readme",
   "devDependencies": {
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.23",
+    "@types/yargs": "^17.0.10",
     "pkg": "^5.5.2",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "dependencies": {
     "@zaarrg/twitch-gql-ttvdropbot": "github:zaarrg/twitch-gql-ttvdropbot",
-    "axios": "^0.26.0",
-    "axios-retry": "^3.2.4",
+    "axios": "^0.26.1",
     "chalk": "^4.1.2",
     "chrome-paths": "^1.0.1",
-    "inquirer": "^8.2.0",
+    "inquirer": "^8.2.2",
     "js-base64": "^3.7.2",
-    "puppeteer-core": "^13.4.0",
+    "puppeteer-core": "^13.5.2",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "retry-axios": "^2.6.0",
     "wait-console-input": "^0.1.7",
-    "winston": "^3.6.0"
+    "winston": "^3.7.2",
+    "yargs": "^17.4.1"
   },
   "pkg": {
     "assets": [

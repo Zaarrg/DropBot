@@ -1,4 +1,5 @@
-import {timebased, userdata} from "../../data/userdata";
+import {timebased} from "../../data/userdata";
+import {userdata} from "../../index";
 import winston from "winston";
 import chalk from "chalk";
 import {claimedstatustoString, getRandomInt, livechresponse, statustoString} from "../../utils/util";
@@ -27,8 +28,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
         }
     })
     if (feedback) {
-        winston.info(' ')
-        winston.info(chalk.gray('Getting all available Drops...'))
+        winston.silly(" ")
+        winston.info(chalk.gray('Getting all available Drops...'), {event: "get"})
     }
     for (const e of dropidstoget) {
         let opts = {
@@ -50,8 +51,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
         })
     }
     if (feedback) {
-        winston.info(' ')
-        winston.info(chalk.gray('Looking for a Live Channel...'))
+        winston.silly(" ")
+        winston.info(chalk.gray('Looking for a Live Channel...'), {event: "get"})
     }
     //Check if drop has a Live channel
     for (const e of userdata.drops) {
@@ -65,8 +66,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     }
 
     if (feedback) {
-        winston.info(' ')
-        winston.info(chalk.gray('Checking your Inventory for started Drops...'))
+        winston.silly(" ")
+        winston.info(chalk.gray('Checking your Inventory for started Drops...'), {event: "get"})
     }
     //Check if drop is started if so get data and set it
     const rawInventory = await TwitchGQL._SendQuery("Inventory", {}, '27f074f54ff74e0b05c8244ef2667180c2f911255e589ccd693a1a52ccca7367', 'OAuth ' + userdata.auth_token, true)
@@ -111,8 +112,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
 
 
     if (feedback) {
-        winston.info(' ')
-        winston.info(chalk.gray('Checking your Inventory for claimed Drops...'))
+        winston.silly(" ")
+        winston.info(chalk.gray('Checking your Inventory for claimed Drops...'), {event: "get"})
     }
     await matchClaimedDrops()
     //Update Date Status
@@ -123,8 +124,8 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     //Log Result
     if (feedback) {
         userdata.drops.forEach(drop => {
-            winston.info(' ')
-            winston.info(livechresponse(drop.foundlivech) + " | " + chalk.magenta(drop.dropname)  + " | " + statustoString(drop.live) + ' | ' + claimedstatustoString(drop.isClaimed) )
+            winston.silly(" ")
+            winston.info(livechresponse(drop.foundlivech) + " | " + chalk.magenta(drop.dropname)  + " | " + statustoString(drop.live) + ' | ' + claimedstatustoString(drop.isClaimed),  {event: "getResult"})
         })
     }
 
@@ -146,7 +147,7 @@ export async function askWhatDropToStart(random: boolean, filterlive: boolean, f
         for (const [i, DropName] of userdata.availableDropNameChoices.entries()) {
             if (userdata.nonActiveDrops.includes(DropName)){
                 userdata.availableDropNameChoices.splice(i, 1)
-                winston.info(' ')
+                winston.silly(" ")
                 winston.info(chalk.yellow(DropName + ' | ' + 'was removed because the drop ended or not started yet...'))
             }
         }
@@ -161,14 +162,14 @@ export async function askWhatDropToStart(random: boolean, filterlive: boolean, f
     }
 
     if (userdata.availableDropNameChoices.length === 0) {
-        winston.info(' ')
+        winston.silly(" ")
         winston.info(chalk.gray('All available Channels Offline... Select any Drop to start watching...'))
         userdata.drops.forEach(drop => {
             userdata.availableDropNameChoices.push(drop.dropname)
         })
     }
 
-    winston.info(' ')
+    winston.silly(" ")
     if (!random) {
         await inquirer
             .prompt([
@@ -191,22 +192,9 @@ export async function askWhatDropToStart(random: boolean, filterlive: boolean, f
 
 
 export async function askWhatGameToWatch(random: boolean) {
-    let activecampainnames:Array<string> = [];
+    let activecampainnames = await getActiveCampaigns();
 
-    winston.info(' ')
-    winston.info(chalk.gray('Getting all active Campaigns...'))
-    const DropCampaignDetails = await TwitchGQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true)
-    let allDropCampaings = DropCampaignDetails[0].data.currentUser.dropCampaigns
-
-    await allDropCampaings.forEach((campaign: Campaign) => {
-        if (campaign.status === 'ACTIVE') {
-            if (activecampainnames.includes(campaign.game.displayName) === false) {
-                activecampainnames.push(campaign.game.displayName)
-            }
-        }
-    })
-
-    winston.info(' ')
+    winston.silly(" ")
     if (!userdata.settings.displayless) {
         if (!random) {
             await inquirer
@@ -223,7 +211,7 @@ export async function askWhatGameToWatch(random: boolean) {
                 });
         } else {
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
-            winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.game)))
+            winston.info(chalk.gray('Selected a random game to watch: ' + chalk.white(userdata.game)))
         }
     } else {
         if (userdata.settings.Prioritylist.length === 0) {
@@ -231,13 +219,36 @@ export async function askWhatGameToWatch(random: boolean) {
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
             winston.info(chalk.gray('Selected a random Game to watch: ' + chalk.white(userdata.game)))
         } else {
-            userdata.game = userdata.settings.Prioritylist[0]
-            winston.info(chalk.gray('Selected a Game from your Priority List watch: ' + userdata.game))
+                userdata.game = userdata.settings.Prioritylist[0]
+                winston.info(chalk.gray('Selected a Game from your Priority List watch: ' + userdata.game))
         }
     }
-
-
 }
+
+export async function getActiveCampaigns() {
+    let activecampainnames:Array<string> = [];
+    winston.silly(" ")
+    winston.info(chalk.gray('Getting all active Campaigns...'), {event: "get"})
+    const DropCampaignDetails = await TwitchGQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true)
+    let allDropCampaings = DropCampaignDetails[0].data.currentUser.dropCampaigns
+    await allDropCampaings.forEach((campaign: Campaign) => {
+        if (campaign.status === 'ACTIVE') {
+            if (activecampainnames.includes(campaign.game.displayName) === false) {
+                activecampainnames.push(campaign.game.displayName)
+            }
+        }
+    })
+    if (userdata.settings.Prioritylist.length > 0) {
+        for (let i = userdata.settings.Prioritylist.length; i--;) {
+            if (!activecampainnames.includes(userdata.settings.Prioritylist[i])) {
+                winston.info(chalk.yellow("Removed " + userdata.settings.Prioritylist[i] + " from the Priority List, because there is no ACTIVE campaign with such name."))
+                userdata.settings.Prioritylist.splice(i, 1);
+            }
+        }
+    }
+    return activecampainnames;
+}
+
 
 type Campaign = {
     id: string,

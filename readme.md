@@ -14,13 +14,17 @@
 <p align="center">
   <br>
   <a href="https://github.com/Zaarrg/TTVDropBot/issues">
-    <img src="https://img.shields.io/github/stars/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot issues"/>
+    <img src="https://img.shields.io/github/stars/Zaarrg/TTVDropBot?color=333&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot issues"/>
+  </a>
+    <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
+    <img src="https://img.shields.io/github/commit-activity/y/Zaarrg/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot pull requests"/>
   </a>
   <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/commit-activity/y/Zaarrg/TTVDropBot?color=0088ff&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot pull requests"/>
+    <img src="https://img.shields.io/github/last-commit/Zaarrg/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="Zaarrg/TTVDropBot requests"/>
   </a>
-  <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/last-commit/Zaarrg/TTVDropBot?color=97CA00&style=for-the-badge&logo=github" alt="Zaarrg/TTVDropBot requests"/>
+      <br>
+        <a href="https://discord.gg/rV26FZ2upF">
+<img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
   </a>
 </p>
 
@@ -41,6 +45,7 @@
 * Can watch every Twitch Drop / Campaign available.
 * Automatically claims your Drops.
 * Switches automatically to other games or drops if drop is claimed/claimable or offline.
+* Send Discord Webhooks to your server.
 
 <br />
 
@@ -92,6 +97,7 @@
 
 2. Install NPM packages.
     ```bash
+    cd TTVDropBot/
     npm install
     ```
 3. Run the bot via npm scripts.
@@ -193,6 +199,13 @@ Down below you can find the settings Variables and what they do.
 - Providing a userdatapath, will give the loginpage the option to use cookies out of your browser. Option not really needed anymore.
 - You can find the UserdataPath under <code>chrome://version</code> then under <code>Profile Path</code>
 
+###Webhook
+- The Discord Webhook URL: <code> https://discord.com/api/webhooks/... </code>
+
+###WebHookEvents
+- Set what events should be send via webhook.
+- Defaults to: <code>["requestretry", "claim", "newdrop", "offline", "newgame", "get", "getresult", "progress", "start", "error", "warn", "info"]</code>
+
 ### Debug
 - Will log important values to the console for debugging.
 
@@ -202,7 +215,10 @@ Down below you can find the settings Variables and what they do.
 ### ProgressCheckInterval
 - The time in ms, in what interval the progress should be checked. Recommended is `60000 ms - 60 s` anything under could cause twitch blocking your request.
 
-### WaitforOnlineChannels
+### RetryDelay
+- The time in ms, in what interval failed requests should be retried. Recommended is `60000 ms - 60 s` anything under could cause twitch blocking your request.
+
+### WaitforChannels
 - If set to false the Bot will no longer wait 5 Minutes for new Channels to come online. It will switch to another game instead.
 
 ### Prioritylist
@@ -220,6 +236,47 @@ Down below you can find the settings Variables and what they do.
 <br/>
 
 ---
+
+## ✏️ **Start Arguments**
+
+All available start Arguments, basically everything which is also in the [settings.json](https://github.com/Zaarrg/TTVDropBot#-settings) file.
+
+```bash
+./TTVDropBot.exe --help
+
+Usage: ./TTVDropBot or index.js --arg...
+
+Options:
+--help                              Show help. [boolean]
+--version                           Show version number. [boolean]
+-c, --chrome                        The path to your Chrome executable. [string]
+-u, --userdata                      The path to your userdata folder location. [string]
+--webhook, --wh                     The Discord Webhook URL. [string]
+--webhookevents                     Set what events should be send via webhook. [array]
+-i, --interval                      The progress interval in ms. [number]
+--retryinterval, --retry            The retry interval in ms. [number]
+-g, --games                         The Games the bot should watch. [array]
+-d, --debug                         Enable Debug logging. [boolean]
+--displayless, --dl                 Enable Displayless mode. [boolean]
+--waitforchannels, --waitonline     Disable waitforchannels, forcing the bot to not wait 
+                                    for other channels with drops instead switch the game. [boolean]
+--autoclaim                         Enable autoclaim. [boolean]
+--log                               Enable logging to file. [boolean]
+--tray                              Start app in the tray. [boolean]
+
+Examples:
+--chrome C:path:to:chrome.exe             Sets your chrome path.
+--userdata C:path:to:userdata-folder      Sets your userdata path.
+--webhook https:discord.com:api:webh....  Sets your webhook url.
+--webhookevents requestretry claim        Defaults to the events in this
+newdrop offline newgame get getresult     example provided.
+progress start error warn info
+--interval 30000                          Sets the progress interval to 30s.
+--retryinterval 30000                     Sets the retry interval to 30s.
+--games Rust Krunker 'Elite: Dangerous'   Sets the Prioritylist to Rust,
+Krunker and Elite: Dangerous.
+```
+
 ## 📘 Adding Custom Channels
 
 <br/>
@@ -254,16 +311,18 @@ Down below you can find the settings Variables and what they do.
 ### Example Settings.json
 ```json
 {
-"Loginmethod": "normal",
-"Chromeexe": "",
-"UserDataPath": "",
-"debug": true,
-"displayless": false,
-"ProgressCheckInterval": 15000,
-"WaitforOnlineChannels": true,
-"Prioritylist": [],
-"AutoClaim": true,
-"LogToFile": true
+   "Chromeexe": "",
+   "UserDataPath": "",
+   "WebHookURL": "",
+   "WebHookEvents": [],
+   "debug": false,
+   "displayless": false,
+   "ProgressCheckInterval": 60000,
+   "RetryDelay": 60000,
+   "WaitforChannels": true,
+   "Prioritylist": [],
+   "AutoClaim": true,
+   "LogToFile": true
 }
 ```
 
@@ -275,9 +334,7 @@ Down below you can find the settings Variables and what they do.
     "TTVLink": "https://www.twitch.tv/tarik",
     "WatchType": "Watch until time runs out",
     "Time": "50",
-    "Points": true,
-    "live": null,
-    "Pointsamount": ""
+    "Points": true
   }
 ]
 ```

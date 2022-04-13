@@ -1,5 +1,5 @@
 import fs from "fs";
-import {userdata} from "../../data/userdata";
+import {userdata} from "../../index" ;
 import winston from "winston";
 import chalk from "chalk";
 import {getRandomInt, statustoString, validURL} from "../../utils/util";
@@ -18,13 +18,13 @@ export async function getCustomChannel() {
 
             //Check Drops Amount...
             if (userdata.customchannel.length === 0) {
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.gray("No Custom Channels Found..."))
                 await createCustomChannel(true)
             }
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray("Found " + userdata.customchannel.length + " Custom Channels..."))
-            winston.info(" ");
+            winston.silly(" ");
             //Ask if user wanna add another ch
             await addanotherone()
             await customCheckLive(true);
@@ -32,21 +32,21 @@ export async function getCustomChannel() {
 
 
         } else {
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray("No Custom Channels Found..."))
             await createCustomChannel(false);
 
             if (userdata.customchannel.length === 0) {
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.gray("No Custom Channels Created..."))
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.gray("Closing Bot, No Custom Channels Added!"))
                 if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                 process.exit(21);
             }
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray("Found " + userdata.customchannel.length + " Custom Channels..."))
-            winston.info(" ");
+            winston.silly(" ");
             //Ask if user wanna add another ch
             await addanotherone()
             await customCheckLive(true);
@@ -60,18 +60,18 @@ export async function getCustomChannel() {
             userdata.customchannel = JSON.parse(customch);
             //Check Drops Amount...
             if (userdata.customchannel.length === 0) {
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.gray("No Custom Channels Found..."))
                 process.exit(1)
             }
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray("Found " + userdata.customchannel.length + " Custom Channels..."))
-            winston.info(" ");
+            winston.silly(" ");
             //Let the User Select a Starting Ch
             await customCheckLive(true);
             await askCustomChannelStart(true, true)
         } else {
-            winston.info(" ");
+            winston.silly(" ");
             winston.info(chalk.gray("Closing Bot, somehow there is no Customchannels file anymore...!"))
             if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
             process.exit(21);
@@ -93,9 +93,9 @@ async function addanotherone() {
         .then(async (answers: {confirmed: boolean}) => {
             if (answers.confirmed) {
                 await createCustomChannel(false);
-                winston.info(" ");
+                winston.silly(" ");
                 winston.info(chalk.gray("Found " + userdata.customchannel.length + " Custom Channels..."))
-                winston.info(" ");
+                winston.silly(" ");
             }
         })
 }
@@ -116,7 +116,7 @@ export async function askCustomChannelStart(random: boolean, filterlive: boolean
         userdata.customchannel.forEach(channel => {userdata.availableDropNameChoices.push(channel.Name)})
     }
 
-    winston.info(' ')
+    winston.silly(" ")
     if (!random) {
         await inquirer
             .prompt([
@@ -157,7 +157,7 @@ async function createCustomChannel(ask: boolean) {
             ])
             .then(async (answers: {confirmed: boolean}) => {
                 if (!answers.confirmed) {
-                    winston.info(" ");
+                    winston.silly(" ");
                     winston.info(chalk.gray("Closing Bot, No Custom Channels Added!"))
                     if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                     process.exit(21);
@@ -175,9 +175,7 @@ async function getCustomDetails() {
         TTVLink: '',
         WatchType: '',
         Time: 0,
-        Points: false,
-        live: null,
-        Pointsamount: ''
+        Points: false
     }
     const watch = ["Watch indefinitely", "Watch until time runs out"]
     await inquirer
@@ -227,23 +225,23 @@ async function getCustomDetails() {
             }
             userdata.customchannel.push(CustomChannel)
             //Save Created CH
-            await fs.promises.writeFile('twitch-session.json', JSON.stringify(userdata.customchannel, null, 2)).then(function () {
-                winston.info(" ");
+            await fs.promises.writeFile('./CustomChannels.json', JSON.stringify(userdata.customchannel, null, 2)).then(function () {
+                winston.silly(" ");
                 winston.info(chalk.green("Successfully Saved Custom Channels..."))
-                winston.info(" ");
+                winston.silly(" ");
             }).catch(err => {throw err})
         });
 }
 
-async function customCheckLive(feedback: boolean) {
+export async function customCheckLive(feedback: boolean) {
     for (const customchannel of userdata.customchannel) {
         let channelLogin = customchannel.TTVLink.split('https://www.twitch.tv/')[1]
         let status = await TwitchGQL.GetLiveStatus(channelLogin)
-        customchannel.live = !!status;
+        customchannel["live"] = !!status;
         if (feedback) {
-            winston.info(" ")
-            winston.info(chalk.cyan(customchannel.TTVLink) + " | " + chalk.magenta(customchannel.Name)+ " | " + statustoString(customchannel.live));
+            winston.silly(" ")
+            winston.info(chalk.cyan(customchannel.TTVLink) + " | " + chalk.magenta(customchannel.Name)+ " | " + statustoString(customchannel.live), {event: "getResult"});
         }
     }
-    winston.info(" ")
+    if (feedback) winston.silly(" ")
 }
