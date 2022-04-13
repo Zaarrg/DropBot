@@ -2,6 +2,9 @@ import {version} from "../../index";
 import yargs from "yargs";
 import { hideBin } from 'yargs/helpers'
 import {userdata} from "../../index" ;
+import fs from "fs";
+import winston from "winston";
+import chalk from "chalk";
 
 export async function setArgs() {
 
@@ -76,6 +79,14 @@ export async function setArgs() {
             "--games Rust Krunker 'Elite: Dangerous' ",
             "Sets the Prioritylist to Rust, Krunker and Elite: Dangerous.",
         )
+        .option("token", {
+            describe: "Your twitch auth_token.",
+            type: "string"
+        })
+        .example(
+            "--token yourkindalongtoken ",
+            "Sets the your current twitch auth token, overwriting any in twitch-session.json.",
+        )
         .option("debug", {
             alias: "d",
             describe: "Enable Debug logging.",
@@ -119,7 +130,6 @@ export async function setArgs() {
 export async function matchArgs() {
     const args : any = yargs.argv
     if (args.chrome !== undefined) userdata.settings.Chromeexe = args.chrome;
-    if (args.chrome !== undefined) userdata.settings.Chromeexe = args.chrome
     if (args.userdata!==undefined) userdata.settings.UserDataPath = args.userdata
     if (args.webhook!==undefined) userdata.settings.WebHookURL = args.webhook
     if (args.interval!==undefined) userdata.settings.ProgressCheckInterval = args.interval
@@ -131,5 +141,33 @@ export async function matchArgs() {
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
     if (args.retryinterval!==undefined) userdata.settings.RetryDelay = args.retryinterval
     if (args.webhookevents!==undefined) userdata.settings.WebHookEvents = args.webhookevents
+    if (args.token !== undefined) { await writetoken(args.token)}
+
+    if (process.env.ttvdropbot_chrome !== undefined) userdata.settings.Chromeexe = process.env.ttvdropbot_chrome;
+    if (process.env.ttvdropbot_userdata!==undefined) userdata.settings.UserDataPath = process.env.ttvdropbot_userdata
+    if (process.env.ttvdropbot_webhook!==undefined) userdata.settings.WebHookURL = process.env.ttvdropbot_webhook
+    if (process.env.ttvdropbot_interval!==undefined) userdata.settings.ProgressCheckInterval = parseInt(process.env.ttvdropbot_interval)
+    if (process.env.ttvdropbot_games!==undefined) userdata.settings.Prioritylist = process.env.ttvdropbot_games.split(' ')
+    if (process.env.ttvdropbot_debug!==undefined) userdata.settings.debug = JSON.parse(process.env.ttvdropbot_debug);
+    if (process.env.ttvdropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.ttvdropbot_displayless)
+    if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = !JSON.parse(process.env.ttvdropbot_waitforchannels)
+    if (process.env.ttvdropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.ttvdropbot_autoclaim)
+    if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
+    if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)
+    if (process.env.ttvdropbot_webhookevents!==undefined) userdata.settings.WebHookEvents = process.env.ttvdropbot_webhookevents.split(' ')
+    if (process.env.ttvdropbot_token !== undefined) { await writetoken(process.env.ttvdropbot_token)}
+
+}
+
+async function writetoken(token: string) {
+    let authcookie = [{
+        "name": "auth-token",
+        "value": token,
+    }]
+    await fs.promises.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
+        winston.silly(" ");
+        winston.info(chalk.green("Successfully Saved token..."))
+        winston.silly(" ");
+    }).catch(err => {throw err})
 }
 

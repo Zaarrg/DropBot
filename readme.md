@@ -237,7 +237,7 @@ Down below you can find the settings Variables and what they do.
 
 ---
 
-## ✏️ **Start Arguments**
+## ✏️ **Start Arguments and environment variables**
 
 All available start Arguments, basically everything which is also in the [settings.json](https://github.com/Zaarrg/TTVDropBot#-settings) file.
 
@@ -256,6 +256,7 @@ Options:
 -i, --interval                      The progress interval in ms. [number]
 --retryinterval, --retry            The retry interval in ms. [number]
 -g, --games                         The Games the bot should watch. [array]
+--token                             Your twitch auth_token. [string]
 -d, --debug                         Enable Debug logging. [boolean]
 --displayless, --dl                 Enable Displayless mode. [boolean]
 --waitforchannels, --waitonline     Disable waitforchannels, forcing the bot to not wait 
@@ -275,6 +276,28 @@ progress start error warn info
 --retryinterval 30000                     Sets the retry interval to 30s.
 --games Rust Krunker 'Elite: Dangerous'   Sets the Prioritylist to Rust,
 Krunker and Elite: Dangerous.
+--token yourkindalongtoken                Sets the your current twitch auth
+                                          token, overwriting any in
+                                          twitch-session.json.
+
+```
+
+All these Arguments also work as environment variable:
+
+```bash
+ttvdropbot_chrome = YourPath
+ttvdropbot_userdata = YourPath
+ttvdropbot_webhook = DiscordWebhookURL
+ttvdropbot_interval = 60000
+ttvdropbot_games = Game1 Game2 Game3...
+ttvdropbot_debug = true || false
+ttvdropbot_displayless = true || false
+ttvdropbot_waitforchannels = true || false
+ttvdropbot_autoclaim = true || false
+ttvdropbot_log = true || false
+ttvdropbot_retryinterval = 60000
+ttvdropbot_webhookevents = Event1 Event2 Event3...
+ttvdropbot_token = YourToken
 ```
 
 ## 📘 Adding Custom Channels

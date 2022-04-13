@@ -8,8 +8,5 @@
 	"Webhook"
   ],
   "repository": "https://github.com/Zaarrg/TTVDropBot",
-  "logo": "https://i.imgur.com/2WtgNe4.png",
-  "scripts": {
-    "start": "ts-node ./src/index.ts"
-  }
+  "logo": "https://i.imgur.com/2WtgNe4.png"
 }

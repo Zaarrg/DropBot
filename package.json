@@ -4,7 +4,7 @@
   "description": "Twitch Drop Bot",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
+    "start" : "node build/index.js --displayless",
     "start:dev": "ts-node ./src/index.ts",
     "build": "rimraf ./build && tsc",
     "package": "rimraf ./package/TTVDropBot && npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
