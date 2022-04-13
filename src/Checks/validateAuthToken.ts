@@ -15,6 +15,8 @@ export async function validateAuthToken() {
             let response_data = response.data
             userdata.userid = response_data.client_id
             userdata.clientid = response_data.client_id
+            if (userdata.showtoken) winston.info(chalk.yellow('Warning: Your Token is revealed, please only reveal if necessary...'))
+            if (userdata.showtoken) winston.info(chalk.yellow('Your Auth Token: ' + chalk.white(userdata.auth_token)))
         })
         .catch(function (error) {
             winston.error(chalk.red('ERROR: Could not validate your auth token...'))

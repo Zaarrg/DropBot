@@ -11,6 +11,7 @@ export class userdataclass {
     nonActiveDrops: Array<string>;
     availableDropNameChoices: Array<string>;
     startDrop: string;
+    showtoken: boolean;
     settings: {
         Chromeexe: string;
         UserDataPath: string;
@@ -40,6 +41,7 @@ export class userdataclass {
         this.nonActiveDrops = [];
         this.availableDropNameChoices = [];
         this.startDrop = "";
+        this.showtoken = false;
         this.settings = {
             Chromeexe: "",
             UserDataPath: "",

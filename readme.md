@@ -300,6 +300,7 @@ ttvdropbot_autoclaim = true || false
 ttvdropbot_log = true || false
 ttvdropbot_retryinterval = 60000
 ttvdropbot_webhookevents = Event1 Event2 Event3...
+ttvdropbot_showtoken = true || false  Usefull for System were you cant access your twitch-session.json
 ttvdropbot_token = YourToken
 ```
 

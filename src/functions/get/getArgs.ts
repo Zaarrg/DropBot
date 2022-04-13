@@ -159,6 +159,7 @@ export async function matchArgs() {
     if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
     if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)
     if (process.env.ttvdropbot_webhookevents!==undefined) userdata.settings.WebHookEvents = process.env.ttvdropbot_webhookevents.split(' ')
+    if (process.env.ttvdropbot_showtoken !== undefined) {userdata.showtoken = JSON.parse(process.env.ttvdropbot_showtoken)}
     if (process.env.ttvdropbot_token !== undefined) { await writetoken(process.env.ttvdropbot_token)}
 
 }
