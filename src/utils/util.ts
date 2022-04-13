@@ -71,5 +71,5 @@ export let retryConfig = {
         const cfg = rax.getConfig(err);
         winston.info(chalk.yellow('Failed axios Request... Retrying in '+ Math.round(((cfg?.retryDelay)!/1000) * 100)/100 + ' seconds... Try: ' + cfg?.currentRetryAttempt + "/3 " + err), {event: "requestRetry"});
     },
-    backoffType: 'static'
+    backoffType: 'static' as const
 }
