@@ -136,7 +136,7 @@ export async function matchArgs() {
     if (args.games!==undefined) userdata.settings.Prioritylist = args.games
     if (args.debug!==undefined) userdata.settings.debug = args.debug
     if (args.displayless!==undefined) userdata.settings.displayless = args.displayless
-    if (args.waitforchannels!==undefined) userdata.settings.WaitforChannels = !args.waitforchannels
+    if (args.waitforchannels!==undefined) userdata.settings.WaitforChannels = args.waitforchannels
     if (args.autoclaim!==undefined) userdata.settings.AutoClaim = args.autoclaim
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
     if (args.retryinterval!==undefined) userdata.settings.RetryDelay = args.retryinterval
@@ -147,10 +147,14 @@ export async function matchArgs() {
     if (process.env.ttvdropbot_userdata!==undefined) userdata.settings.UserDataPath = process.env.ttvdropbot_userdata
     if (process.env.ttvdropbot_webhook!==undefined) userdata.settings.WebHookURL = process.env.ttvdropbot_webhook
     if (process.env.ttvdropbot_interval!==undefined) userdata.settings.ProgressCheckInterval = parseInt(process.env.ttvdropbot_interval)
-    if (process.env.ttvdropbot_games!==undefined) userdata.settings.Prioritylist = process.env.ttvdropbot_games.split(' ')
+    if (process.env.ttvdropbot_games!==undefined) {
+        let stringarray = process.env.ttvdropbot_games.split(' ')
+        let replacedarray = stringarray.map(game => game.replace('_', ' '));
+        userdata.settings.Prioritylist = replacedarray;
+    }
     if (process.env.ttvdropbot_debug!==undefined) userdata.settings.debug = JSON.parse(process.env.ttvdropbot_debug);
     if (process.env.ttvdropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.ttvdropbot_displayless)
-    if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = !JSON.parse(process.env.ttvdropbot_waitforchannels)
+    if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.ttvdropbot_waitforchannels)
     if (process.env.ttvdropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.ttvdropbot_autoclaim)
     if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
     if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)

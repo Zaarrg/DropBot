@@ -49,7 +49,7 @@ export class userdataclass {
             displayless: false,
             ProgressCheckInterval: 60000,
             RetryDelay: 60000,
-            WaitforChannels: true,
+            WaitforChannels: false,
             Prioritylist: [],
             AutoClaim: true,
             LogToFile: true
