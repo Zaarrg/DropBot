@@ -1,15 +1,15 @@
 import {getTwitchDrops} from "../get/getTwitchDrops";
 import {userdata} from "../../index" ;
-import {allOfflineCheck, liveCheck} from "../../checks/liveCheck";
+import {allOfflineCheck, liveCheck} from "../../Checks/liveCheck";
 import winston from "winston";
 import {getCurrentDrop} from "../get/getCurrentDrop";
 import {delay, minutestoPercent, retryConfig} from "../../utils/util";
-import {dateCheck} from "../../checks/dateCheck";
+import {dateCheck} from "../../Checks/dateCheck";
 import axios from "axios";
-import {claimableCheck} from "../../checks/claimCheck";
+import {claimableCheck} from "../../Checks/claimCheck";
 import chalk from "chalk";
-import {SamePercentCheck} from "../../checks/samepercentCheck";
-import {pointsCheck} from "../../checks/pointsCheck";
+import {SamePercentCheck} from "../../Checks/samepercentCheck";
+import {pointsCheck} from "../../Checks/pointsCheck";
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init(userdata.clientid);
 const {Base64} = require('js-base64');
 

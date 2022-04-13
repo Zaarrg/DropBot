@@ -1,8 +1,8 @@
-import {CustomChannel} from "../../data/userdata";
+import {CustomChannel} from "../../Data/userdata";
 import {userdata} from "../../index";
-import {customallOfflineCheck, liveCheck} from "../../checks/liveCheck";
+import {customallOfflineCheck, liveCheck} from "../../Checks/liveCheck";
 import {sendMinuteWatched} from "./watchpageHandler"
-import {pointsCheck} from "../../checks/pointsCheck";
+import {pointsCheck} from "../../Checks/pointsCheck";
 import {delay} from "../../utils/util";
 import winston from "winston";
 import chalk from "chalk";

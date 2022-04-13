@@ -2,7 +2,7 @@ import winston from "winston";
 import chalk from "chalk";
 import {userdata} from "../../index" ;
 import {Chromepaths} from "../get/getSettings";
-import {Login} from "../../pages/loginPage";
+import {Login} from "../../Pages/loginPage";
 import fs from "fs";
 import axios from "axios";
 import {retryConfig} from "../../utils/util";

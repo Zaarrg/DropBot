@@ -2,7 +2,7 @@ export const version = "2.0.0.3";
 import {userdataclass} from "./Data/userdata";
 export let userdata = new userdataclass();
 import chalk from "chalk";
-import CheckVersion from "./checks/versionCheck"
+import CheckVersion from "./Checks/versionCheck"
 import GetSettings, {logimportantvalues} from "./functions/get/getSettings"
 import GetWatchOption from "./functions/get/getWatchOption"
 import {askWhatDropToStart, askWhatGameToWatch, getTwitchDrops} from "./functions/get/getTwitchDrops"
@@ -11,7 +11,7 @@ import {login} from "./functions/login/defaultlogin";
 import fs from "fs";
 import {getCustomChannel} from "./functions/get/getCustomChannel";
 import {CustomEventHandlerStart} from "./functions/handler/custompageHandler";
-import {validateAuthToken} from "./checks/validateAuthToken";
+import {validateAuthToken} from "./Checks/validateAuthToken";
 import {matchArgs, setArgs} from "./functions/get/getArgs";
 import * as rax from 'retry-axios';
 import {retryConfig} from "./utils/util";

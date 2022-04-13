@@ -1,11 +1,11 @@
-import {timebased} from "../../data/userdata";
+import {timebased} from "../../Data/userdata";
 import {userdata} from "../../index";
 import winston from "winston";
 import chalk from "chalk";
 import {claimedstatustoString, getRandomInt, livechresponse, statustoString} from "../../utils/util";
 import {findLiveChannel} from "../findLiveChannel";
-import {matchClaimedDrops} from "../../checks/claimCheck";
-import {dateCheck} from "../../checks/dateCheck";
+import {matchClaimedDrops} from "../../Checks/claimCheck";
+import {dateCheck} from "../../Checks/dateCheck";
 
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 const inquirer = require("inquirer");

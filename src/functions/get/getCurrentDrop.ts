@@ -1,4 +1,4 @@
-import {timebased} from "../../data/userdata";
+import {timebased} from  "../../Data/userdata";
 import {userdata} from "../../index"
 export async function getCurrentDrop() {
     let CurrentDrop:Drop = {
