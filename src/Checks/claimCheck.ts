@@ -50,7 +50,7 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
     }
 
     //Check if all Drops of the game are claimed/claimable
-    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount)
+    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount + ' | ' + nonworkingamount)
     await allgameddropsclaimableCheck()
 
     //All Claimable
@@ -82,19 +82,17 @@ async function allgameddropsclaimableCheck() {
     for (const drop of userdata.drops) {
         //filter all non active drops
         drop.timebasedrop.forEach(timedrop => {
+            amount++
             if (timedrop.self.status === 'Not Active' || timedrop.self.status === 'Ended') {
                 nonworkingamount++
-            }
-        })
-
-        drop.timebasedrop.forEach(time => {
-            amount++
-            if (time.requiredMinutesWatched === time.self.currentMinutesWatched || time.self.isClaimed === true) {
+            } else if (timedrop.requiredMinutesWatched === timedrop.self.currentMinutesWatched || timedrop.self.isClaimed === true) {
                 isclaimedorclaimableamount++
-            } else if (time.self.status === 'Active' && !drop.live) {
+            } else if (timedrop.self.status === 'Active' && !drop.live) {
                 offlinedrops++
             }
         })
+
+
     }
 
     if (userdata.settings.debug) winston.info('Claim CHECK LOOP ' + isclaimedorclaimableamount + ' | ' + amount + ' | ' + nonworkingamount + ' | ' + offlinedrops)
