@@ -49,6 +49,7 @@
 * Automatically claims your Drops.
 * Switches automatically to other games or drops if drop is claimed/claimable or offline.
 * Send Discord Webhooks to your server.
+* Host 24/7 on heroku.
 
 <br />
 
@@ -90,6 +91,7 @@
 
 ⚠️ _If you want to watch Custom Channels drag and drop a `customchannels.json` to your executable location_ ⚠️
 
+⚠️ _If you can't seem to get any progress on drops "always stuck" try loging in instead of copying twitch-session.json._ ⚠️
 
 <h3 align="center">Npm</h3>
 
@@ -189,6 +191,72 @@
 
 ![Twitch Drops](https://i.imgur.com/k95h9Tu.png)
 
+
+<h3 align="center">Step by Step Usage: Heroku</h3>
+
+<p align="center">
+⚠️ Only Recommended for advanced users. ⚠️<br/>
+</p>
+
+**1. Step**
+<p align="center">
+    <b>Click on the Deploy to Heroku Button at the top of the Readme</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/1ll6yjV.png)
+
+**2. Step**
+<p align="center">
+    <b>Login if necessary, and choose any app name you want, select your region and click Deploy app</b><br/>
+    <b>After that let Heroku go through the build process and then click on Manage App</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/oIm3m52.png)
+
+**3. Step**
+<p align="center">
+    <b>Go to the Resources tab and disable the web dyno and enable the worker instead</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/5XeKXRC.png)
+
+**4. Step**
+<p align="center">
+    <b>Click on more in the top right corner and then on Run console.</b><br/>
+    <b>Type in bash and click Run.</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/Q7mArVd.png)
+
+**5. Step**
+<p align="center">
+    <b>Now run the command <code>node ./build/index.js --showtoken</code> in the Terminal.</b><br/>
+    <b>Login Directly via command Line, until you see your auth token and copy it.</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/qfJV0OQ.png)
+
+**6. Step**
+
+<p align="center">
+    <b>Close the Terminal and go to Settings then Reveal Config Vars</b><br/>
+    <b>Now type in as key <code>ttvdropbot_token</code> and as value your copied token and click add</b><br/>
+    <b>You can find more environment variables</b>
+      <a href="https://github.com/Zaarrg/TTVDropBot#%EF%B8%8F-start-arguments-and-environment-variables">here</a>
+</p>
+
+![Twitch Drops](https://i.imgur.com/EnB36ih.png)
+
+**7. Step**
+<p align="center">
+    <b>🎉 Thats it Enjoy! You are successfully watching.</b><br/>
+    <b>To check if its working click on more in the top right corner then view logs.</b><br/>
+    <b>Give it some time to start up, and you should see the bot working.</b><br/>
+</p>
+
+![Twitch Drops](https://i.imgur.com/7Jrsojx.png)
+
+
 ---
 
 ## 📝 **Settings**
@@ -202,10 +270,10 @@ Down below you can find the settings Variables and what they do.
 - Providing a userdatapath, will give the loginpage the option to use cookies out of your browser. Option not really needed anymore.
 - You can find the UserdataPath under <code>chrome://version</code> then under <code>Profile Path</code>
 
-###Webhook
+### Webhook
 - The Discord Webhook URL: <code> https://discord.com/api/webhooks/... </code>
 
-###WebHookEvents
+### WebHookEvents
 - Set what events should be send via webhook.
 - Defaults to: <code>["requestretry", "claim", "newdrop", "offline", "newgame", "get", "getresult", "progress", "start", "error", "warn", "info"]</code>
 
@@ -375,6 +443,8 @@ ttvdropbot_token = YourToken
   }
 ]
 ```
+
+⚠️ _Never share your **Token** with anyone, because it gives full access to your account_ ⚠️
 
 
 

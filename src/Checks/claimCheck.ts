@@ -121,18 +121,18 @@ async function allgameddropsclaimableCheck() {
     if ( isclaimedorclaimableamount >= (amount-nonworkingamount)) {
         winston.silly(" ")
         if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings... or disable this feature in the settings...'))
-        winston.info(chalk.green('All available drops of the game claimed or claimable... Looking for a new Game....'))
+        winston.info(chalk.green('All available drops of the game claimed or claimable... Looking for a new Game....'), {event: "newGame"})
         await restartHandler(true, true, true, true, true)
     } else if (isclaimedorclaimableamount >= ((amount-nonworkingamount)-offlinedrops)) {
         winston.silly(" ")
         if (userdata.settings.WaitforChannels) {
-            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for new Live Drop in 5 Minutes....'))
+            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for new Live Drop in 5 Minutes....'), {event: "newDrop"})
             winston.silly(' ', {event: "progressEnd"})
             await delay(300000)
             await restartHandler(true, true, true, true, false)
         } else {
             if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings...'))
-            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for a new Game....'))
+            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for a new Game....'), {event: "newGame"})
             await restartHandler(true, true, true, true, true)
         }
     }
