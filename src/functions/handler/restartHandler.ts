@@ -33,7 +33,7 @@ async function selectGamefromList() {
     let activecampainnames = await getActiveCampaigns();
 
     if (userdata.settings.Prioritylist.length === 0) {
-        winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
+        winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings...'))
         userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
         winston.info(chalk.gray('Selected a random Game to watch: ' + chalk.white(userdata.game)))
     } else {

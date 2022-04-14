@@ -4,7 +4,7 @@ import winston from "winston";
 import chalk from "chalk";
 import {claimedstatustoString, getRandomInt, livechresponse, statustoString} from "../../utils/util";
 import {findLiveChannel} from "../findLiveChannel";
-import {matchClaimedDrops} from "../../Checks/claimCheck";
+import {claimableCheck, matchClaimedDrops} from "../../Checks/claimCheck";
 import {dateCheck} from "../../Checks/dateCheck";
 
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
@@ -119,6 +119,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
     //Update Date Status
     for (const drop of userdata.drops) {
         await dateCheck(drop, true)
+        await claimableCheck(drop, userdata.settings.AutoClaim, true)
     }
 
     //Log Result
@@ -215,7 +216,7 @@ export async function askWhatGameToWatch(random: boolean) {
         }
     } else {
         if (userdata.settings.Prioritylist.length === 0) {
-            winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
+            winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings...'))
             userdata.game = activecampainnames[getRandomInt(userdata.availableDropNameChoices.length)]
             winston.info(chalk.gray('Selected a random Game to watch: ' + chalk.white(userdata.game)))
         } else {

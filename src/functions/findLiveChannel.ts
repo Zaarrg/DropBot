@@ -9,15 +9,15 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
     if (allowedChannels !== null) {
         AllowedCHloop:
             for (const AllowedChannelElement of allowedChannels) {
-                if (await TwitchGQL.GetLiveStatus(AllowedChannelElement.displayName)) {
+                if (await TwitchGQL.GetLiveStatus(AllowedChannelElement.name)) {
 
-                    let TagList = await TwitchGQL._SendQuery("RealtimeStreamTagList", {channelLogin: AllowedChannelElement.displayName}, '9d952e4aacd4f8bb9f159bd4d5886d72c398007249a8b09e604a651fc2f8ac17', 'OAuth ' + userdata.auth_token, true)
+                    let TagList = await TwitchGQL._SendQuery("RealtimeStreamTagList", {channelLogin: AllowedChannelElement.name}, '9d952e4aacd4f8bb9f159bd4d5886d72c398007249a8b09e604a651fc2f8ac17', 'OAuth ' + userdata.auth_token, true)
                     let Tags:Array<Tag> = TagList[0].data.user.stream.tags
 
                     TagLoop:
                         for (const Tagelement of Tags) {
                             if (Tagelement.id === 'c2542d6d-cd10-4532-919b-3d19f30a768b') {
-                                foundlivechannel.push(AllowedChannelElement.displayName)
+                                foundlivechannel.push(AllowedChannelElement.name)
                                 break AllowedCHloop;
                             }
                         }
@@ -35,7 +35,7 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
         }
         const directorypagegame = await TwitchGQL.GetDirectoryPageGame(userdata.game, opts)
         if (directorypagegame[0].data.game.streams.edges.length > 0) {
-            foundlivechannel.push(directorypagegame[0].data.game.streams.edges[0].node.broadcaster.displayName)
+            foundlivechannel.push(directorypagegame[0].data.game.streams.edges[0].node.broadcaster.login)
         }
     }
 

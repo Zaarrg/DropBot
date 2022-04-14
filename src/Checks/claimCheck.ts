@@ -6,20 +6,24 @@ import {userdata} from "../index" ;
 import {delay} from "../utils/util";
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 
-export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
+export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean, onlycheck: boolean) {
     //filter all non active drops
     let nonworkingamount = 0;
+    let notavaiableyet = 0;
     let preconditions = false;
     CurrentDrop.timebasedrop.forEach(timedrop => {
-        if (timedrop.self.status === 'Not Active' || timedrop.self.status === 'Ended') {
+        if (!timedrop.self.isClaimed && timedrop.self.status === 'Not Active' || !timedrop.self.isClaimed && timedrop.self.status === 'Ended') {
             nonworkingamount++
+        }
+        if (!timedrop.self.isClaimed && timedrop.self.status === 'Not Active') {
+            notavaiableyet++
         }
         if (timedrop.preconditionDrops !== null) {
             preconditions = true
         }
     })
 
-    let timebasedlenght = (CurrentDrop.timebasedrop.length - nonworkingamount)
+    let workingdropslenght = (CurrentDrop.timebasedrop.length - nonworkingamount)
     let hundredpercent = 0;
     let isclaimedamount = 0;
 
@@ -50,23 +54,41 @@ export async function claimableCheck(CurrentDrop: Drop, autoclaim: boolean) {
     }
 
     //Check if all Drops of the game are claimed/claimable
-    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + timebasedlenght + ' | ' + isclaimedamount + ' | ' + nonworkingamount)
-    await allgameddropsclaimableCheck()
+    if (userdata.settings.debug) winston.info('Claim CHECK ONE ' + hundredpercent + ' | ' + workingdropslenght + ' | ' + isclaimedamount + ' | ' + nonworkingamount + ' | ' + notavaiableyet)
+    if (!onlycheck) await allgameddropsclaimableCheck()
 
     //All Claimable
-    if (hundredpercent >= timebasedlenght) {
-        winston.silly(" ")
-        winston.info(chalk.green('All Drops for Current Drop Claimable... Looking for new ones...'), {event: "newDrop"})
-        await restartHandler(true, true, true, true, false)
-    } else if (isclaimedamount >= timebasedlenght) {
-        winston.silly(" ")
-        winston.info(chalk.green('All Drops for Current Drop Claimed... Looking for new ones...'), {event: "newDrop"})
+    if (workingdropslenght !== CurrentDrop.timebasedrop.length && notavaiableyet >= (isclaimedamount + hundredpercent)) {
+        if (!onlycheck) {
+            winston.silly(" ")
+            winston.info(chalk.green('Got all available Drops, missing Drops are not active yet... Looking for new ones...'), {event: "newDrop"})
+            await restartHandler(true, true, true, true, false)
+        }
+    } else if (workingdropslenght === 0 ) {
+        if (!onlycheck) {
+            winston.silly(" ")
+            winston.info(chalk.green('All available Drops for Current Drop are unavailable... Looking for new ones...'), {event: "newDrop"})
+            await restartHandler(true, true, true, true, false)
+        }
+    } else if (hundredpercent >= workingdropslenght) {
+        if (!onlycheck) {
+            winston.silly(" ")
+            winston.info(chalk.green('All available Drops for Current Drop Claimable... Looking for new ones...'), {event: "newDrop"})
+            await restartHandler(true, true, true, true, false)
+        }
+    } else if (isclaimedamount >= workingdropslenght) {
         CurrentDrop.isClaimed = true
-        await restartHandler(true, true, true, true, false)
-    } else if ( (isclaimedamount + hundredpercent) >=timebasedlenght) {
-        winston.silly(" ")
-        winston.info(chalk.green('All Drops for Current Drop Claimable or Claimed... Looking for new ones...'), {event: "newDrop"})
-        await restartHandler(true, true, true, true, false)
+        if (!onlycheck) {
+            winston.silly(" ")
+            winston.info(chalk.green('All Drops for Current Drop Claimed... Looking for new ones...'), {event: "newDrop"})
+            await restartHandler(true, true, true, true, false)
+        }
+    } else if ( (isclaimedamount + hundredpercent) >=workingdropslenght) {
+        if (!onlycheck) {
+            winston.silly(" ")
+            winston.info(chalk.green('All available Drops for Current Drop Claimable or Claimed... Looking for new ones...'), {event: "newDrop"})
+            await restartHandler(true, true, true, true, false)
+        }
     } else {
         nonworkingamount = 0;
         hundredpercent = 0;
@@ -83,7 +105,7 @@ async function allgameddropsclaimableCheck() {
         //filter all non active drops
         drop.timebasedrop.forEach(timedrop => {
             amount++
-            if (timedrop.self.status === 'Not Active' || timedrop.self.status === 'Ended') {
+            if (!timedrop.self.isClaimed && timedrop.self.status === 'Not Active' || !timedrop.self.isClaimed && timedrop.self.status === 'Ended') {
                 nonworkingamount++
             } else if (timedrop.requiredMinutesWatched === timedrop.self.currentMinutesWatched || timedrop.self.isClaimed === true) {
                 isclaimedorclaimableamount++
@@ -98,19 +120,19 @@ async function allgameddropsclaimableCheck() {
     if (userdata.settings.debug) winston.info('Claim CHECK LOOP ' + isclaimedorclaimableamount + ' | ' + amount + ' | ' + nonworkingamount + ' | ' + offlinedrops)
     if ( isclaimedorclaimableamount >= (amount-nonworkingamount)) {
         winston.silly(" ")
-        if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
-        winston.info(chalk.green('All drops of the game claimed or claimable... Looking for a new Game....'))
+        if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings... or disable this feature in the settings...'))
+        winston.info(chalk.green('All available drops of the game claimed or claimable... Looking for a new Game....'))
         await restartHandler(true, true, true, true, true)
     } else if (isclaimedorclaimableamount >= ((amount-nonworkingamount)-offlinedrops)) {
         winston.silly(" ")
         if (userdata.settings.WaitforChannels) {
-            winston.info(chalk.green('All Live Drops of the game claimed or claimable... Looking for new Live Drop in 5 Minutes....'))
+            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for new Live Drop in 5 Minutes....'))
             winston.silly(' ', {event: "progressEnd"})
             await delay(300000)
             await restartHandler(true, true, true, true, false)
         } else {
-            if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
-            winston.info(chalk.green('All Live Drops of the game claimed or claimable... Looking for a new Game....'))
+            if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings...'))
+            winston.info(chalk.green('All available Live Drops of the game claimed or claimable... Looking for a new Game....'))
             await restartHandler(true, true, true, true, true)
         }
     }

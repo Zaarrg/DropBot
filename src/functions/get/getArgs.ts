@@ -87,6 +87,11 @@ export async function setArgs() {
             "--token yourkindalongtoken ",
             "Sets the your current twitch auth token, overwriting any in twitch-session.json.",
         )
+        .option("showtoken", {
+            describe: "Show your auth_token after login.",
+            type: "boolean",
+            nargs: 0,
+        })
         .option("debug", {
             alias: "d",
             describe: "Enable Debug logging.",
@@ -141,6 +146,7 @@ export async function matchArgs() {
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
     if (args.retryinterval!==undefined) userdata.settings.RetryDelay = args.retryinterval
     if (args.webhookevents!==undefined) userdata.settings.WebHookEvents = args.webhookevents
+    if (args.showtoken!==undefined) userdata.showtoken = args.showtoken
     if (args.token !== undefined) { await writetoken(args.token)}
 
     if (process.env.ttvdropbot_chrome !== undefined) userdata.settings.Chromeexe = process.env.ttvdropbot_chrome;

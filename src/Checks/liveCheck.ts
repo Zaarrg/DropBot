@@ -44,7 +44,7 @@ export async function allOfflineCheck() {
             await restartHandler(true, true, true, true, false)
         } else {
             winston.silly(" ")
-            if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game...'))
+            if (userdata.settings.Prioritylist.length === 0) winston.warn(chalk.yellow('Warning: Please add Games to your Priority List, otherwise the bot will select a random game... or disable this feature in the settings...'))
             winston.info(chalk.red('All Drops for this game are offline... Looking for new game...'), {event: "newGame"})
             await restartHandler(true, true, true, true, true)
         }

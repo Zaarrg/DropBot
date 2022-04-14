@@ -45,7 +45,7 @@ async function loop(DropcurrentlyWatching: string) {
                 winston.silly(" ")
             }
             await liveCheck(DropcurrentlyWatching, false);
-            await claimableCheck(CurrentDrop, userdata.settings.AutoClaim)
+            await claimableCheck(CurrentDrop, userdata.settings.AutoClaim, false)
             await dateCheck(CurrentDrop, false)
             await SamePercentCheck(CurrentDrop)
             await pointsCheck(DropcurrentlyWatching).then(points => {
