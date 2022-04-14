@@ -11,18 +11,22 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
             for (const AllowedChannelElement of allowedChannels) {
                 if (await TwitchGQL.GetLiveStatus(AllowedChannelElement.name)) {
 
+                let user = await TwitchGQL.GetUser(AllowedChannelElement.name)
+                let game = user.data.user.stream.game.name.toLowerCase()
+
+                if (game === userdata.game.toLowerCase()) {
                     let TagList = await TwitchGQL._SendQuery("RealtimeStreamTagList", {channelLogin: AllowedChannelElement.name}, '9d952e4aacd4f8bb9f159bd4d5886d72c398007249a8b09e604a651fc2f8ac17', 'OAuth ' + userdata.auth_token, true)
                     let Tags:Array<Tag> = TagList[0].data.user.stream.tags
 
-                    TagLoop:
-                        for (const Tagelement of Tags) {
-                            if (Tagelement.id === 'c2542d6d-cd10-4532-919b-3d19f30a768b') {
-                                foundlivechannel.push(AllowedChannelElement.name)
-                                break AllowedCHloop;
-                            }
+                    for (const Tagelement of Tags) {
+                        if (Tagelement.id === 'c2542d6d-cd10-4532-919b-3d19f30a768b') {
+                            foundlivechannel.push(AllowedChannelElement.name)
+                            break AllowedCHloop;
                         }
+                    }
                 }
             }
+        }
     } else {
         //Find Drop Channel via Tag
         let opts = {
@@ -38,7 +42,6 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
             foundlivechannel.push(directorypagegame[0].data.game.streams.edges[0].node.broadcaster.login)
         }
     }
-
     return foundlivechannel
 }
 
