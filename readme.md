@@ -242,7 +242,7 @@
     <b>Close the Terminal and go to Settings then Reveal Config Vars</b><br/>
     <b>Now type in as key <code>ttvdropbot_token</code> and as value your copied token and click add</b><br/>
     <b>You can find more environment variables</b>
-      <a href="https://github.com/Zaarrg/TTVDropBot#%EF%B8%8F-start-arguments-and-environment-variables">here</a>
+      <a href="https://github.com/Zaarrg/TTVDropBot#%EF%B8%8F-environment-variables">here</a>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/EnB36ih.png)
@@ -308,7 +308,7 @@ Down below you can find the settings Variables and what they do.
 
 ---
 
-## ✏️ **Start Arguments and environment variables**
+## ✏️ **Start Arguments**
 
 All available start Arguments, basically everything which is also in the [settings.json](https://github.com/Zaarrg/TTVDropBot#-settings) file.
 
@@ -353,7 +353,9 @@ Krunker and Elite: Dangerous.
 
 ```
 
-All these Arguments also work as environment variable:
+## ✏️ **Environment variables**
+
+All these Start Arguments also work as environment variable:
 
 ```bash
 ttvdropbot_chrome = YourPath
