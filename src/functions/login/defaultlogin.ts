@@ -243,7 +243,7 @@ async function getTwitchUserDetails() {
     await axios.get('https://id.twitch.tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
         .then(function (response){
             let response_data = response.data
-            userdata.userid = response_data.client_id
+            userdata.userid = response_data.user_id
             userdata.clientid = response_data.client_id
         })
         .catch(function (error) {

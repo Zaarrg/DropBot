@@ -7,8 +7,7 @@ let points = 0;
 export async function pointsCheck(channelLogin: string) {
 
     const opts = {
-        channelLogin: channelLogin,
-        includeGoalTypes: ["CREATOR", "BOOST"]
+        channelLogin: channelLogin
     }
 
     const pointsrequest = await TwitchGQL._SendQuery("ChannelPointsContext", opts, '1530a003a7d374b0380b79db0be0534f30ff46e61cffa2bc0e2468a909fbc024', 'OAuth ' + userdata.auth_token, true)

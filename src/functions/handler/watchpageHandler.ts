@@ -76,12 +76,12 @@ export async function sendMinuteWatched(ChannelLogin: string) {
     let channleid = Stream[0].data.user.id
     let broadcastid = Stream[0].data.user.stream.id
 
-    const gethtml = await axios.get('https://www.twitch.tv', {
+    const gethtml = await axios.get('https://www.twitch.tv/' + ChannelLogin, {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
             'encoding': 'utf8',
-            'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-            'Authorization': 'OAuth rck8xjgc7bknjru2tpu56tq5452xna'
+            'Client-Id': userdata.clientid,
+            'Authorization': 'OAuth ' + userdata.auth_token,
         },
         raxConfig: retryConfig
     }).catch(err => {
