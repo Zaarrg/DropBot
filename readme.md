@@ -89,7 +89,7 @@
     ```
 ⚠️ _If you want to specifiy wich games to watch use the **Prioritylist** setting_ ⚠️
 
-⚠️ _If you want to watch Custom Channels drag and drop a `customchannels.json` to your executable location_ ⚠️
+⚠️ _If you want to watch Custom Channels drag and drop a `customchannels.json` to your executable location and set `ForceCustomChannel` in settings.json to `true`_ ⚠️
 
 ⚠️ _If you can't seem to get any progress on drops "always stuck" try loging in instead of copying twitch-session.json._ ⚠️
 
@@ -283,6 +283,9 @@ Down below you can find the settings Variables and what they do.
 ### Displayless
 - Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui](https://github.com/Zaarrg/TTVDropBot/#ubuntu)
 
+### ForceCustomChannel
+- Force the bot to watch Custom Channels, only useful for display-less mode.
+
 ### ProgressCheckInterval
 - The time in ms, in what interval the progress should be checked. Recommended is `60000 ms - 60 s` anything under could cause twitch blocking your request.
 
@@ -330,6 +333,8 @@ Options:
 --token                             Your twitch auth_token. [string]
 -d, --debug                         Enable Debug logging. [boolean]
 --displayless, --dl                 Enable Displayless mode. [boolean]
+--forcecustomchannel                Force Custom Channels. Only useful for
+                                    display-less mode. [boolean]
 --waitforchannels, --waitonline     Disable waitforchannels, forcing the bot to not wait 
                                     for other channels with drops instead switch the game. [boolean]
 --autoclaim                         Enable autoclaim. [boolean]
@@ -365,6 +370,7 @@ ttvdropbot_interval = 60000
 ttvdropbot_games = Game1 Game2 Game3... ⚠️ Black Desert -> Black_Desert ⚠️
 ttvdropbot_debug = true || false
 ttvdropbot_displayless = true || false
+ttvdropbot_forcecustomchannel = true || false
 ttvdropbot_waitforchannels = true || false
 ttvdropbot_autoclaim = true || false
 ttvdropbot_log = true || false
@@ -419,7 +425,8 @@ ttvdropbot_token = YourToken
    "WaitforChannels": true,
    "Prioritylist": [],
    "AutoClaim": true,
-   "LogToFile": true
+   "LogToFile": true,
+   "ForceCustomChannel": false
 }
 ```
 

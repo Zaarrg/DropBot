@@ -25,6 +25,7 @@ export class userdataclass {
         Prioritylist: Array<string>;
         AutoClaim: boolean;
         LogToFile: boolean;
+        ForceCustomChannel: boolean;
     };
     customchannel: Array<CustomChannel>;
 
@@ -54,7 +55,8 @@ export class userdataclass {
             WaitforChannels: false,
             Prioritylist: [],
             AutoClaim: true,
-            LogToFile: true
+            LogToFile: true,
+            ForceCustomChannel: false
         }
         this.customchannel = [];
     }

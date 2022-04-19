@@ -4,7 +4,7 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 
 export async function findLiveChannel(allowedChannels:Array<Channel>) {
 
-    let foundlivechannel = [];
+    let foundlivechannel: string[] = [];
 
     if (allowedChannels !== null) {
         AllowedCHloop:
@@ -12,6 +12,7 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
                 if (await TwitchGQL.GetLiveStatus(AllowedChannelElement.name)) {
 
                 let user = await TwitchGQL.GetUser(AllowedChannelElement.name)
+                if (user.data.user.stream === null) {return foundlivechannel}
                 let game = user.data.user.stream.game.name.toLowerCase()
 
                 if (game === userdata.game.toLowerCase()) {
@@ -38,6 +39,7 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
             sortTypeIsRecency: false
         }
         const directorypagegame = await TwitchGQL.GetDirectoryPageGame(userdata.game, opts)
+        if (directorypagegame[0].data.game.streams === null) {return foundlivechannel}
         if (directorypagegame[0].data.game.streams.edges.length > 0) {
             foundlivechannel.push(directorypagegame[0].data.game.streams.edges[0].node.broadcaster.login)
         }

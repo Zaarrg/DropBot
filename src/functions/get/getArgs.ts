@@ -104,6 +104,11 @@ export async function setArgs() {
             type: "boolean",
             nargs: 0,
         })
+        .option("forcecustomchannel", {
+            describe: "Force Custom Channels. Only useful for display-less mode.",
+            type: "boolean",
+            nargs: 0,
+        })
         .option("waitforchannels", {
             alias: "waitonline",
             describe: "Disable waitforchannels, forcing the bot to not wait for other channels with drops instead switch the game.",
@@ -141,6 +146,7 @@ export async function matchArgs() {
     if (args.games!==undefined) userdata.settings.Prioritylist = args.games
     if (args.debug!==undefined) userdata.settings.debug = args.debug
     if (args.displayless!==undefined) userdata.settings.displayless = args.displayless
+    if (args.forcecustomchannel!==undefined) userdata.settings.ForceCustomChannel = args.forcecustomchannel
     if (args.waitforchannels!==undefined) userdata.settings.WaitforChannels = args.waitforchannels
     if (args.autoclaim!==undefined) userdata.settings.AutoClaim = args.autoclaim
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
@@ -155,9 +161,10 @@ export async function matchArgs() {
     if (process.env.ttvdropbot_interval!==undefined) userdata.settings.ProgressCheckInterval = parseInt(process.env.ttvdropbot_interval)
     if (process.env.ttvdropbot_games!==undefined) {
         let stringarray = process.env.ttvdropbot_games.split(' ')
-        let replacedarray = stringarray.map(game => game.replace('_', ' '));
+        let replacedarray = stringarray.map(game => game.replace(/_/g, ' '));
         userdata.settings.Prioritylist = replacedarray;
     }
+    if (process.env.ttvdropbot_forcecustomchannel!==undefined) userdata.settings.ForceCustomChannel = JSON.parse(process.env.ttvdropbot_forcecustomchannel);
     if (process.env.ttvdropbot_debug!==undefined) userdata.settings.debug = JSON.parse(process.env.ttvdropbot_debug);
     if (process.env.ttvdropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.ttvdropbot_displayless)
     if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.ttvdropbot_waitforchannels)

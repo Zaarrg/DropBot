@@ -35,8 +35,13 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
         await GetWatchOption()
         await watchoptionSwitch()
     } else {
-        if (fs.existsSync('./CustomChannels.json')) {
-            userdata.watch_option = 'Custom Channels'
+        if (userdata.settings.ForceCustomChannel) {
+            if (fs.existsSync('./CustomChannels.json')) {
+                userdata.watch_option = 'Custom Channels'
+            } else {
+                winston.warn(chalk.yellow('Cant force custom channels without a CustomChannels.json'))
+                userdata.watch_option = 'Twitch Drops'
+            }
         } else {
             userdata.watch_option = 'Twitch Drops'
         }
