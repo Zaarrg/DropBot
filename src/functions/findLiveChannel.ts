@@ -17,6 +17,7 @@ export async function findLiveChannel(allowedChannels:Array<Channel>) {
 
                 if (game === userdata.game.toLowerCase()) {
                     let TagList = await TwitchGQL._SendQuery("RealtimeStreamTagList", {channelLogin: AllowedChannelElement.name}, '9d952e4aacd4f8bb9f159bd4d5886d72c398007249a8b09e604a651fc2f8ac17', 'OAuth ' + userdata.auth_token, true)
+                    if (TagList[0].data.user.stream === null) {return foundlivechannel}
                     let Tags:Array<Tag> = TagList[0].data.user.stream.tags
 
                     for (const Tagelement of Tags) {
