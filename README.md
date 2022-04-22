@@ -5,6 +5,8 @@
   </a>  
   
   <h3 align="center">TTVDropBot</h3>  
+
+<h3 align="center">⚠️ Deprecated ⚠️</h3>
   
   <p align="center">  
     Farms automatically Twitch Drops.  
