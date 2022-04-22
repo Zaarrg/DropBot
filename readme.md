@@ -58,13 +58,13 @@
 
 <h3 align="center" >Windows</h3>
 
-1. Download the windows executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the windows executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Move the executable to a folder.
 3. **Execute** the `TTVDropBot.exe`. The **settings** and **twitch-session** will be generated right beside the executable.
 
 <h3 align="center">Linux</h3>
 
-1. Download the linux executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the linux executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Move the executable to a folder.
 3. Give the `TTVDropBot-linux-x64` file permission to execute via chmod if needed.
     ```bash
@@ -79,7 +79,7 @@
 <h3 align="center">Ubuntu</h3>
 <b>Using Bot with No GUI - Only Command Line</b>
 
-1. Download the linux executable from the  **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the linux executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
 2. Drag and Drop a `settings.json` and `twitch-session.json` file right beside the executable.
 3. Make sure you have set `displayless` to `true` in your settings.json
 4. **Execute** the `TTVDropBot-linux-x64`.
