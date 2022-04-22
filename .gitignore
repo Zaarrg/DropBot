@@ -5,7 +5,7 @@
 /CustomChannels.json
 /src/**/*.bat
 *.log
-/package/**/*.json
+/package/*
 .npmrc
 /settings.json
 src/twitch-session.json
