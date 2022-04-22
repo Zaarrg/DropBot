@@ -1,12 +1,5 @@
-/node_modules/
-/.npmrc
-/build/
-/twitch-session.json
-/CustomChannels.json
-/src/**/*.bat
-*.log
-/package/**/*.json
-.npmrc
-/settings.json
-src/twitch-session.json
-.idea/codestream.xml
+#Ignore everything
+*
+#expect
+!TTVDropBot
+!TTVDropBot-linux
