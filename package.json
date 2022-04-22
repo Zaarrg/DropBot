@@ -9,7 +9,8 @@
     "build": "rimraf ./build && tsc",
     "package": "rimraf ./package/TTVDropBot && npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
     "packageforlinux": "rimraf ./package/TTVDropBot-linux && npm run build && pkg -o ./package/TTVDropBot-linux/TTVDropBot-linux-x64 --config package.json -t node14-linux-x64 ./build/index.js",
-    "start:production": "npm run build && node build/index.js"
+    "start:production": "npm run build && node build/index.js",
+    "postinstall": "rimraf ./node_modules/puppeteer/.local-chromium"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,6 @@
     "chrome-paths": "^1.0.1",
     "inquirer": "^8.2.2",
     "js-base64": "^3.7.2",
-    "puppeteer-core": "^13.5.2",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
     "retry-axios": "^2.6.0",
