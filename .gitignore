@@ -1,5 +1,6 @@
 #Ignore everything
 *
 #expect
-!TTVDropBot
-!TTVDropBot-linux
+!.gitignore
+!TTVDropBot/*
+!TTVDropBot-linux/*
