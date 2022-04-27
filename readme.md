@@ -115,11 +115,15 @@
 <h3 align="center">Docker</h3>
 
 1. Get your auth token
+
     ```bash
     docker run --rm -it ghcr.io/zaarrg/ttvdropbot/ttvdropbot:latest node ./build/index.js --showtoken
     ```
+
 2. Login to Twitch, copy your auth token, and then exit the container with `Ctrl + C`
+
 3. Create the container
+
     ```bash
     docker run -d --name ttvdropbot \
     -e ttvdropbot_displayless=true \
