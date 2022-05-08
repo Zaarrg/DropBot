@@ -26,6 +26,8 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
     await setRetries();
     await logimportantvalues()
     await CheckVersion(version)
+    //Http Keep Alive
+    if (userdata.settings.UseKeepAlive) keepAlive();
     //Login
     await login()
     //Validate
@@ -76,4 +78,11 @@ async function setRetries() {
         retryConfig.retryDelay = userdata.settings.RetryDelay;
         rax.attach();
     })
+}
+
+function keepAlive(port = process.env.PORT) {
+  const express = require('express');
+  const app = express()
+  app.get("/", (req: any, res: any) => res.send("I'm alive"))
+  app.listen(port, () => winston.info(`App listening on port ${port || 0}`))
 }
