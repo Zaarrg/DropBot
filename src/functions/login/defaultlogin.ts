@@ -94,7 +94,7 @@ async function askforauthcode(errorcode: number) {
     return input
 }
 
-async function directlogin(emailcode: string, facode: string) {
+async function directlogin(emailcode: string, facode: string, captcha_proof = {}) {
     let attempt = 0;
     const details = await askforacccountdetails()
 
@@ -111,6 +111,7 @@ async function directlogin(emailcode: string, facode: string) {
         "remember_me": true,
         "username": details.nm,
         "password": details.pw,
+        ...captcha_proof
     }
     if (emailcode !== '') {
         Object.assign(body, {"twitchguard_code": emailcode})
@@ -140,6 +141,10 @@ async function directlogin(emailcode: string, facode: string) {
             winston.silly(" ")
             winston.error(chalk.yellow('Something went wrong...'))
             let errorcode = 0;
+            let capta = {}
+            try {
+                if (error.response.data.captcha_proof) capta = {captcha_proof: error.response.data.captcha_proof}
+            } catch (e) {}
             try {
                 errorcode = error.response.data.error_code
             } catch (e) {}
@@ -162,30 +167,30 @@ async function directlogin(emailcode: string, facode: string) {
                 nm = '';
                 pw = '';
                 winston.info(chalk.gray("Login failed due to incorrect username or password..."))
-                await directlogin('', '');
+                await directlogin('', '', capta);
             } else if (errorcode === 3012) {
                 attempt++
                 winston.info(chalk.gray("Invaild 2FA..."))
                 winston.silly(" ")
                 let code = await askforauthcode(3011);
-                await directlogin('', code);
+                await directlogin('', code, capta);
             } else if (errorcode === 3023) {
                 attempt++
                 winston.info(chalk.gray("Invaild Email Code..."))
                 winston.silly(" ")
                 let code = await askforauthcode(3022);
-                await directlogin('', code);
+                await directlogin('', code, capta);
             }
             if (errorcode === 3011) {
                 winston.info(chalk.gray('2FA token required..."'))
                 winston.silly(" ")
                 let code = await askforauthcode(3011);
-                await directlogin('', code);
+                await directlogin('', code, capta);
             } else if (errorcode === 3022) {
                 winston.info(chalk.gray('Email code required...'))
                 winston.silly(" ")
                 let code = await askforauthcode(3022);
-                await directlogin(code, '');
+                await directlogin(code, '', capta);
             } else if (!fs.existsSync('./twitch-session.json')) {
                 attempt++
                 nm = '';
@@ -194,7 +199,7 @@ async function directlogin(emailcode: string, facode: string) {
                 winston.info(chalk.gray('The Reason is probably:'))
                 winston.info(chalk.yellow('Error Code: ' + error.data.error_code + ' | Reason: ' + error.data.error + ' | Error Description: ' + error.error_description))
                 winston.silly(" ")
-                await directlogin('', '');
+                await directlogin('', '', capta);
             }
         })
 }

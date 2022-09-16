@@ -4,7 +4,7 @@
   "description": "Twitch Drop Bot",
   "main": "index.js",
   "scripts": {
-    "start" : "node build/index.js --displayless",
+    "start": "node build/index.js --displayless",
     "start:dev": "ts-node ./src/index.ts",
     "build": "rimraf ./build && tsc",
     "package": "rimraf ./package/TTVDropBot && npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
@@ -43,8 +43,7 @@
     "chrome-paths": "^1.0.1",
     "inquirer": "^8.2.2",
     "js-base64": "^3.7.2",
-    "puppeteer-extra": "^3.2.3",
-    "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "puppeteer-core": "^17.1.3",
     "retry-axios": "^2.6.0",
     "wait-console-input": "^0.1.7",
     "winston": "^3.7.2",
@@ -53,11 +52,6 @@
   "pkg": {
     "assets": [
       "node_modules/puppeteer-core/**/*.*",
-      "node_modules/puppeteer-extra/**/*.*",
-      "node_modules/puppeteer-extra-plugin/**/*.*",
-      "node_modules/puppeteer-extra-plugin-stealth/**/*.*",
-      "node_modules/puppeteer-extra-plugin-data-dir/**/*.*",
-      "node_modules/puppeteer-extra-plugin-user-preferences/**/*.*",
       "node_modules/@zaarrg/**/*.*"
     ]
   }

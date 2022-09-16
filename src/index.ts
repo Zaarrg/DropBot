@@ -1,4 +1,4 @@
-export const version = "2.0.0.3";
+export const version = "2.0.0.4";
 import {userdataclass} from "./Data/userdata";
 export let userdata = new userdataclass();
 import chalk from "chalk";
