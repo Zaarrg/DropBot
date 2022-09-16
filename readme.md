@@ -328,6 +328,9 @@ Down below you can find the settings Variables and what they do.
 ### LogToFile
 - Log the Console to a file.
 
+### UseKeepAlive
+- If activated uses Express to the keepalive the bot useful for stuff like Replit.
+
 <br/>
 
 ---
@@ -360,6 +363,7 @@ Options:
                                     for other channels with drops instead switch the game. [boolean]
 --autoclaim                         Enable autoclaim. [boolean]
 --log                               Enable logging to file. [boolean]
+--usekeepalive                      Enable Express KeepAlive. [boolean]
 --tray                              Start app in the tray. [boolean]
 
 Examples:
@@ -395,6 +399,7 @@ ttvdropbot_forcecustomchannel = true || false
 ttvdropbot_waitforchannels = true || false
 ttvdropbot_autoclaim = true || false
 ttvdropbot_log = true || false
+ttvdropbot_usekeepalive = true || false
 ttvdropbot_retryinterval = 60000
 ttvdropbot_webhookevents = Event1 Event2 Event3...
 ttvdropbot_showtoken = true || false  Usefull for System were you cant access your twitch-session.json
@@ -447,7 +452,8 @@ ttvdropbot_token = YourToken
    "Prioritylist": [],
    "AutoClaim": true,
    "LogToFile": true,
-   "ForceCustomChannel": false
+   "ForceCustomChannel": false,
+   "UseKeepAlive": false
 }
 ```
 

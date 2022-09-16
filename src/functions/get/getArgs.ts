@@ -125,6 +125,11 @@ export async function setArgs() {
             type: "boolean",
             nargs: 0,
         })
+        .option("usekeepalive", {
+            describe: "Enable Express KeepAlive.",
+            type: "boolean",
+            nargs: 0,
+        })
         .option("tray", {
             describe: "Start app in the tray.",
             type: "boolean",
@@ -150,10 +155,11 @@ export async function matchArgs() {
     if (args.waitforchannels!==undefined) userdata.settings.WaitforChannels = args.waitforchannels
     if (args.autoclaim!==undefined) userdata.settings.AutoClaim = args.autoclaim
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
+    if (args.usekeepalive!==undefined) userdata.settings.UseKeepAlive = args.usekeepalive
     if (args.retryinterval!==undefined) userdata.settings.RetryDelay = args.retryinterval
     if (args.webhookevents!==undefined) userdata.settings.WebHookEvents = args.webhookevents
     if (args.showtoken!==undefined) userdata.showtoken = args.showtoken
-    if (args.token !== undefined) { await writetoken(args.token)}
+    if (args.token !== undefined) userdata.auth_token = args.token
 
     if (process.env.ttvdropbot_chrome !== undefined) userdata.settings.Chromeexe = process.env.ttvdropbot_chrome;
     if (process.env.ttvdropbot_userdata!==undefined) userdata.settings.UserDataPath = process.env.ttvdropbot_userdata
@@ -170,22 +176,11 @@ export async function matchArgs() {
     if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.ttvdropbot_waitforchannels)
     if (process.env.ttvdropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.ttvdropbot_autoclaim)
     if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
+    if (process.env.ttvdropbot_usekeepalive!==undefined) userdata.settings.UseKeepAlive = JSON.parse(process.env.ttvdropbot_usekeepalive)
     if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)
     if (process.env.ttvdropbot_webhookevents!==undefined) userdata.settings.WebHookEvents = process.env.ttvdropbot_webhookevents.split(' ')
-    if (process.env.ttvdropbot_showtoken !== undefined) {userdata.showtoken = JSON.parse(process.env.ttvdropbot_showtoken)}
-    if (process.env.ttvdropbot_token !== undefined) { await writetoken(process.env.ttvdropbot_token)}
+    if (process.env.ttvdropbot_showtoken !== undefined) userdata.showtoken = JSON.parse(process.env.ttvdropbot_showtoken)
+    if (process.env.ttvdropbot_token !== undefined) userdata.auth_token = process.env.ttvdropbot_token
 
-}
-
-async function writetoken(token: string) {
-    let authcookie = [{
-        "name": "auth-token",
-        "value": token,
-    }]
-    await fs.promises.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
-        winston.silly(" ");
-        winston.info(chalk.green("Successfully Saved token..."))
-        winston.silly(" ");
-    }).catch(err => {throw err})
 }
 

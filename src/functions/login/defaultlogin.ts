@@ -11,7 +11,7 @@ const inquirer = require("inquirer");
 let pw: string = '';
 let nm: string = '';
 export async function login() {
-    if (!fs.existsSync('./twitch-session.json')) {
+    if (!userdata.auth_token && !fs.existsSync('./twitch-session.json')) {
         if (!userdata.settings.displayless) {
             winston.silly(" ");
             winston.info(chalk.gray('Please Login into your Twitch Account...'))
@@ -221,13 +221,15 @@ async function browserlogin() {
 }
 
 async function getTwitchUserDetails() {
-    if (fs.existsSync('./twitch-session.json')) {
-        const data = await fs.promises.readFile('./twitch-session.json', 'utf8')
-        let cookiedata = JSON.parse(data);
-        for (let i = 0; i < cookiedata.length; i++) {
-            if (cookiedata[i].name === 'auth-token') {
-                userdata.auth_token = cookiedata[i].value;
-                break;
+    if (userdata.auth_token || fs.existsSync('./twitch-session.json')) {
+        if (fs.existsSync('./twitch-session.json')) {
+            const data = await fs.promises.readFile('./twitch-session.json', 'utf8')
+            let cookiedata = JSON.parse(data);
+            for (let i = 0; i < cookiedata.length; i++) {
+                if (cookiedata[i].name === 'auth-token') {
+                    userdata.auth_token = cookiedata[i].value;
+                    break;
+                }
             }
         }
         if (userdata.auth_token === "") {
