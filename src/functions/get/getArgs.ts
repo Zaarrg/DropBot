@@ -116,7 +116,12 @@ export async function setArgs() {
             nargs: 0,
         })
         .option("autoclaim", {
-            describe: "Enable autoclaim.",
+            describe: "Enable autoclaim for drops.",
+            type: "boolean",
+            nargs: 0,
+        })
+        .option("points", {
+            describe: "Enable auto points for channels.",
             type: "boolean",
             nargs: 0,
         })
@@ -154,6 +159,7 @@ export async function matchArgs() {
     if (args.forcecustomchannel!==undefined) userdata.settings.ForceCustomChannel = args.forcecustomchannel
     if (args.waitforchannels!==undefined) userdata.settings.WaitforChannels = args.waitforchannels
     if (args.autoclaim!==undefined) userdata.settings.AutoClaim = args.autoclaim
+    if (args.points!==undefined) userdata.settings.Points = args.points
     if (args.log!==undefined) userdata.settings.LogToFile = args.log
     if (args.usekeepalive!==undefined) userdata.settings.UseKeepAlive = args.usekeepalive
     if (args.retryinterval!==undefined) userdata.settings.RetryDelay = args.retryinterval
@@ -175,6 +181,7 @@ export async function matchArgs() {
     if (process.env.ttvdropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.ttvdropbot_displayless)
     if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.ttvdropbot_waitforchannels)
     if (process.env.ttvdropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.ttvdropbot_autoclaim)
+    if (process.env.ttvdropbot_points!==undefined) userdata.settings.Points = JSON.parse(process.env.ttvdropbot_points)
     if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
     if (process.env.ttvdropbot_usekeepalive!==undefined) userdata.settings.UseKeepAlive = JSON.parse(process.env.ttvdropbot_usekeepalive)
     if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)
