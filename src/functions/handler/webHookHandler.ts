@@ -77,7 +77,7 @@ export async function sendWebhook(msg: string[], event: string, webhookurl: stri
             {
                 "author": {
                     "name": "TTVDropBot📜",
-                    "url": "https://github.com/Zaarrg/TTVDropBot",
+                    "url": "https://github.com/PockySweet/TTVDropBot-Fix",
                     "icon_url": "https://i.imgur.com/2WtgNe4.png"
                 },
                 "fields": [
