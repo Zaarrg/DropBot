@@ -59,7 +59,8 @@ export class userdataclass {
             AutoClaim: true,
             LogToFile: true,
             ForceCustomChannel: false,
-            UseKeepAlive: false
+            UseKeepAlive: false,
+            Points: false
         }
         this.customchannel = [];
     }
