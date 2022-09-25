@@ -27,6 +27,7 @@ export class userdataclass {
         LogToFile: boolean;
         ForceCustomChannel: boolean;
         UseKeepAlive: boolean;
+        Points: boolean;
     };
     customchannel: Array<CustomChannel>;
 
