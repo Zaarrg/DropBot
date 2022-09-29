@@ -12,7 +12,7 @@
 
 
 <p align="center">
-This fork allows users to disable auto claiming points, making the bot safer, faster and mitigates the crashes caused by points.
+This fork allows users to disable auto claiming points, making the bot safer, faster and mitigates the crashes caused by them.
       <br>      <br>
         <a href="https://discord.gg/rV26FZ2upF">
 <img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
