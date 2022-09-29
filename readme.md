@@ -13,15 +13,7 @@
 
 <p align="center">
   <br>
-  <a href="https://github.com/PockySweet/TTVDropBot/issues">
-    <img src="https://img.shields.io/github/stars/PockySweet/TTVDropBot?color=333&style=for-the-badge&logo=github" alt="@PockySweet/TTVDropBot issues"/>
-  </a>
-    <a href="https://github.com/PockySweet/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/commit-activity/y/PockySweet/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="@PockySweet/TTVDropBot pull requests"/>
-  </a>
-  <a href="https://github.com/PockySweet/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/last-commit/PockySweet/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="PockySweet/TTVDropBot requests"/>
-  </a>
+This fork allows users to disable auto claiming points, making the bot safer, faster and mitigates the crashes caused by points.
       <br>
         <a href="https://discord.gg/rV26FZ2upF">
 <img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
