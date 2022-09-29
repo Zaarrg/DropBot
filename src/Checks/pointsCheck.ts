@@ -1,6 +1,8 @@
-import {userdata} from "../index" ;
 import winston from "winston";
 import chalk from "chalk";
+import {restartHandler} from "../functions/handler/restartHandler";
+import {userdata} from "../index" ;
+import {delay} from "../utils/util";
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 
 let points = 0;
