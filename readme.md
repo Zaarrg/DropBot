@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD032 MD033-->
 
 <h1 align="center">
-  <a name="logo" href="https://github.com/Zaarrg/TTVDropBot"><img src="https://i.imgur.com/2WtgNe4.png" alt="Bear Stone Smart Home" width="200"></a>
+  <a name="logo" href="https://github.com/PockySweet/TTVDropBot"><img src="https://i.imgur.com/2WtgNe4.png" alt="Bear Stone Smart Home" width="200"></a>
   <br>
   TTVDropBot
 </h1>
@@ -13,20 +13,20 @@
 
 <p align="center">
   <br>
-  <a href="https://github.com/Zaarrg/TTVDropBot/issues">
-    <img src="https://img.shields.io/github/stars/Zaarrg/TTVDropBot?color=333&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot issues"/>
+  <a href="https://github.com/PockySweet/TTVDropBot/issues">
+    <img src="https://img.shields.io/github/stars/PockySweet/TTVDropBot?color=333&style=for-the-badge&logo=github" alt="@PockySweet/TTVDropBot issues"/>
   </a>
-    <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/commit-activity/y/Zaarrg/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot pull requests"/>
+    <a href="https://github.com/PockySweet/TTVDropBot/pulls">
+    <img src="https://img.shields.io/github/commit-activity/y/PockySweet/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="@PockySweet/TTVDropBot pull requests"/>
   </a>
-  <a href="https://github.com/Zaarrg/TTVDropBot/pulls">
-    <img src="https://img.shields.io/github/last-commit/Zaarrg/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="Zaarrg/TTVDropBot requests"/>
+  <a href="https://github.com/PockySweet/TTVDropBot/pulls">
+    <img src="https://img.shields.io/github/last-commit/PockySweet/TTVDropBot?color=blue&style=for-the-badge&logo=github" alt="PockySweet/TTVDropBot requests"/>
   </a>
       <br>
         <a href="https://discord.gg/rV26FZ2upF">
 <img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
   </a>
-        <a href="https://heroku.com/deploy?template=https://github.com/Zaarrg/TTVDropBot/tree/main">
+        <a href="https://heroku.com/deploy?template=https://github.com/PockySweet/TTVDropBot/tree/main">
 <img src="https://img.shields.io/badge/Deploy-Deploy?color=7056BF&label=Heroku&logo=Heroku&style=for-the-badge" alt="Discord">
   </a>
 </p>
@@ -58,13 +58,13 @@
 
 <h3 align="center" >Windows</h3>
 
-1. Download the windows executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the windows executable from the  **[build branch](https://github.com/PockySweet/TTVDropBot/tree/build)** or **[release page](https://github.com/PockySweet/TTVDropBot/releases)**.
 2. Move the executable to a folder.
 3. **Execute** the `TTVDropBot.exe`. The **settings** and **twitch-session** will be generated right beside the executable.
 
 <h3 align="center">Linux</h3>
 
-1. Download the linux executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the linux executable from the  **[build branch](https://github.com/PockySweet/TTVDropBot/tree/build)** or **[release page](https://github.com/PockySweet/TTVDropBot/releases)**.
 2. Move the executable to a folder.
 3. Give the `TTVDropBot-linux-x64` file permission to execute via chmod if needed.
     ```bash
@@ -79,7 +79,7 @@
 <h3 align="center">Ubuntu</h3>
 <b>Using Bot with No GUI - Only Command Line</b>
 
-1. Download the linux executable from the  **[build branch](https://github.com/Zaarrg/TTVDropBot/tree/build)** or **[release page](https://github.com/Zaarrg/TTVDropBot/releases)**.
+1. Download the linux executable from the  **[build branch](https://github.com/PockySweet/TTVDropBot/tree/build)** or **[release page](https://github.com/PockySweet/TTVDropBot/releases)**.
 2. Drag and Drop a `settings.json` and `twitch-session.json` file right beside the executable.
 3. Make sure you have set `displayless` to `true` in your settings.json
 4. **Execute** the `TTVDropBot-linux-x64`.
@@ -95,9 +95,9 @@
 
 <h3 align="center">Npm</h3>
 
-1. Clone the **[Repository](https://github.com/Zaarrg/TTVDropBot)**.
+1. Clone the **[Repository](https://github.com/PockySweet/TTVDropBot)**.
     ```bash
-    git clone https://github.com/Zaarrg/TTVDropBot
+    git clone https://github.com/PockySweet/TTVDropBot
     ```
 
 2. Install NPM packages.
@@ -117,7 +117,7 @@
 1. Get your auth token
 
     ```bash
-    docker run --rm -it ghcr.io/zaarrg/ttvdropbot/ttvdropbot:latest node ./build/index.js --showtoken
+    docker run --rm -it ghcr.io/PockySweet/ttvdropbot/ttvdropbot:latest node ./build/index.js --showtoken
     ```
 
 2. Login to Twitch, copy your auth token, and then exit the container with `Ctrl + C`
@@ -130,7 +130,8 @@
     -e ttvdropbot_token=TokenFromStep1 \
     -e ttvdropbot_games="Sea_of_Thieves Rust Lost_Ark No_Man's_Sky" \
     -e ttvdropbot_autoclaim=true \
-    ghcr.io/zaarrg/ttvdropbot/ttvdropbot:latest
+    -e ttvdropbot_autopoints=false \
+    ghcr.io/PockySweet/ttvdropbot/ttvdropbot:latest
     ```
 ---
 
@@ -154,14 +155,14 @@
 **2. Step**
 
 <p align="center">
-     <b>Select <code>Twitch Drops</code> to watch a Twitch Campaign or <code>Custom Channels</code> if you want to add your own channels. Refer to <a href="https://github.com/Zaarrg/TTVDropBot/#step-by-step-usage-custom-channels">Step by Step Usage: Custom Channels</a> for those.</b><br/>
+     <b>Select <code>Twitch Drops</code> to watch a Twitch Campaign or <code>Custom Channels</code> if you want to add your own channels. Refer to <a href="https://github.com/PockySweet/TTVDropBot/#step-by-step-usage-custom-channels">Step by Step Usage: Custom Channels</a> for those.</b><br/>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/DRqIkpz.png)
 
 **3. Step**
 <p align="center">
-    <b>Select the campaign you want to start watching. If you want to only watch certain campaign and not all refer to <a href="https://github.com/Zaarrg/TTVDropBot/#prioritylist">Settings: Priority list</a></b><br/>
+    <b>Select the campaign you want to start watching. If you want to only watch certain campaign and not all refer to <a href="https://github.com/PockySweet/TTVDropBot/#prioritylist">Settings: Priority list</a></b><br/>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/CMuV729.png)
@@ -263,7 +264,7 @@
     <b>Close the Terminal and go to Settings then Reveal Config Vars</b><br/>
     <b>Now type in as key <code>ttvdropbot_token</code> and as value your copied token and click add</b><br/>
     <b>You can find more environment variables</b>
-      <a href="https://github.com/Zaarrg/TTVDropBot#%EF%B8%8F-environment-variables">here</a>
+      <a href="https://github.com/PockySweet/TTVDropBot#%EF%B8%8F-environment-variables">here</a>
 </p>
 
 ![Twitch Drops](https://i.imgur.com/EnB36ih.png)
@@ -302,7 +303,7 @@ Down below you can find the settings Variables and what they do.
 - Will log important values to the console for debugging.
 
 ### Displayless
-- Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui](https://github.com/Zaarrg/TTVDropBot/#ubuntu)
+- Give the ability to use the bot fully automated with no user input needed. Especially useful for gui-less systems. See [Ubuntu - No Gui](https://github.com/PockySweet/TTVDropBot/#ubuntu)
 
 ### ForceCustomChannel
 - Force the bot to watch Custom Channels, only useful for display-less mode.
@@ -325,6 +326,9 @@ Down below you can find the settings Variables and what they do.
 ### AutoClaim
 - Allow the bot to autoClaim or not
 
+### AutoPoints
+- Allow the bot to autoClaim points or not
+
 ### LogToFile
 - Log the Console to a file.
 
@@ -337,7 +341,7 @@ Down below you can find the settings Variables and what they do.
 
 ## ✏️ **Start Arguments**
 
-All available start Arguments, basically everything which is also in the [settings.json](https://github.com/Zaarrg/TTVDropBot#-settings) file.
+All available start Arguments, basically everything which is also in the [settings.json](https://github.com/PockySweet/TTVDropBot#-settings) file.
 
 ```bash
 ./TTVDropBot.exe --help
@@ -380,6 +384,7 @@ Krunker and Elite: Dangerous.
 --token yourkindalongtoken                Sets the your current twitch auth
                                           token, overwriting any in
                                           twitch-session.json.
+--autopoints                         Enable autopoints. [boolean]
 
 ```
 
@@ -404,6 +409,7 @@ ttvdropbot_retryinterval = 60000
 ttvdropbot_webhookevents = Event1 Event2 Event3...
 ttvdropbot_showtoken = true || false  Usefull for System were you cant access your twitch-session.json
 ttvdropbot_token = YourToken
+ttvdropbot_autopoints = true || false
 ```
 
 ## 📘 Adding Custom Channels
@@ -426,11 +432,11 @@ ttvdropbot_token = YourToken
 `Watch indefinitely:`
 - Watches the channel until it goes offline, then switches.
 
-### Farm Points
+### Auto Points
 - Pretty simple, should the bot farm Points or not.
 
 ### Editing already Added Channel's
-- You can always edit Channel's which are already added in the [CustomChannels.json]('https://github.com/Zaarrg/TTVDropBot/#example-customchannelsjson').
+- You can always edit Channel's which are already added in the [CustomChannels.json]('https://github.com/PockySweet/TTVDropBot/#example-customchannelsjson').
 
 
 ---
@@ -454,6 +460,7 @@ ttvdropbot_token = YourToken
    "LogToFile": true,
    "ForceCustomChannel": false,
    "UseKeepAlive": false
+   "AutoPoints": false,
 }
 ```
 
@@ -464,8 +471,7 @@ ttvdropbot_token = YourToken
     "Name": "tarik",
     "TTVLink": "https://www.twitch.tv/tarik",
     "WatchType": "Watch until time runs out",
-    "Time": "50",
-    "Points": true
+    "Time": "50"
   }
 ]
 ```
@@ -488,10 +494,10 @@ ttvdropbot_token = YourToken
 
 ## 🎉 Enjoy the bot and hopefully its helpful!
 
-[![GitHub's followers](https://img.shields.io/github/followers/Zaarrg.svg?style=social)](https://github.com/Zaarrg)
-[![GitHub stars](https://img.shields.io/github/stars/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/watchers)
-[![GitHub forks](https://img.shields.io/github/forks/Zaarrg/TTVDropBot.svg?style=social)](https://github.com/Zaarrg/TTVDropBot/network/members)
+[![GitHub's followers](https://img.shields.io/github/followers/PockySweet.svg?style=social)](https://github.com/PockySweet)
+[![GitHub stars](https://img.shields.io/github/stars/PockySweet/TTVDropBot.svg?style=social)](https://github.com/PockySweet/TTVDropBot/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/PockySweet/TTVDropBot.svg?style=social)](https://github.com/PockySweet/TTVDropBot/watchers)
+[![GitHub forks](https://img.shields.io/github/forks/PockySweet/TTVDropBot.svg?style=social)](https://github.com/PockySweet/TTVDropBot/network/members)
 
 If you like my work feel free to buy me a coffee. ☕
 
@@ -512,4 +518,4 @@ Discord: - Zarg#8467
 
 > Distributed under the MIT License. See LICENSE for more information.⚠️
 
-_Made with a lot of ❤️❤️ by **[@Zarg](https://github.com/Zaarrg)**_
+_Made with a lot of ❤️❤️ by **[@Zarg](https://github.com/PockySweet)**_
