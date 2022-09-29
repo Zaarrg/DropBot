@@ -16,7 +16,7 @@ export async function pointsCheck(channelLogin: string) {
     points = pointsrequest[0].data.community.channel.self.communityPoints.balance
     let channelID = pointsrequest[0].data.community.id
 
-    await checkisClaimeable(pointsrequest, channelID)
+    await checkisClaimeable(pointsrequest, channelID, userdata.settings.AutoPoints)
     return points
 }
 
