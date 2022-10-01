@@ -1,23 +1,28 @@
 <!-- markdownlint-disable MD032 MD033-->
-
-<h1 align="center">
-  <a name="logo" href="https://github.com/PockySweet/TTVDropBot"><img src="https://i.imgur.com/2WtgNe4.png" alt="Bear Stone Smart Home" width="200"></a>
-  <br>
-  TTVDropBot
-</h1>
-<h4 align="center">Farms automatically Twitch Drops for you!</h4>
-<div align="center">
-</div>
-
-
-
 <p align="center">
-This fork allows users to disable auto-claiming points and makes it so, instead of crashing, the bot automatically moves to other games when an item is one hundred percent watched, and in order to continue with the next claiming is required. <b>This makes the bot safer, faster, and mitigates the crashes caused by them.</b>
-      <br>      <br>
+  <br><br>
+<img src="https://i.imgur.com/1GsJiTG.png" alt="Discord"><h3 align="center">Farms automatically Twitch Drops, Points & Subscriptions for you!</h3></p>
+<h1></h1>
+<img src="https://i.imgur.com/eRx6oIV.png" alt="Discord" height="40">
+<p>
+Twitch has recently updated their drop claiming system, now including anti-bot detection. In the meantime, while the community finds a way to bypass it or new methods to claim them efficiently, we suggest you disable AutoClaim.
+<h6>Don't worry, the bot will still farm the watch time; you will just need to manually claim them!</h6></p>
+<h1></h1>
+<p align="center">
+  <a href="https://github.com/PockySweet/TTVDropBot-Fix/issues">
+    <img src="https://img.shields.io/github/stars/PockySweet/TTVDropBot-Fix?color=333&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot issues"/>
+  </a>
+    <a href="https://github.com/PockySweet/TTVDropBot-Fix/pulls">
+    <img src="https://img.shields.io/github/commit-activity/y/PockySweet/TTVDropBot-Fix?color=blue&style=for-the-badge&logo=github" alt="@Zaarrg/TTVDropBot pull requests"/>
+  </a>
+  <a href="https://github.com/PockySweet/TTVDropBot-Fix/pulls">
+    <img src="https://img.shields.io/github/last-commit/PockySweet/TTVDropBot-Fix?color=blue&style=for-the-badge&logo=github" alt="Zaarrg/TTVDropBot requests"/>
+  </a>
+      <br>
         <a href="https://discord.gg/rV26FZ2upF">
 <img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
   </a>
-        <a href="https://heroku.com/deploy?template=https://github.com/PockySweet/TTVDropBot/tree/main">
+        <a href="https://heroku.com/deploy?template=https://github.com/Zaarrg/TTVDropBot/tree/main">
 <img src="https://img.shields.io/badge/Deploy-Deploy?color=7056BF&label=Heroku&logo=Heroku&style=for-the-badge" alt="Discord">
   </a>
 </p>
