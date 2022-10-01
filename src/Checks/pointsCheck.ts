@@ -1,4 +1,4 @@
-import { userdata } from "../index";
+import {userdata} from "../index";
 import winston from "winston";
 import chalk from "chalk";
 const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
@@ -13,11 +13,7 @@ export async function pointsCheck(channelLogin: string) {
   points = pointsrequest[0].data.community.channel.self.communityPoints.balance;
   let channelID = pointsrequest[0].data.community.id;
 
-  await checkisClaimeable(
-    pointsrequest,
-    channelID,
-    userdata.settings.AutoPoints
-  );
+  await checkisClaimeable(pointsrequest, channelID, userdata.settings.AutoPoints);
   return points;
 }
 
@@ -30,7 +26,7 @@ async function checkisClaimeable(request: any, channelId: string, autopoints: bo
   }
 
   if (ClaimId !== "") {
-    //Claim Attempt
+    //Claim Process
     const opts = {
       input: {
         channelID: channelId,
