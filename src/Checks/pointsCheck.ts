@@ -9,9 +9,9 @@ export async function pointsCheck(channelLogin: string) {
     channelLogin: channelLogin
   };
 
-  const pointsrequest = await TwitchGQL._SendQuery("ChannelPointsContext", opts, "1530a003a7d374b0380b79db0be0534f30ff46e61cffa2bc0e2468a909fbc024", "OAuth" + userdata.auth_token, true, {}, true);
-  points = pointsrequest[0].data.community.channel.self.communityPoints.balance;
-  let channelID = pointsrequest[0].data.community.id;
+  const pointsrequest = await TwitchGQL._SendQuery("ChannelPointsContext", opts, '1530a003a7d374b0380b79db0be0534f30ff46e61cffa2bc0e2468a909fbc024', 'OAuth ' + userdata.auth_token, true, {}, true)
+  points = pointsrequest[0].data.community.channel.self.communityPoints.balance  
+  let channelID = pointsrequest[0].data.community.id
 
   await checkisClaimeable(pointsrequest, channelID, userdata.settings.AutoPoints);
   return points;
