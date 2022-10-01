@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zaarrg/TTVDropBot.git"
+    "url": "git+https://github.com/PockySweet/TTVDropBot-Fix.git"
   },
   "engines": {
     "node": "16.x"
@@ -25,9 +25,9 @@
   "author": "Zarg",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Zaarrg/TTVDropBot/issues"
+    "url": "https://github.com/PockySweet/TTVDropBot-Fix/issues"
   },
-  "homepage": "https://github.com/Zaarrg/TTVDropBot#readme",
+  "homepage": "https://github.com/PockySweet/TTVDropBot-Fix#readme",
   "devDependencies": {
     "@types/node": "^17.0.23",
     "@types/yargs": "^17.0.10",
