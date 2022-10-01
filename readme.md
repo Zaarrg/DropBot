@@ -12,7 +12,8 @@
 
 
 <p align="center">
-This fork allows users to disable auto claiming points, making the bot safer, faster and mitigates the crashes caused by them.
+This fork allows users to disable auto-claiming points and makes it so, instead of crashing, the bot automatically moves to other games when an item is one hundred percent watched, and in order to continue with the next claiming is required.<br>
+<b>This makes the bot safer, faster, and mitigates the crashes caused by them.</b>
       <br>      <br>
         <a href="https://discord.gg/rV26FZ2upF">
 <img src="https://img.shields.io/discord/728708207907962900?color=7289DA&label=Support&logo=discord&style=for-the-badge" alt="Discord">
