@@ -6,6 +6,8 @@
   TTVDropBot
 </h1>
 <h4 align="center">Farms automatically Twitch Drops for you!</h4>
+<h4 align="center">This Project is currently not maintained and will most likely not work!</h4>
+
 <div align="center">
 </div>
 
