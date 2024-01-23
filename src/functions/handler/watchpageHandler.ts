@@ -1,4 +1,4 @@
-import {getTwitchDrops} from "../get/getTwitchDrops";
+import {getDrops} from "../get/getDrops";
 import {userdata} from "../../index" ;
 import {allOfflineCheck, liveCheck} from "../../Checks/liveCheck";
 import winston from "winston";
@@ -10,14 +10,14 @@ import {claimableCheck} from "../../Checks/claimCheck";
 import chalk from "chalk";
 import {SamePercentCheck} from "../../Checks/samepercentCheck";
 import {pointsCheck} from "../../Checks/pointsCheck";
-const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init(userdata.clientid);
+const GQL = require("@zaarrg/gql-dropbot").Init(userdata.clientid);
 const {Base64} = require('js-base64');
 
 let status:string = 'stopped';
 
 export async function WatchingEventHandlerStart(DropcurrentlyWatching: string) {
     if (status === 'stopped') {
-        await getTwitchDrops(userdata.game, false)
+        await getDrops(userdata.game, false)
         await allOfflineCheck()
         await liveCheck(DropcurrentlyWatching, false);
         await sendMinuteWatched(DropcurrentlyWatching.toString().toLowerCase())
@@ -32,7 +32,7 @@ async function loop(DropcurrentlyWatching: string) {
     await delay(userdata.settings.ProgressCheckInterval);
     if (userdata.settings.debug) winston.info('UserDATA %o', JSON.stringify(userdata,null, 2))
     //Update Drop Data
-    await getTwitchDrops(userdata.game, false)
+    await getDrops(userdata.game, false)
     await allOfflineCheck()
     //Get the right Drop
     if (status === 'running') {
@@ -72,11 +72,11 @@ export async function sendMinuteWatched(ChannelLogin: string) {
     let opts = {
         "channelLogin":ChannelLogin
     }
-    let Stream = await TwitchGQL._SendQuery("UseLive", opts, '639d5f11bfb8bf3053b424d9ef650d04c4ebb7d94711d644afb08fe9a0fad5d9', 'OAuth ' + userdata.auth_token, true);
+    let Stream = await GQL._SendQuery("UseLive", opts, '639d5f11bfb8bf3053b424d9ef650d04c4ebb7d94711d644afb08fe9a0fad5d9', 'OAuth ' + userdata.auth_token, true);
     let channleid = Stream[0].data.user.id
     let broadcastid = Stream[0].data.user.stream.id
 
-    const gethtml = await axios.get('https://www.twitch.tv/' + ChannelLogin, {
+    const gethtml = await axios.get('https://www..tv/' + ChannelLogin, {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
             'encoding': 'utf8',
@@ -85,16 +85,16 @@ export async function sendMinuteWatched(ChannelLogin: string) {
         },
         raxConfig: retryConfig
     }).catch(err => {
-        winston.error("ERROR: Could not load https://www.twitch.tv... Check your connection...")
+        winston.error("ERROR: Could not load website... Check your connection...")
         throw err
     })
 
-    let SettingsJSReg = new RegExp('https://static\.twitchcdn\.net/config/settings\.[0-9a-f]{32}\.js')
+    let SettingsJSReg = new RegExp('https://static\.cdn\.net/config/settings\.[0-9a-f]{32}\.js')
     let parsehtml = SettingsJSReg.exec(gethtml.data.toString())
     if (parsehtml![0] === null) winston.error("Error while parsing Settings Url...")
 
     const getSettingsJS = await axios.get(parsehtml![0].toString(), {raxConfig: retryConfig}).catch(err => {
-        winston.error("ERROR: Could not load your twitch settings... Check your connection...")
+        winston.error("ERROR: Could not load your settings... Check your connection...")
         throw err
     })
 

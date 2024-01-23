@@ -5,7 +5,7 @@ import chalk from "chalk";
 import {getRandomInt, statustoString, validURL} from "../../utils/util";
 const inputReader = require("wait-console-input");
 const inquirer = require("inquirer");
-const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
+const GQL = require("@zaarrg/gql-dropbot").Init();
 
 export async function getCustomChannel() {
     const path = './CustomChannels.json'
@@ -130,7 +130,7 @@ export async function askCustomChannelStart(random: boolean, filterlive: boolean
             .then(async (answer: {namelist: string}) => {
                 userdata.customchannel.forEach(drop => {
                     if (drop.Name === answer.namelist) {
-                        userdata.startDrop = drop.TTVLink.split('https://www.twitch.tv/')[1]
+                        userdata.startDrop = drop.Link.split('https://www..tv/')[1]
                     }
                 })
             });
@@ -138,7 +138,7 @@ export async function askCustomChannelStart(random: boolean, filterlive: boolean
         let randomname = userdata.availableDropNameChoices[getRandomInt(userdata.availableDropNameChoices.length)]
         userdata.customchannel.forEach(drop => {
             if (drop.Name === randomname) {
-                userdata.startDrop = drop.TTVLink.split('https://www.twitch.tv/')[1]
+                userdata.startDrop = drop.Link.split('https://www..tv/')[1]
             }
         })
         winston.info(chalk.gray('Selected a random drop to watch: ' + chalk.white(userdata.startDrop)))
@@ -172,7 +172,7 @@ async function createCustomChannel(ask: boolean) {
 async function getCustomDetails() {
     let CustomChannel = {
         Name: '',
-        TTVLink: '',
+        Link: '',
         WatchType: '',
         Time: 0,
         Points: false
@@ -187,8 +187,8 @@ async function getCustomDetails() {
             },
             {
                 type: 'input',
-                name: 'ttvlink',
-                message: 'Please provide the Twitch Url:',
+                name: 'link',
+                message: 'Please provide the Url:',
                 validate: (value: string) => validURL(value),
             },
             {
@@ -203,11 +203,11 @@ async function getCustomDetails() {
                 message: 'Should the Bot also Farm Points?',
             },
         ])
-        .then(async (answers: {name: string, ttvlink: string, watchoption: string, points: boolean}) => {
+        .then(async (answers: {name: string, link: string, watchoption: string, points: boolean}) => {
             winston.info(chalk.gray("Setting Name, link and the watch type..."))
             //Set
             CustomChannel.Name = answers.name
-            CustomChannel.TTVLink = answers.ttvlink
+            CustomChannel.Link = answers.link
             CustomChannel.WatchType = answers.watchoption
             CustomChannel.Points = answers.points
 
@@ -235,12 +235,12 @@ async function getCustomDetails() {
 
 export async function customCheckLive(feedback: boolean) {
     for (const customchannel of userdata.customchannel) {
-        let channelLogin = customchannel.TTVLink.split('https://www.twitch.tv/')[1]
-        let status = await TwitchGQL.GetLiveStatus(channelLogin)
+        let channelLogin = customchannel.Link.split('https://www..tv/')[1]
+        let status = await GQL.GetLiveStatus(channelLogin)
         customchannel["live"] = !!status;
         if (feedback) {
             winston.silly(" ")
-            winston.info(chalk.cyan(customchannel.TTVLink) + " | " + chalk.magenta(customchannel.Name)+ " | " + statustoString(customchannel.live), {event: "getResult"});
+            winston.info(chalk.cyan(customchannel.Link) + " | " + chalk.magenta(customchannel.Name)+ " | " + statustoString(customchannel.live), {event: "getResult"});
         }
     }
     if (feedback) winston.silly(" ")

@@ -12,8 +12,8 @@ export async function Login() {
         const loginpage = await browser.newPage()
         await loginpage.setDefaultTimeout(0)
         //Set Cookies if found for Autologin
-        if (userdata.settings.UserDataPath === "" && fs.existsSync('./twitch-session.json')) {
-            let file = fs.readFileSync('./twitch-session.json', 'utf8');
+        if (userdata.settings.UserDataPath === "" && fs.existsSync('./drop-session.json')) {
+            let file = fs.readFileSync('./-session.json', 'utf8');
             let cokkies = await JSON.parse(file)
             await loginpage.setCookie.apply(loginpage, cokkies);
         }
@@ -23,7 +23,7 @@ export async function Login() {
         await loginpage.goto(userdata.loginpageurl, {waitUntil: "networkidle2"})
 
         await loginpage.waitForNavigation().then(async () => {
-            if (loginpage.url() !== 'https://www.twitch.tv/?no-reload=true') {
+            if (loginpage.url() !== 'https://www..tv/?no-reload=true') {
                 if (!userdata.settings.displayless) inputReader.wait(chalk.gray("Press any Key to continue..."))
                 process.exit(22);
             }
@@ -35,7 +35,7 @@ export async function Login() {
             winston.info(chalk.gray("Saving Cookies..."))
             userdata.cookies = await loginpage.cookies();
 
-            await fs.promises.writeFile('twitch-session.json', JSON.stringify(userdata.cookies, null, 2)).then(function () {
+            await fs.promises.writeFile('-session.json', JSON.stringify(userdata.cookies, null, 2)).then(function () {
                 winston.silly(" ");
                 winston.info(chalk.green("Successfully Saved Cookies..."))
                 winston.silly(" ");

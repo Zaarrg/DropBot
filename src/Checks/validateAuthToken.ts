@@ -10,7 +10,7 @@ export async function validateAuthToken() {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
         Authorization: auth
     }
-    await axios.get('https://id.twitch.tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
+    await axios.get('https://id..tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
         .then(function (response){
             let response_data = response.data
             userdata.userid = response_data.user_id

@@ -31,7 +31,7 @@ export class userdataclass {
     customchannel: Array<CustomChannel>;
 
     constructor() {
-        this.loginpageurl = "https://www.twitch.tv/login";
+        this.loginpageurl = "https://www..tv/login";
         this.cookies = [];
         this.auth_token = "";
         this.watch_option = "";
@@ -129,7 +129,7 @@ type Channel = {
 
 export type CustomChannel = {
     Name: string,
-    TTVLink: string,
+    Link: string,
     WatchType: string,
     Time: number,
     Points: boolean,

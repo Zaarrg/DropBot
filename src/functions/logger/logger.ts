@@ -62,7 +62,7 @@ async function createConsoleLogger(consoleFormat: any) {
 
 async function createFilelogger(fileFormat:any) {
     winston.add(new winston.transports.File({
-        filename: './logs/TTVDropBot-out.log',
+        filename: './logs/DropBot-out.log',
         level: 'info',
         handleExceptions: true,
         RejectionHandler: true,
@@ -77,7 +77,7 @@ async function createFilelogger(fileFormat:any) {
         )
     }));
     winston.add(new winston.transports.File({
-        filename: './logs/TTVDropBot-error.log',
+        filename: './logs/DropBot-error.log',
         level: 'error',
         handleExceptions: true,
         RejectionHandler: true,

@@ -72,14 +72,14 @@ export async function customrestartHandler(random: boolean) {
 async function getCustomDrop(ChannelLogin: string) {
     let currentdrop:CustomChannel = {
         Name: '',
-        TTVLink: '',
+        Link: '',
         WatchType: '',
         Time: 0,
         Points: false,
         live: false
     };
     userdata.customchannel.forEach(drop => {
-        if (drop.TTVLink === 'https://www.twitch.tv/' + ChannelLogin) {
+        if (drop.Link === 'https://www..tv/' + ChannelLogin) {
             currentdrop = drop;
         }
     })

@@ -1,12 +1,10 @@
 {
-  "name": "TTVDropBot",
-  "description": "Twitch Drop Bot. Automaticlly Farms every Twitch Drop available like Rust for ya and now also your Custom Channel's ",
+  "name": "DropBot",
+  "description": "Drop Bot. Automaticlly Farms every Drop / Campaign available like Rust for ya and now also your Custom Channel's ",
   "keywords": [
     "Bot",
-    "Twitch",
-    "Rust",
 	"Webhook"
   ],
-  "repository": "https://github.com/Zaarrg/TTVDropBot",
+  "repository": "https://github.com/Zaarrg/DropBot",
   "logo": "https://i.imgur.com/2WtgNe4.png"
 }

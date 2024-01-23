@@ -71,13 +71,13 @@ export async function sendWebhook(msg: string[], event: string, webhookurl: stri
     }
 
     let embed = {
-        username: "TTVDropBot",
+        username: "DropBot",
         avatar_url: "https://i.imgur.com/2WtgNe4.png",
         embeds: [
             {
                 "author": {
-                    "name": "TTVDropBot📜",
-                    "url": "https://github.com/Zaarrg/TTVDropBot",
+                    "name": "DropBot📜",
+                    "url": "https://github.com/Zaarrg/DropBot",
                     "icon_url": "https://i.imgur.com/2WtgNe4.png"
                 },
                 "fields": [
@@ -95,7 +95,7 @@ export async function sendWebhook(msg: string[], event: string, webhookurl: stri
                 "color": color,
                 "description": "```" + content + "```",
                 "footer": {
-                    "text": "Send directly from TTVDropbot made by Zarg!"
+                    "text": "Send directly from Dropbot made by Zarg!"
                 },
                 "timestamp": new Date()
             }

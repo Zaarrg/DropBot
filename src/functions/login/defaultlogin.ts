@@ -11,10 +11,10 @@ const inquirer = require("inquirer");
 let pw: string = '';
 let nm: string = '';
 export async function login() {
-    if (!userdata.auth_token && !fs.existsSync('./twitch-session.json')) {
+    if (!userdata.auth_token && !fs.existsSync('./drop-session.json')) {
         if (!userdata.settings.displayless) {
             winston.silly(" ");
-            winston.info(chalk.gray('Please Login into your Twitch Account...'))
+            winston.info(chalk.gray('Please Login into your Account...'))
             winston.silly(" ");
 
             let options = ["Directly via Command Line", "Via Browser"]
@@ -38,12 +38,12 @@ export async function login() {
                 });
         } else {
             winston.error('ERROR')
-            throw 'No twitch-session.json found to use in displayless mode...'
+            throw 'No drop-session.json found to use in displayless mode...'
         }
     } else {
-        await getTwitchUserDetails()
+        await getUserDetails()
         winston.silly(" ");
-        winston.info(chalk.gray('Found a twitch-session... No need to login...'))
+        winston.info(chalk.gray('Found a drop-session... No need to login...'))
         winston.silly(" ");
     }
 
@@ -114,12 +114,12 @@ async function directlogin(emailcode: string, facode: string, captcha_proof = {}
         ...captcha_proof
     }
     if (emailcode !== '') {
-        Object.assign(body, {"twitchguard_code": emailcode})
+        Object.assign(body, {"guard_code": emailcode})
     } else if (facode !== '') {
         Object.assign(body, {"authy_token": facode})
     }
 
-    await axios.post('https://passport.twitch.tv/login', body, config)
+    await axios.post('https://passport..tv/login', body, config)
         .then(async function (response) {
             let response_data = response.data
             if (userdata.settings.debug) winston.info('loginresponse %o', JSON.stringify(response_data,null, 2))
@@ -129,12 +129,12 @@ async function directlogin(emailcode: string, facode: string, captcha_proof = {}
                 "name": "auth-token",
                 "value": response_data.access_token,
             }]
-            await fs.promises.writeFile('twitch-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
+            await fs.promises.writeFile('drop-session.json', JSON.stringify(authcookie, null, 2)).then(function () {
                 winston.silly(" ");
                 winston.info(chalk.green("Successfully Saved Cookies..."))
                 winston.silly(" ");
             }).catch(err => {throw err})
-            await getTwitchUserDetails();
+            await getUserDetails();
 
         })
         .catch(async function (error) {
@@ -191,7 +191,7 @@ async function directlogin(emailcode: string, facode: string, captcha_proof = {}
                 winston.silly(" ")
                 let code = await askforauthcode(3022);
                 await directlogin(code, '', capta);
-            } else if (!fs.existsSync('./twitch-session.json')) {
+            } else if (!fs.existsSync('./drop-session.json')) {
                 attempt++
                 nm = '';
                 pw = '';
@@ -211,19 +211,19 @@ async function browserlogin() {
         winston.info(chalk.gray('No Browser Found...'))
         await Chromepaths()
         await Login()
-        await getTwitchUserDetails()
+        await getUserDetails()
     } else {
         winston.info(chalk.gray('Browser Found...'))
         await Login()
-        await getTwitchUserDetails()
+        await getUserDetails()
     }
 
 }
 
-async function getTwitchUserDetails() {
-    if (userdata.auth_token || fs.existsSync('./twitch-session.json')) {
-        if (fs.existsSync('./twitch-session.json')) {
-            const data = await fs.promises.readFile('./twitch-session.json', 'utf8')
+async function getUserDetails() {
+    if (userdata.auth_token || fs.existsSync('./drop-session.json')) {
+        if (fs.existsSync('./drop-session.json')) {
+            const data = await fs.promises.readFile('./drop-session.json', 'utf8')
             let cookiedata = JSON.parse(data);
             for (let i = 0; i < cookiedata.length; i++) {
                 if (cookiedata[i].name === 'auth-token') {
@@ -234,11 +234,11 @@ async function getTwitchUserDetails() {
         }
         if (userdata.auth_token === "") {
             winston.error('ERROR')
-            throw 'Could somehow not find a auth token in your twitch session...'
+            throw 'Could somehow not find a auth token in your session...'
         }
     } else {
         winston.error('ERROR')
-        throw 'Could somehow not find a twitch session...'
+        throw 'Could somehow not find a session...'
     }
 
 
@@ -247,7 +247,7 @@ async function getTwitchUserDetails() {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
         Authorization: auth
     }
-    await axios.get('https://id.twitch.tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
+    await axios.get('https://id..tv/oauth2/validate', {headers: head, raxConfig: retryConfig})
         .then(function (response){
             let response_data = response.data
             userdata.userid = response_data.user_id

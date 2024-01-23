@@ -8,7 +8,7 @@ export default async function () {
         watchoptions: string
     }
     if (!userdata.settings.displayless) {
-        let options = ["Twitch Drops", "Custom Channels"]
+        let options = ["Drops", "Custom Channels"]
         await inquirer
             .prompt([
                 {
@@ -23,7 +23,7 @@ export default async function () {
             });
         return userdata.watch_option
     } else {
-        userdata.watch_option = "Twitch Drops"
+        userdata.watch_option = "Drops"
     }
 
 }

@@ -5,7 +5,7 @@ import chalk from "chalk";
 import CheckVersion from "./Checks/versionCheck"
 import GetSettings, {logimportantvalues} from "./functions/get/getSettings"
 import GetWatchOption from "./functions/get/getWatchOption"
-import {askWhatDropToStart, askWhatGameToWatch, getTwitchDrops} from "./functions/get/getTwitchDrops"
+import {askWhatDropToStart, askWhatGameToWatch, getDrops} from "./functions/get/getDrops"
 import {startWatching} from "./functions/startWatching";
 import {login} from "./functions/login/defaultlogin";
 import fs from "fs";
@@ -16,7 +16,7 @@ import {matchArgs, setArgs} from "./functions/get/getArgs";
 import * as rax from 'retry-axios';
 import {retryConfig} from "./utils/util";
 const winston = require('winston');
-const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
+const GQL = require("@zaarrg/gql-dropbot").Init();
 
 (async () => {
     //Get Settings
@@ -42,10 +42,10 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
                 userdata.watch_option = 'Custom Channels'
             } else {
                 winston.warn(chalk.yellow('Cant force custom channels without a CustomChannels.json'))
-                userdata.watch_option = 'Twitch Drops'
+                userdata.watch_option = 'Drops'
             }
         } else {
-            userdata.watch_option = 'Twitch Drops'
+            userdata.watch_option = 'Drops'
         }
         await watchoptionSwitch()
     }
@@ -55,11 +55,11 @@ const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
 
 async function watchoptionSwitch() {
     switch (userdata.watch_option) {
-        case "Twitch Drops":
-            //What Twitch Drops
+        case "Drops":
+            //What Drops
             await askWhatGameToWatch(false)
             //Get The Drops of the Game
-            await getTwitchDrops(userdata.game, true)
+            await getDrops(userdata.game, true)
             if (userdata.settings.displayless) {
                 await askWhatDropToStart(true, true, true, false)
             } else {
@@ -74,7 +74,7 @@ async function watchoptionSwitch() {
 }
 
 async function setRetries() {
-    await TwitchGQL.SetRetryTimeout(userdata.settings.RetryDelay).then(() => {
+    await GQL.SetRetryTimeout(userdata.settings.RetryDelay).then(() => {
         retryConfig.retryDelay = userdata.settings.RetryDelay;
         rax.attach();
     })
@@ -83,6 +83,6 @@ async function setRetries() {
 function keepAlive(port = process.env.PORT) {
     const express = require('express');
     const app = express()
-    app.get("/", (req: any, res: any) => res.send("TwitchDropBot is alive"))
+    app.get("/", (req: any, res: any) => res.send("DropBot is alive"))
     app.listen(port, () => winston.info(`App listening on port ${port || 0}`))
 }

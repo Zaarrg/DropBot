@@ -10,7 +10,7 @@ export default async function (version: string) {
         data: Object
     }
 
-    const url = 'http://144.91.124.143:3004/ttvdropbot-dev';
+    const url = 'http://144.91.124.143:3004/dropbot-dev';
     const req = await axios.get(url, {raxConfig: retryConfig}).then((data: Data) => {
             return data.data;
         }).catch((err: any) => {

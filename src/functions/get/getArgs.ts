@@ -9,7 +9,7 @@ import chalk from "chalk";
 export async function setArgs() {
 
     await yargs(hideBin(process.argv))
-        .scriptName("./TTVDropBot or index.js")
+        .scriptName("./DropBot or index.js")
         .usage("Usage: $0 --arg...")
         .version(version)
         .option("chrome", {
@@ -80,12 +80,12 @@ export async function setArgs() {
             "Sets the Prioritylist to Rust, Krunker and Elite: Dangerous.",
         )
         .option("token", {
-            describe: "Your twitch auth_token.",
+            describe: "Your auth_token.",
             type: "string"
         })
         .example(
             "--token yourkindalongtoken ",
-            "Sets the your current twitch auth token, overwriting any in twitch-session.json.",
+            "Sets the your current auth token, overwriting any in -session.json.",
         )
         .option("showtoken", {
             describe: "Show your auth_token after login.",
@@ -137,7 +137,7 @@ export async function setArgs() {
         })
         .describe("help", "Show help.") // Override --help usage message.
         .describe("version", "Show version number.") // Override --version usage message.
-        .epilog("TTVDropBot made possible by Zarg");
+        .epilog("DropBot made possible by Zarg");
 
 
 }
@@ -161,26 +161,26 @@ export async function matchArgs() {
     if (args.showtoken!==undefined) userdata.showtoken = args.showtoken
     if (args.token !== undefined) userdata.auth_token = args.token
 
-    if (process.env.ttvdropbot_chrome !== undefined) userdata.settings.Chromeexe = process.env.ttvdropbot_chrome;
-    if (process.env.ttvdropbot_userdata!==undefined) userdata.settings.UserDataPath = process.env.ttvdropbot_userdata
-    if (process.env.ttvdropbot_webhook!==undefined) userdata.settings.WebHookURL = process.env.ttvdropbot_webhook
-    if (process.env.ttvdropbot_interval!==undefined) userdata.settings.ProgressCheckInterval = parseInt(process.env.ttvdropbot_interval)
-    if (process.env.ttvdropbot_games!==undefined) {
-        let stringarray = process.env.ttvdropbot_games.split(' ')
+    if (process.env.dropbot_chrome !== undefined) userdata.settings.Chromeexe = process.env.dropbot_chrome;
+    if (process.env.dropbot_userdata!==undefined) userdata.settings.UserDataPath = process.env.dropbot_userdata
+    if (process.env.dropbot_webhook!==undefined) userdata.settings.WebHookURL = process.env.dropbot_webhook
+    if (process.env.dropbot_interval!==undefined) userdata.settings.ProgressCheckInterval = parseInt(process.env.dropbot_interval)
+    if (process.env.dropbot_games!==undefined) {
+        let stringarray = process.env.dropbot_games.split(' ')
         let replacedarray = stringarray.map(game => game.replace(/_/g, ' '));
         userdata.settings.Prioritylist = replacedarray;
     }
-    if (process.env.ttvdropbot_forcecustomchannel!==undefined) userdata.settings.ForceCustomChannel = JSON.parse(process.env.ttvdropbot_forcecustomchannel);
-    if (process.env.ttvdropbot_debug!==undefined) userdata.settings.debug = JSON.parse(process.env.ttvdropbot_debug);
-    if (process.env.ttvdropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.ttvdropbot_displayless)
-    if (process.env.ttvdropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.ttvdropbot_waitforchannels)
-    if (process.env.ttvdropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.ttvdropbot_autoclaim)
-    if (process.env.ttvdropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.ttvdropbot_log)
-    if (process.env.ttvdropbot_usekeepalive!==undefined) userdata.settings.UseKeepAlive = JSON.parse(process.env.ttvdropbot_usekeepalive)
-    if (process.env.ttvdropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.ttvdropbot_retryinterval)
-    if (process.env.ttvdropbot_webhookevents!==undefined) userdata.settings.WebHookEvents = process.env.ttvdropbot_webhookevents.split(' ')
-    if (process.env.ttvdropbot_showtoken !== undefined) userdata.showtoken = JSON.parse(process.env.ttvdropbot_showtoken)
-    if (process.env.ttvdropbot_token !== undefined) userdata.auth_token = process.env.ttvdropbot_token
+    if (process.env.dropbot_forcecustomchannel!==undefined) userdata.settings.ForceCustomChannel = JSON.parse(process.env.dropbot_forcecustomchannel);
+    if (process.env.dropbot_debug!==undefined) userdata.settings.debug = JSON.parse(process.env.dropbot_debug);
+    if (process.env.dropbot_displayless!==undefined) userdata.settings.displayless = JSON.parse(process.env.dropbot_displayless)
+    if (process.env.dropbot_waitforchannels!==undefined) userdata.settings.WaitforChannels = JSON.parse(process.env.dropbot_waitforchannels)
+    if (process.env.dropbot_autoclaim!==undefined) userdata.settings.AutoClaim = JSON.parse(process.env.dropbot_autoclaim)
+    if (process.env.dropbot_log!==undefined) userdata.settings.LogToFile = JSON.parse(process.env.dropbot_log)
+    if (process.env.dropbot_usekeepalive!==undefined) userdata.settings.UseKeepAlive = JSON.parse(process.env.dropbot_usekeepalive)
+    if (process.env.dropbot_retryinterval!==undefined) userdata.settings.RetryDelay = parseInt(process.env.dropbot_retryinterval)
+    if (process.env.dropbot_webhookevents!==undefined) userdata.settings.WebHookEvents = process.env.dropbot_webhookevents.split(' ')
+    if (process.env.dropbot_showtoken !== undefined) userdata.showtoken = JSON.parse(process.env.dropbot_showtoken)
+    if (process.env.dropbot_token !== undefined) userdata.auth_token = process.env.dropbot_token
 
 }
 

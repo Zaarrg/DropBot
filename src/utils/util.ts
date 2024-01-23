@@ -14,7 +14,7 @@ export function validPath(str: string) {
 }
 
 export function validURL(str: string) {
-    if (str.startsWith("https://www.twitch.tv/")) {
+    if (str.startsWith("https://www..tv/")) {
         return true
     } else {
         return "Please provide a Valid URL..."

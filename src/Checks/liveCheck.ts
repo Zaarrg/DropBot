@@ -5,10 +5,10 @@ import {delay} from "../utils/util";
 import {userdata} from "../index" ;
 import {customrestartHandler} from "../functions/handler/custompageHandler";
 
-const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
+const GQL = require("@zaarrg/gql-dropbot").Init();
 export async function liveCheck(channelLogin: string, custom: boolean) {
     if (channelLogin !== undefined) {
-        let status = await TwitchGQL.GetLiveStatus(channelLogin)
+        let status = await GQL.GetLiveStatus(channelLogin)
         if (!status) {
             winston.info(chalk.red('Current Channel offline... Looking for new one...'), {event: "offline"})
             if (custom) {

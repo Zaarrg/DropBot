@@ -7,15 +7,15 @@ import {findLiveChannel} from "../findLiveChannel";
 import {claimableCheck, matchClaimedDrops} from "../../Checks/claimCheck";
 import {dateCheck} from "../../Checks/dateCheck";
 
-const TwitchGQL = require("@zaarrg/twitch-gql-ttvdropbot").Init();
+const GQL = require("@zaarrg/gql-dropbot").Init();
 const inquirer = require("inquirer");
 
-export async function getTwitchDrops(game: string, feedback: boolean) {
+export async function getDrops(game: string, feedback: boolean) {
     userdata.drops = []
 
     let dropidstoget:Array<string> = [];
 
-    const DropCampaignDetails = await TwitchGQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true, {}, true)
+    const DropCampaignDetails = await GQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true, {}, true)
     userdata.userid = DropCampaignDetails[0].data.currentUser.id
     let allDropCampaings = DropCampaignDetails[0].data.currentUser.dropCampaigns
     if (userdata.settings.debug) winston.info('DropCampain %o', JSON.stringify(DropCampaignDetails,null, 2))
@@ -36,7 +36,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
             channelLogin: userdata.userid,
             dropID: e
         }
-        const DropDetails = await TwitchGQL._SendQuery("DropCampaignDetails", opts, 'f6396f5ffdde867a8f6f6da18286e4baf02e5b98d14689a69b5af320a4c7b7b8', 'OAuth ' + userdata.auth_token, true, {}, true)
+        const DropDetails = await GQL._SendQuery("DropCampaignDetails", opts, 'f6396f5ffdde867a8f6f6da18286e4baf02e5b98d14689a69b5af320a4c7b7b8', 'OAuth ' + userdata.auth_token, true, {}, true)
         let CampaignDetails = DropDetails[0].data.user.dropCampaign
 
         userdata.drops.push({
@@ -70,7 +70,7 @@ export async function getTwitchDrops(game: string, feedback: boolean) {
         winston.info(chalk.gray('Checking your Inventory for started Drops...'), {event: "get"})
     }
     //Check if drop is started if so get data and set it
-    const rawInventory = await TwitchGQL._SendQuery("Inventory", {}, '27f074f54ff74e0b05c8244ef2667180c2f911255e589ccd693a1a52ccca7367', 'OAuth ' + userdata.auth_token, true, {}, true)
+    const rawInventory = await GQL._SendQuery("Inventory", {}, '27f074f54ff74e0b05c8244ef2667180c2f911255e589ccd693a1a52ccca7367', 'OAuth ' + userdata.auth_token, true, {}, true)
     let Inventory = rawInventory[0].data.currentUser.inventory
     if (userdata.settings.debug) winston.info('rawinventory %o', JSON.stringify(rawInventory,null, 2))
     Inventory.gameEventDrops.forEach((claimeddrop: GameEventDrops) => {
@@ -230,7 +230,7 @@ export async function getActiveCampaigns() {
     let activecampainnames:Array<string> = [];
     winston.silly(" ")
     winston.info(chalk.gray('Getting all active Campaigns...'), {event: "get"})
-    const DropCampaignDetails = await TwitchGQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true, {}, true)
+    const DropCampaignDetails = await GQL._SendQuery("ViewerDropsDashboard", {}, '', 'OAuth ' + userdata.auth_token, true, {}, true)
     let allDropCampaings = DropCampaignDetails[0].data.currentUser.dropCampaigns
     await allDropCampaings.forEach((campaign: Campaign) => {
         if (campaign.status === 'ACTIVE') {

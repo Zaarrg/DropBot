@@ -1,33 +1,33 @@
 {
-  "name": "ttvdropbot-v2",
+  "name": "dropbot-v2",
   "version": "2.0.0",
-  "description": "Twitch Drop Bot",
+  "description": "Drop Bot",
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js --displayless",
     "start:dev": "ts-node ./src/index.ts",
     "build": "rimraf ./build && tsc",
-    "package": "rimraf ./package/TTVDropBot && npm run build && pkg -o ./package/TTVDropBot/TTVDropBot --config package.json -t node14-win-x64 ./build/index.js",
-    "packageforlinux": "rimraf ./package/TTVDropBot-linux && npm run build && pkg -o ./package/TTVDropBot-linux/TTVDropBot-linux-x64 --config package.json -t node14-linux-x64 ./build/index.js",
+    "package": "rimraf ./package/DropBot && npm run build && pkg -o ./package/DropBot/DropBot --config package.json -t node14-win-x64 ./build/index.js",
+    "packageforlinux": "rimraf ./package/DropBot-linux && npm run build && pkg -o ./package/DropBot-linux/DropBot-linux-x64 --config package.json -t node14-linux-x64 ./build/index.js",
     "start:production": "npm run build && node build/index.js",
     "postinstall": "rimraf ./node_modules/puppeteer/.local-chromium"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zaarrg/TTVDropBot.git"
+    "url": "git+https://github.com/Zaarrg/DropBot.git"
   },
   "engines": {
     "node": "16.x"
   },
   "bin": {
-    "ttvdropbot": "./src/index.ts"
+    "dropbot": "./src/index.ts"
   },
   "author": "Zarg",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Zaarrg/TTVDropBot/issues"
+    "url": "https://github.com/Zaarrg/DropBot/issues"
   },
-  "homepage": "https://github.com/Zaarrg/TTVDropBot#readme",
+  "homepage": "https://github.com/Zaarrg/DropBot#readme",
   "devDependencies": {
     "@types/node": "^17.0.23",
     "@types/yargs": "^17.0.10",
@@ -37,7 +37,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@zaarrg/twitch-gql-ttvdropbot": "github:zaarrg/twitch-gql-ttvdropbot",
+    "@zaarrg/gql-dropbot": "github:zaarrg/gql-dropbot",
     "axios": "^0.26.1",
     "chalk": "^4.1.2",
     "chrome-paths": "^1.0.1",

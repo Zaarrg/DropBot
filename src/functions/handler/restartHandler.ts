@@ -1,5 +1,5 @@
 import {WatchingEventHandlerStop} from "./watchpageHandler";
-import {askWhatDropToStart, askWhatGameToWatch, getActiveCampaigns, getTwitchDrops} from "../get/getTwitchDrops";
+import {askWhatDropToStart, askWhatGameToWatch, getActiveCampaigns, getDrops} from "../get/getDrops";
 import {startWatching} from "../startWatching";
 import {userdata} from "../../index" ;
 import winston from "winston";
@@ -15,14 +15,14 @@ export async function restartHandler(random: boolean, filterlive: boolean, filte
     } else if (newgame && userdata.settings.Prioritylist.length > 0) {
         await WatchingEventHandlerStop()
         await selectGamefromList()
-        await getTwitchDrops(userdata.game, true).then(async () => {
+        await getDrops(userdata.game, true).then(async () => {
             await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
             await startWatching()
         })
     } else {
         await WatchingEventHandlerStop()
         await askWhatGameToWatch(true)
-        await getTwitchDrops(userdata.game, true).then(async () => {
+        await getDrops(userdata.game, true).then(async () => {
             await askWhatDropToStart(random, filterlive, filterNonActive, filterlast)
             await startWatching()
         })
