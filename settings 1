@@ -1,0 +1,15 @@
+{
+   "Chromeexe": "",
+   "UserDataPath": "",
+   "WebHookURL": "",
+   "WebHookEvents": [],
+   "debug": false,
+   "displayless": false,
+   "ProgressCheckInterval": 60000,
+   "RetryDelay": 60000,
+   "WaitforChannels": true,
+   "Prioritylist": ["Hunt: Showdown", "The Cycle: Frontier", "Escape from Tarkov", "Fortnite", "Sea of Thieves", "New World", "Naraka: Bladepoint", "Genshin Impact"],
+   "AutoClaim": true,
+   "LogToFile": true,
+   "ForceCustomChannel": false
+}
